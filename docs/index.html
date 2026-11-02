@@ -2,62 +2,26 @@
 layout: default
 ---
 <div class="wrap">
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-intro">
-      <p class="eyebrow"><span class="signal-dot"></span> AN OPEN NOTEBOOK ABOUT AI</p>
-      <h1 id="hero-title">每天读懂新进展，<br><em>每周深入大问题。</em></h1>
-      <p class="hero-copy">每日追踪重要 AI 动态，每周深入值得关注的专题，也解读论文与开源项目。基于公开来源，给快速变化的世界多一点思考的空间。</p>
-      <a class="primary-link" href="#latest">浏览最新内容 <span aria-hidden="true">↘</span></a>
-      <div class="hero-footnote"><span>THE LLMNEWS EDITION</span><span>VOL. 01 — OPEN &amp; CURIOUS</span></div>
-    </div>
-    {% assign featured = site.posts.first %}
-    {% if featured %}
-    {% assign featured_section_name = '' %}{% if featured.section == 'daily' %}{% assign featured_section_name = '每日AI新闻' %}{% elsif featured.section == 'weekly' %}{% assign featured_section_name = '每周 AI 大专题' %}{% elsif featured.section == 'explainer' %}{% assign featured_section_name = '解读专题' %}{% endif %}
-    <a class="lead-story" href="{{ featured.url | relative_url }}">
-      <div class="lead-top"><span>THE LEAD <b>／</b> 精选阅读</span><span>LLMNEWS / EDITION</span></div>
-      <div class="lead-art" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="orbit orbit-three"></span><span class="art-dot art-dot-one"></span><span class="art-dot art-dot-two"></span><span class="art-dot art-dot-three"></span><span class="art-caption">DAILY<br>WEEKLY<span>↗</span></span></div>
-      <div class="lead-bottom"><span class="lead-label">{{ featured_section_name }}{% if featured.label and featured.label != featured_section_name %} · {{ featured.label | escape }}{% endif %}{% if featured.demo %} · 示例{% endif %}</span><h2>{{ featured.title | escape }}</h2><p>{{ featured.summary | escape }}</p><span class="lead-arrow" aria-hidden="true">↗</span></div>
-    </a>
-    {% else %}
-    <div class="lead-story lead-empty"><div class="lead-top"><span>THE LEAD <b>／</b> 精选阅读</span></div><div class="lead-art" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="art-caption">DAILY<br>WEEKLY<span>↗</span></span></div><div class="lead-bottom"><h2>第一篇文章，正在路上。</h2><p>新内容发布后会出现在这里。</p></div></div>
-    {% endif %}
-  </section>
-
-  <div class="section-divider"><span>IDEAS IN MOTION</span><span aria-hidden="true">✳</span><span>DAILY, WEEKLY &amp; EXPLAINERS</span><span aria-hidden="true">✳</span><span>NOTES WORTH SHARING</span></div>
-
   <section id="latest" class="latest-section" aria-labelledby="latest-title">
-    <div class="section-heading"><div><p class="eyebrow"><span class="signal-dot"></span> THE LATEST / 最新内容</p><h2 id="latest-title">值得一读<span>.</span></h2></div><p>从一个点出发，<br>发现更大的图景。</p></div>
-    <div class="content-layout">
-      <div class="story-feed">
-        <div class="feed-tools">
-          <div class="filters" aria-label="按栏目筛选">
-            <button type="button" class="filter active" data-section="all" aria-pressed="true">全部</button>
-            <button type="button" class="filter" data-section="daily" aria-pressed="false">每日AI新闻</button>
-            <button type="button" class="filter" data-section="weekly" aria-pressed="false">每周 AI 大专题</button>
-            <button type="button" class="filter" data-section="explainer" aria-pressed="false">解读专题</button>
-          </div>
-          <label class="search"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">搜索文章</span><input id="story-search" type="search" placeholder="搜索内容" autocomplete="off"></label>
-        </div>
-        <div class="story-list" id="story-list">
-          {% for post in site.posts %}
-          {% assign section_name = '' %}{% if post.section == 'daily' %}{% assign section_name = '每日AI新闻' %}{% elsif post.section == 'weekly' %}{% assign section_name = '每周 AI 大专题' %}{% elsif post.section == 'explainer' %}{% assign section_name = '解读专题' %}{% endif %}
-          <article class="story-card" data-story data-section="{{ post.section | escape }}">
-            <div class="story-index" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
-            <div class="story-main"><div class="story-meta">{% if section_name != '' %}<span>{{ section_name }}</span>{% endif %}{% if post.label and post.label != section_name %}<span>{{ post.label | escape }}</span>{% endif %}{% if post.demo %}<span class="demo-badge">示例</span>{% endif %}<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time></div>
-              <h3><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3><p>{{ post.summary | escape }}</p>
-              {% if post.tags.size > 0 %}<div class="story-tags">{% for tag in post.tags %}<span># {{ tag | escape }}</span>{% endfor %}</div>{% endif %}
-            </div><a class="story-arrow" href="{{ post.url | relative_url }}" aria-label="阅读：{{ post.title | escape }}">↗</a>
-          </article>
-          {% endfor %}
-        </div>
-        <p class="empty-state" id="empty-state" {% if site.posts.size > 0 %}hidden{% endif %}>{% if site.posts.size == 0 %}这里还没有发布内容，新闻、专题和解读会出现在这里。{% else %}没有找到匹配的内容。试试其他关键词或栏目。{% endif %}</p>
-        <p class="feed-end"><span>END OF THE FEED</span><span>更多新闻与解读，持续更新 ↗</span></p>
+    <div class="section-heading">
+      <h1 id="latest-title">最新文章</h1>
+      <div class="feed-actions">
+        <a id="clear-filter" class="clear-filter" href="{{ '/' | relative_url }}#latest" hidden>查看全部</a>
+        <label class="search"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">搜索文章</span><input id="story-search" type="search" placeholder="搜索文章" autocomplete="off"></label>
       </div>
-      <aside class="sidebar">
-        <div class="sidebar-card about-card"><div class="aside-heading"><span>ABOUT THIS SPACE</span><span>✳</span></div><p class="aside-num">01 /</p><h3>给好奇心，<br>留一个位置。</h3><p>LLMNews 是一本开放的 AI 笔记本。我们收集值得分享的公开信息，也记录解释它们的思路。</p><a href="https://github.com/ai-v5/LLMNews">了解这个项目 <span>↗</span></a></div>
-        <div class="sidebar-card principles"><div class="aside-heading"><span>HOW TO READ</span><span>↗</span></div><h3>好的分析，<br>从清楚的边界开始。</h3><ol><li><b>01</b><span>区分事实与推断</span></li><li><b>02</b><span>追溯公开来源</span></li><li><b>03</b><span>保留未知与条件</span></li></ol></div>
-        <div class="sidebar-note"><span>✳</span><p>KEEP ASKING<br><b>BETTER QUESTIONS.</b></p></div>
-      </aside>
     </div>
+    <div class="story-list" id="story-list">
+      {% for post in site.posts %}
+      {% assign section_name = '' %}{% if post.section == 'daily' %}{% assign section_name = '每日AI新闻' %}{% elsif post.section == 'weekly' %}{% assign section_name = '每周 AI 大专题' %}{% elsif post.section == 'explainer' %}{% assign section_name = '解读专题' %}{% endif %}
+      <article class="story-card" data-story data-section="{{ post.section | escape }}">
+        <div class="story-index" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+        <div class="story-main"><div class="story-meta">{% if section_name != '' %}<span>{{ section_name }}</span>{% endif %}{% if post.label and post.label != section_name %}<span>{{ post.label | escape }}</span>{% endif %}{% if post.demo %}<span class="demo-badge">示例</span>{% endif %}<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time></div>
+          <h2><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h2><p>{{ post.summary | escape }}</p>
+          {% if post.tags.size > 0 %}<div class="story-tags">{% for tag in post.tags %}<span># {{ tag | escape }}</span>{% endfor %}</div>{% endif %}
+        </div><a class="story-arrow" href="{{ post.url | relative_url }}" aria-label="阅读：{{ post.title | escape }}">↗</a>
+      </article>
+      {% endfor %}
+    </div>
+    <p class="empty-state" id="empty-state" aria-live="polite" {% if site.posts.size > 0 %}hidden{% endif %}>{% if site.posts.size == 0 %}这里还没有发布内容，新闻、专题和解读会出现在这里。{% else %}没有找到匹配的内容。试试其他关键词或栏目。{% endif %}</p>
   </section>
 </div>

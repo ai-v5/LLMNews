@@ -13,26 +13,17 @@
 </head>
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
-  <div class="topline">
-    <div class="wrap topline-inner">
-      <span>INDEPENDENT NOTES ON AI <span aria-hidden="true">✳</span></span>
-      <span class="topline-right">每日新闻 <span aria-hidden="true">/</span> 每周专题 <span aria-hidden="true">/</span> 论文与开源解读</span>
-    </div>
-  </div>
   <header class="site-header wrap">
     <div class="masthead">
       <a class="wordmark" href="{{ '/' | relative_url }}" aria-label="LLMNews 首页">LLM<span>News</span><i aria-hidden="true">.</i></a>
-      <p class="masthead-note">每日新闻，<br>每周专题。</p>
       <a class="header-rss" href="{{ '/feed.xml' | relative_url }}"><span class="rss-icon" aria-hidden="true">↗</span> RSS 订阅</a>
     </div>
-    <nav class="navigation" aria-label="主导航">
+    <nav class="navigation" aria-label="栏目导航">
       <div class="nav-links">
-        <a href="{{ '/' | relative_url }}">首页 <span>HOME</span></a>
-        <a href="{{ '/' | relative_url }}?section=daily#latest">每日AI新闻 <span>DAILY</span></a>
-        <a href="{{ '/' | relative_url }}?section=weekly#latest">每周 AI 大专题 <span>WEEKLY</span></a>
-        <a href="{{ '/' | relative_url }}?section=explainer#latest">解读专题 <span>EXPLAINERS</span></a>
+        <a href="{{ '/' | relative_url }}?section=daily" data-nav-section="daily">每日AI新闻</a>
+        <a href="{{ '/' | relative_url }}?section=weekly" data-nav-section="weekly">每周 AI 大专题</a>
+        <a href="{{ '/' | relative_url }}?section=explainer" data-nav-section="explainer">解读专题</a>
       </div>
-      <span class="nav-aside">一个关于 AI 的开放笔记本 <span aria-hidden="true">↗</span></span>
     </nav>
   </header>
 
