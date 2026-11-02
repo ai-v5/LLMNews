@@ -4,8 +4,6 @@
 
 站点：<https://ai-v5.github.io/LLMNews/>
 
-仓库中的文章样例均为合成内容，只用于展示版式和写作方式，不代表真实新闻或事实结论。
-
 ## 添加一篇内容
 
 1. 在 GitHub 打开 `docs/_posts/`，选择 **Add file → Create new file**。也可以在本地编辑后提交。
