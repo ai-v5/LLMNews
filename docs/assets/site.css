@@ -171,8 +171,9 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
   .masthead-note { padding-left: 12px; font-size: 10px; }
   .header-rss { font-size: 0; }
   .rss-icon { margin-right: 0; font-size: 14px; }
-  .navigation { overflow-x: auto; }
-  .nav-links { gap: 26px; }
+  .navigation { overflow-x: visible; }
+  .nav-links { flex: 1 1 auto; min-width: 0; flex-wrap: wrap; gap: 0 20px; padding-block: 4px; }
+  .nav-links a { padding-block: 9px; }
   .nav-links span { display: none; }
   .hero { display: flex; flex-direction: column; padding-top: 0; }
   .hero-intro { min-height: 360px; padding: 43px 0 27px; }
