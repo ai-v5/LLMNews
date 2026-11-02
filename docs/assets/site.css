@@ -155,6 +155,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .source-list ul { padding-left: 20px; }
 .article-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; font-family: var(--sans); }
 .article-tags span { padding: 5px 10px; border: 1px solid var(--line); color: #7b8073; font-size: 10px; }
+.article-body .article-disclaimer { margin-top: 34px; padding-top: 16px; border-top: 1px solid var(--line); color: #777a70; font-family: var(--sans); font-size: 12px; line-height: 1.8; }
 .back-link { display: inline-block; margin-top: 35px; font-family: var(--sans); font-size: 12px; font-weight: 700; }
 @media (max-width: 1000px) {
   .wrap { width: min(100% - 64px, 1376px); }
