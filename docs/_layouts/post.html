@@ -4,7 +4,7 @@ layout: default
 <article class="article wrap">
   <div class="article-topline"><a href="{{ '/' | relative_url }}#latest">← 返回全部内容</a><span>LLMNEWS / {{ page.label | upcase | escape }}</span></div>
   <header class="article-header">
-    {% assign section_name = '' %}{% if page.section == 'daily' %}{% assign section_name = '每日AI新闻' %}{% elsif page.section == 'weekly' %}{% assign section_name = '每周 AI 大专题' %}{% endif %}
+    {% assign section_name = '' %}{% if page.section == 'daily' %}{% assign section_name = '每日AI新闻' %}{% elsif page.section == 'weekly' %}{% assign section_name = '每周 AI 大专题' %}{% elsif page.section == 'explainer' %}{% assign section_name = '解读专题' %}{% endif %}
     <div class="article-kicker"><span class="signal-dot"></span>{% if section_name != '' %}{{ section_name }}{% endif %}{% if page.label and page.label != section_name %}<span>{{ page.label | escape }}</span>{% endif %} {% if page.demo %}<span class="demo-badge">示例</span>{% endif %}</div>
     <h1>{{ page.title | escape }}</h1>
     <p class="article-deck">{{ page.summary | escape }}</p>

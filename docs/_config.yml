@@ -1,5 +1,5 @@
 title: LLMNews
-description: 每日 AI 新闻与每周专题，基于公开来源，区分事实与分析。
+description: 每日 AI 新闻、每周专题和论文与开源项目解读，基于公开来源，区分事实与分析。
 url: "https://ai-v5.github.io"
 baseurl: "/LLMNews"
 timezone: Asia/Shanghai

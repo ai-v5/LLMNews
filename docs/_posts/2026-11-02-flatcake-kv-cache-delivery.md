@@ -2,7 +2,7 @@
 title: "KV Cache 命中了，为什么首 Token 还是慢？FlatCake 重看存储与恢复路径"
 date: 2026-11-02T21:10:00+08:00
 summary: "FlatCake 提出将主机 DRAM 与 NVMe SSD 作为平级 KV Cache 存储介质，并围绕会话布局、恢复调度和直接 I/O 优化长上下文推理。它提示我们：缓存里有数据，不等于数据能及时送到计算侧。"
-section: weekly
+section: explainer
 label: "推理系统"
 tags: [推理, KV Cache, 存储, Agent]
 demo: false
