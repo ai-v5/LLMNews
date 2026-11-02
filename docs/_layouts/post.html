@@ -1,0 +1,27 @@
+---
+layout: default
+---
+<article class="article wrap">
+  <div class="article-topline"><a href="{{ '/' | relative_url }}#latest">← 返回全部内容</a><span>LLMNEWS / {{ page.label | upcase | escape }}</span></div>
+  <header class="article-header">
+    <div class="article-kicker"><span class="signal-dot"></span>{{ page.label | escape }} {% if page.demo %}<span class="demo-badge">示例</span>{% endif %}</div>
+    <h1>{{ page.title | escape }}</h1>
+    <p class="article-deck">{{ page.summary | escape }}</p>
+    <div class="article-byline"><span>LLMNEWS 编辑台</span><span>{{ page.date | date: '%Y.%m.%d' }}</span><span>公开笔记</span></div>
+  </header>
+  <div class="article-layout">
+    <aside class="article-aside"><span>FIELD NOTES</span><strong>线索 / 背景 / 思考</strong><p>留意事实、推断与未知之间的边界。</p></aside>
+    <div class="article-body">
+      {% if page.demo %}<div class="demo-notice">这是一篇合成示例，用于展示版式与写作方式，不是实际新闻报道。</div>{% endif %}
+      {{ content }}
+      {% if page.sources and page.sources.size > 0 %}
+      <section class="source-list" aria-labelledby="sources-heading">
+        <h2 id="sources-heading">公开来源</h2>
+        <ul>{% for source in page.sources %}<li><a href="{{ source.url | escape }}" rel="noopener noreferrer">{{ source.title | escape }} ↗</a></li>{% endfor %}</ul>
+      </section>
+      {% endif %}
+      {% if page.tags.size > 0 %}<div class="article-tags">{% for tag in page.tags %}<span>{{ tag | escape }}</span>{% endfor %}</div>{% endif %}
+      <a class="back-link" href="{{ '/' | relative_url }}#latest">← 继续阅读更多内容</a>
+    </div>
+  </div>
+</article>
