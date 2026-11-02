@@ -4,13 +4,14 @@ layout: default
 <article class="article wrap">
   <div class="article-topline"><a href="{{ '/' | relative_url }}#latest">← 返回全部内容</a><span>LLMNEWS / {{ page.label | upcase | escape }}</span></div>
   <header class="article-header">
-    <div class="article-kicker"><span class="signal-dot"></span>{{ page.label | escape }} {% if page.demo %}<span class="demo-badge">示例</span>{% endif %}</div>
+    {% assign section_name = '' %}{% if page.section == 'daily' %}{% assign section_name = '每日AI新闻' %}{% elsif page.section == 'weekly' %}{% assign section_name = '每周 AI 大专题' %}{% endif %}
+    <div class="article-kicker"><span class="signal-dot"></span>{% if section_name != '' %}{{ section_name }}{% endif %}{% if page.label and page.label != section_name %}<span>{{ page.label | escape }}</span>{% endif %} {% if page.demo %}<span class="demo-badge">示例</span>{% endif %}</div>
     <h1>{{ page.title | escape }}</h1>
     <p class="article-deck">{{ page.summary | escape }}</p>
     <div class="article-byline"><span>LLMNEWS 编辑台</span><span>{{ page.date | date: '%Y.%m.%d' }}</span><span>公开笔记</span></div>
   </header>
   <div class="article-layout">
-    <aside class="article-aside"><span>FIELD NOTES</span><strong>线索 / 背景 / 思考</strong><p>留意事实、推断与未知之间的边界。</p></aside>
+    <aside class="article-aside"><span>FIELD NOTES</span><strong>新闻 / 专题 / 来源</strong><p>留意事实、推断与未知之间的边界。</p></aside>
     <div class="article-body">
       {% if page.demo %}<div class="demo-notice">这是一篇合成示例，用于展示版式与写作方式，不是实际新闻报道。</div>{% endif %}
       {{ content }}

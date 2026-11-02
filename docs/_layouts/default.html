@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  {% if page.title %}<title>{{ page.title | escape }} · {{ site.title | escape }}</title>{% else %}<title>{{ site.title | escape }} · 连接线索，读懂变化</title>{% endif %}
+  {% if page.title %}<title>{{ page.title | escape }} · {{ site.title | escape }}</title>{% else %}<title>{{ site.title | escape }} · 每日 AI 新闻与每周专题</title>{% endif %}
   <meta name="description" content="{{ page.summary | default: site.description | escape }}">
   <meta name="theme-color" content="#f5f3ed">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
@@ -16,21 +16,20 @@
   <div class="topline">
     <div class="wrap topline-inner">
       <span>INDEPENDENT NOTES ON AI <span aria-hidden="true">✳</span></span>
-      <span class="topline-right">公开线索 <span aria-hidden="true">/</span> 独立思考 <span aria-hidden="true">/</span> 持续更新</span>
+      <span class="topline-right">每日新闻 <span aria-hidden="true">/</span> 每周专题 <span aria-hidden="true">/</span> 公开来源</span>
     </div>
   </div>
   <header class="site-header wrap">
     <div class="masthead">
       <a class="wordmark" href="{{ '/' | relative_url }}" aria-label="LLMNews 首页">LLM<span>News</span><i aria-hidden="true">.</i></a>
-      <p class="masthead-note">连接线索，<br>读懂变化。</p>
+      <p class="masthead-note">每日新闻，<br>每周专题。</p>
       <a class="header-rss" href="{{ '/feed.xml' | relative_url }}"><span class="rss-icon" aria-hidden="true">↗</span> RSS 订阅</a>
     </div>
     <nav class="navigation" aria-label="主导航">
       <div class="nav-links">
         <a href="{{ '/' | relative_url }}">首页 <span>HOME</span></a>
-        <a href="{{ '/' | relative_url }}?section=dots#latest">线索 <span>DOTS</span></a>
-        <a href="{{ '/' | relative_url }}?section=analysis#latest">分析 <span>ANALYSIS</span></a>
-        <a href="{{ '/' | relative_url }}?section=methods#latest">方法 <span>METHODS</span></a>
+        <a href="{{ '/' | relative_url }}?section=daily#latest">每日AI新闻 <span>DAILY</span></a>
+        <a href="{{ '/' | relative_url }}?section=weekly#latest">每周 AI 大专题 <span>WEEKLY</span></a>
       </div>
       <span class="nav-aside">一个关于 AI 的开放笔记本 <span aria-hidden="true">↗</span></span>
     </nav>
@@ -42,7 +41,7 @@
     <div class="wrap footer-grid">
       <div>
         <a class="footer-brand" href="{{ '/' | relative_url }}">LLMNews<span>.</span></a>
-        <p>连接线索，读懂变化。<br>只分享适合公开的内容。</p>
+        <p>每日新闻，每周专题。<br>只分享适合公开的内容。</p>
       </div>
       <div class="footer-right">
         <p>OPEN NOTES FOR CURIOUS MINDS</p>
