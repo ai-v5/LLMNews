@@ -48,7 +48,7 @@ layout: default
           </article>
           {% endfor %}
         </div>
-        <p class="empty-state" id="empty-state" {% if site.posts.size > 0 %}hidden{% endif %}>没有找到匹配的内容。试试其他关键词或栏目。</p>
+        <p class="empty-state" id="empty-state" {% if site.posts.size > 0 %}hidden{% endif %}>{% if site.posts.size == 0 %}这里还没有发布内容，新的线索和分析会出现在这里。{% else %}没有找到匹配的内容。试试其他关键词或栏目。{% endif %}</p>
         <p class="feed-end"><span>END OF THE FEED</span><span>更多线索，持续更新 ↗</span></p>
       </div>
       <aside class="sidebar">
