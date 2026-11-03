@@ -9,7 +9,7 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-variant-numeric: lining-nums; -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 button, input { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
