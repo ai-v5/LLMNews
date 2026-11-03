@@ -4,8 +4,7 @@
   --ink: #212320;
   --line: #d9d9ce;
   --lime: #d6f36a;
-  --serif: Georgia, "Songti SC", "Noto Serif CJK SC", "SimSun", serif;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+  --sans: "HarmonyOS Sans SC", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -32,7 +31,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .signal-dot { display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 50%; background: #a9cb43; }
 .latest-section { max-width: 1000px; margin-inline: auto; padding: 36px 0 88px; scroll-margin-top: 16px; }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--ink); }
-.section-heading h1 { margin: 0; font-family: var(--serif); font-size: clamp(27px, 3vw, 34px); font-weight: 600; }
+.section-heading h1 { margin: 0; font-family: var(--sans); font-size: clamp(27px, 3vw, 34px); font-weight: 600; }
 .feed-actions { display: flex; align-items: center; gap: 20px; }
 .clear-filter { color: #526b21; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; white-space: nowrap; }
 .search { display: flex; align-items: center; gap: 7px; padding: 4px 0 6px; border-bottom: 1px solid #c9cbc0; }
@@ -40,11 +39,11 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .search input { width: 140px; padding: 4px 0; border: 0; background: transparent; color: var(--ink); font-size: 12px; }
 .search input::placeholder { color: #92948a; }
 .story-card { display: grid; grid-template-columns: 44px minmax(0, 1fr) 35px; gap: 11px; padding: 28px 0 27px; border-bottom: 1px solid var(--line); }
-.story-index { padding-top: 1px; color: #a8aa9e; font-family: Georgia, serif; font-size: 12px; }
+.story-index { padding-top: 1px; color: #a8aa9e; font-family: var(--sans); font-size: 12px; }
 .story-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: #627e29; font-size: 11px; font-weight: 700; letter-spacing: .04em; }
 .story-meta time { color: #777a70; font-size: 11px; font-weight: 500; }
 .demo-badge { display: inline-block; padding: 3px 6px; background: #e4e9d0; color: #526333; font-size: 9px; font-weight: 700; line-height: 1; }
-.story-main h2 { margin: 12px 0 8px; font-family: var(--serif); font-size: 21px; line-height: 1.45; overflow-wrap: anywhere; }
+.story-main h2 { margin: 12px 0 8px; font-family: var(--sans); font-size: 21px; line-height: 1.45; overflow-wrap: anywhere; }
 .story-main h2 a:hover { color: #5a7423; }
 .story-main > p { max-width: 760px; margin: 0; color: #666a60; font-size: 13px; line-height: 1.85; overflow-wrap: anywhere; }
 .story-tags { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 17px; color: #777a70; font-size: 11px; }
@@ -65,12 +64,12 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 .article-topline a { color: var(--ink); font-weight: 700; }
 .article-header { max-width: 760px; margin: 48px auto 0; padding-bottom: 35px; border-bottom: 1px solid var(--ink); }
 .article-kicker { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; color: #617b2c; font-size: 11px; font-weight: 700; }
-.article-header h1 { margin: 24px 0 17px; font-family: var(--serif); font-size: clamp(34px, 4.7vw, 62px); font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+.article-header h1 { margin: 24px 0 17px; font-family: var(--sans); font-size: clamp(34px, 4.7vw, 62px); font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
 .article-deck { margin: 0; color: #72776b; font-size: 16px; line-height: 1.9; overflow-wrap: anywhere; }
 .article-byline { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 34px; font-size: 10px; font-weight: 700; letter-spacing: .05em; }
 .article-byline span + span { color: #898d82; font-weight: 500; }
 .article-layout { max-width: 760px; margin: 40px auto 0; }
-.article-body { min-width: 0; color: #3f443b; font-family: var(--serif); font-size: 16px; line-height: 2.1; overflow-wrap: anywhere; }
+.article-body { min-width: 0; color: #3f443b; font-family: var(--sans); font-size: 16px; line-height: 2.1; overflow-wrap: anywhere; }
 .article-body > :first-child { margin-top: 0; }
 .article-body h2 { margin: 40px 0 12px; color: var(--ink); font-size: 24px; line-height: 1.5; }
 .article-body h3 { color: var(--ink); font-size: 19px; }
