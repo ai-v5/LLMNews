@@ -11,6 +11,14 @@ layout: default
     <div class="article-byline"><span>LLMNEWS 编辑台</span><span>{{ page.date | date: '%Y.%m.%d' }}</span><span>公开笔记</span></div>
   </header>
   <div class="article-layout">
+    <aside class="article-toc" hidden>
+      <div class="article-toc-inner">
+        <details class="article-toc-disclosure">
+          <summary>本文目录</summary>
+          <nav class="article-toc-nav" aria-label="本文目录"></nav>
+        </details>
+      </div>
+    </aside>
     <div class="article-body">
       {% if page.demo %}<div class="demo-notice">这是一篇合成示例，用于展示版式与写作方式，不是实际新闻报道。</div>{% endif %}
       {{ content }}
