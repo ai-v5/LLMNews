@@ -7,6 +7,8 @@ label: "每日AI新闻"
 tags: [智能体, 开源, 推理系统, 数据中心]
 demo: false
 sources:
+  - title: "Open WebUI v0.13.2 补丁"
+    url: "https://github.com/open-webui/open-webui/releases/tag/v0.13.2"
   - title: "Open WebUI v0.13.1"
     url: "https://github.com/open-webui/open-webui/releases/tag/v0.13.1"
   - title: "Activepieces 0.93.0"
@@ -49,13 +51,15 @@ sources:
 
 **分析。** 若报道属实，算力扩张的竞争进一步涉及供电设备交付，而不止芯片数量。设备采购承诺不等于可用电力，实际部署仍取决于工程、许可、燃料和交付条件。
 
-## 4. Open WebUI 0.13.1：桌面伴侣 Tether 与编码智能体入口
+## 4. Open WebUI 0.13.1 / 0.13.2：桌面智能体入口与 HTTP 兼容性补丁
 
 **事实。** [官方版本说明](https://github.com/open-webui/open-webui/releases/tag/v0.13.1)引入面向 macOS、Windows 和 Linux 的 Tether 桌面伴侣，将本机文件、仓库和工具连接到 Open WebUI。在提供智能体的 Open Terminal 上，Claude Code、Codex、Pi 等可以出现在模型选择器中。版本还增加默认关闭的自动工具权限模式：审核模型评估工具请求，无法完成审核时请求批准。
 
 **发布时间。** 北京时间 11 月 8 日 19:07:53（UTC 11:07:53），[版本 API](https://api.github.com/repos/open-webui/open-webui/releases/tags/v0.13.1)标记为非预发布版。
 
 **分析与边界。** 这使聊天界面进一步接近执行工作台，但“接入本机”也扩大了可操作范围。自动审核会把工具、参数及最近消息送往配置的评分 API，部署者需评估数据边界。发布方另提示本版含安全修复，细节待 CVE 分配后公开；本站未做安全审计或客户端实测。
+
+**补充核验（北京时间 11 月 9 日 05:35）。** 同一窗口内随后发布的 [0.13.2](https://github.com/open-webui/open-webui/releases/tag/v0.13.2)修复了通过普通 HTTP 的局域网或 Docker 地址访问时，聊天因 `crypto.randomUUID is not a function` 错误停留在加载状态的问题；评论和含渲染块的 Markdown 编辑也修复了同类 UUID 错误。此外，Side Chat 权限开关不再依赖 Temporary Chat 开关是否开启。[版本 API](https://api.github.com/repos/open-webui/open-webui/releases/tags/v0.13.2)显示发布时间为北京时间 11 月 8 日 19:53:42（UTC 11:53:42），非预发布版。评估 0.13.1 新功能时应同时关注该后续补丁；这不代表普通 HTTP 已具备加密传输保护，本站未复测这些修复。
 
 ## 5. Activepieces 0.93.0：补齐 MCP OAuth2 与批量操作审批
 
