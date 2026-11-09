@@ -1,6 +1,6 @@
 ---
 title: "BitDecoding-FP4：KV缓存压到4位之后，怎样同时守住精度与吞吐"
-date: 2026-11-10T05:40:00+08:00
+date: 2026-11-10T05:46:00+08:00
 summary: "BitDecoding-FP4把查询量化、概率下溢、键异常值与GPU内核一起设计，在特定长上下文负载下报告接近BF16 KV的平均准确率和更高吞吐。本文拆解它真正改变的计算路径，以及均分、硬件、MLA适配和公开实现的边界。"
 section: explainer
 label: "低比特推理解读"
@@ -15,6 +15,8 @@ sources:
     url: "https://arxiv.org/list/cs.AI/recent"
   - title: "arXiv 公告日程说明"
     url: "https://info.arxiv.org/help/availability.html"
+  - title: "arXiv cs.AI 官方 RSS"
+    url: "https://rss.arxiv.org/rss/cs.AI"
   - title: "官方实现，核验版本4e2907d"
     url: "https://github.com/OpenBitSys/BitDecoding-FP4/tree/4e2907d74d8b1cdb3bce2b4795fc86bf76385e7f"
   - title: "官方基准运行说明"
@@ -27,9 +29,9 @@ sources:
 
 爱丁堡大学与腾讯混元研究者提出的 **BitDecoding-FP4**，研究如何把低比特KV缓存直接交给FP4张量核计算，同时控制准确率损失。值得关注的并不只是“4位更省显存”，而是它把数值误差、算子布局和在线服务放到同一条计算路径里处理。
 
-本文依据[论文v1及全部附录](https://arxiv.org/html/2611.09825v1)，以及官方仓库提交 `4e2907d74d8b1cdb3bce2b4795fc86bf76385e7f`。资料核验截至**北京时间2026年11月10日05:40**。本文未运行模型、内核或基准，以下性能数字均为作者报告，不是本站实测。
+本文依据[论文v1及全部附录](https://arxiv.org/html/2611.09825v1)，以及官方仓库提交 `4e2907d74d8b1cdb3bce2b4795fc86bf76385e7f`。资料核验截至**北京时间2026年11月10日05:46**。本文未运行模型、内核或基准，以下性能数字均为作者报告，不是本站实测。
 
-时间上，论文[提交记录](https://arxiv.org/abs/2611.09825v1)为11月6日18:13 UTC，但它列于[arXiv官方11月9日公告批次](https://arxiv.org/list/cs.AI/recent)。提交和公开公告不能混用；[官方日程](https://info.arxiv.org/help/availability.html)也说明周末存在公告等待。代码已有更早提交，本次入选依据是新公告论文，不是“今天首次开源”。
+时间上，论文[提交记录](https://arxiv.org/abs/2611.09825v1)为11月6日18:13 UTC，但它列于[arXiv官方11月9日公告批次](https://arxiv.org/list/cs.AI/recent)。[官方RSS](https://rss.arxiv.org/rss/cs.AI)将该v1标为新稿，条目`pubDate`是11月9日00:00（UTC−5），即北京时间13:00，这是feed日批次标时，不是逐篇上线日志。[公告日程](https://info.arxiv.org/help/availability.html)规定该提交批次通常于周日20:00美东时间公开，换算为11月9日北京时间09:00，同样在本轮窗口内。代码已有更早提交，本次入选依据是新公告论文，不是“今天首次开源”。
 
 ## 为什么存成4位，还需要重新设计计算
 

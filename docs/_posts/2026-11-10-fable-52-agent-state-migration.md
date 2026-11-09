@@ -1,12 +1,16 @@
 ---
-title: "Fable 5.2 迁移解读：模型升级前，先检查 Agent 怎样保存历史"
-date: 2026-11-10T05:40:00+08:00
-summary: "Fable 5.2 的关键迁移风险不只在模型表现：思考块与历史前缀的绑定开始对所有账户执行。本文梳理动态工具、模型回退、快模式和数据保留的工程边界。"
+title: "Java SDK 3.7.0 接入 Fable 5.2：升级模型，也要检查 Agent 历史"
+date: 2026-11-10T05:46:00+08:00
+summary: "Anthropic Java SDK 3.7.0 新增 Fable/Mythos 5.2 的类型支持，但识别模型名不等于会话兼容。结合源码差异与官方迁移文档，梳理历史绑定、回退、动态工具和成本边界。"
 section: explainer
 label: "API 与 Agent 工程"
-tags: [Anthropic, Fable, Agent, API, 推理成本]
+tags: [Anthropic, Fable, Java, SDK, Agent, API]
 demo: false
 sources:
+  - title: "Anthropic Java SDK v3.7.0 官方发布"
+    url: "https://github.com/anthropics/anthropic-sdk-java/releases/tag/v3.7.0"
+  - title: "v3.6.0 至 v3.7.0 源码差异"
+    url: "https://github.com/anthropics/anthropic-sdk-java/compare/v3.6.0...v3.7.0"
   - title: "Anthropic：Claude Fable 5.2 与 Mythos 5.2 发布"
     url: "https://www.anthropic.com/claude-fable-and-mythos-5-2"
   - title: "Fable 5.2 模型规格"
@@ -25,9 +29,19 @@ sources:
     url: "https://www.anthropic.com/news/enterprise-frontier-safeguards"
 ---
 
-**信息截止：2026 年 11 月 10 日北京时间 05:40。** 本文依据 Anthropic 11 月 9 日发布公告及截至上述时刻可读的官方 API 文档。发布页只给出日期，不据此虚构精确上线分钟。以下是文档解读和工程分析，没有执行真实 API 回归测试，也不评判尚未独立复现的能力榜单。
+**信息截止：2026 年 11 月 10 日北京时间 05:46。** 本次入选的新材料是 Anthropic 官方 Java SDK v3.7.0，GitHub Release 的 `published_at` 为 **2026-11-09T18:52:55Z**，即北京时间 11 月 10 日 **02:52:55**，明确处于本轮最近24小时窗口。本文依据该版本源码差异及官方 API 文档；Anthropic 模型主公告只标注11月9日，其精确发布时间未确认，不能用SDK时间替代模型首发时间。以下未执行SDK构建、真实API或生产回归测试。
 
-## 为什么值得单独看迁移，而不只看新模型分数
+## SDK 新增了什么，又没有替应用解决什么
+
+[v3.7.0发布说明](https://github.com/anthropics/anthropic-sdk-java/releases/tag/v3.7.0)明确列出新增 `claude-fable-5-2` 与 `claude-mythos-5-2`。该标签指向提交 `80c906a17bcefb4611ed39cce8ff1347b1e2e6b1`，可与v3.6.0比较，而不只依据模型发布宣传判断变化。
+
+在[Messages的Model类型](https://github.com/anthropics/anthropic-sdk-java/blob/80c906a17bcefb4611ed39cce8ff1347b1e2e6b1/anthropic-java-core/src/main/kotlin/com/anthropic/models/messages/Model.kt)中，两个新模型都有常量，并进入字符串转换、`Known`和`Value`的识别分支。[Managed Agents模型类型](https://github.com/anthropics/anthropic-sdk-java/blob/80c906a17bcefb4611ed39cce8ff1347b1e2e6b1/anthropic-java-core/src/main/kotlin/com/anthropic/models/beta/agents/BetaManagedAgentsModel.kt)这次新增的则是Fable 5.2，不能把两个接口的枚举清单混写。
+
+这个变化有具体价值：依赖已知模型常量的Java代码可以明确表达新型号，读取模型值时也不必把它当未知项处理。但类型系统与服务器能力不是一回事。该类本就允许通过`of(String)`承载任意字符串，而`known()`遇到未知项会抛异常。因此，不能反推“没有新常量就绝不可能发出请求”，也不能认为升级依赖就获得Mythos准入或所有平台功能。
+
+更重要的是，[新增模型的补丁](https://github.com/anthropics/anthropic-sdk-java/commit/195b48862312e526d474f9a387a2d256326712d0)解决的是客户端型号识别，并没有替自行构造历史的应用重写会话。本文后面的迁移检查，是这次新支持与服务端协议之间的连接，不是声称这些协议都由SDK 3.7.0首次引入。Java SDK与会管理会话的Agent SDK也不是同一个层级。
+
+## 从新型号支持，走到实际会话迁移
 
 Anthropic 发布 Fable 5.2 和 Mythos 5.2，称两者来自同一个底层模型，但部署防护与准入条件不同。对多数自行开发 Agent 的团队，更直接的问题是：把模型名替换成 `claude-fable-5-2` 后，原来能运行的会话是否仍能继续？[发布公告](https://www.anthropic.com/claude-fable-and-mythos-5-2)
 
