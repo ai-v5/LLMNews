@@ -59,7 +59,7 @@ sources:
 
 **更新时间。** 新测试评论发表于 **11 月 11 日 01:49:23 UTC**，即北京时间 **09:49:23**。公开[事件时间线](https://api.github.com/repos/vllm-project/vllm-ascend/issues/20291/timeline?per_page=100)显示，其后在 **02:20:45 与 02:50:55 UTC**发生两次强制推送。新闻点是测试反馈和审阅推进，不是本日首次引入内核重写。
 
-**分析与验证边界。** 新评论的测试结果没有明确绑定候选提交，且早于这两次推送，不能直接当作最新版已经验证的结论。[此前 A3 回退与整数精度问题的报告](https://github.com/vllm-project/vllm-ascend/pull/20291#issuecomment-6674437488)明确针对旧提交 `5474d7a`，也不能移植成最新版的失败结论。最新提交的 CPU 检查通过不等于 NPU 正确性已验证；所需精度/NPU 测试未运行，[CI 门禁因缺少测试启用标签失败](https://github.com/vllm-project/vllm-ascend/actions/runs/42948787492/job/130294950097)。作者的 eager 模式算子计时与此前图回放计时边界不同，不适合直接对比，更不能扩大为完整模型服务吞吐提升。本站未运行硬件复测。
+**分析与验证边界。** 新评论的测试结果没有明确绑定候选提交，且早于这两次推送，不能直接当作最新版已经验证的结论。[此前 A3 回退与整数精度问题的报告](https://github.com/vllm-project/vllm-ascend/pull/20291#issuecomment-6674437488)明确针对旧提交 `5474d7a`，也不能移植成最新版的失败结论。最新提交的 CPU 检查通过不等于 NPU 正确性已验证；当前 head 已获得代码审阅批准，但所需精度/NPU CI 测试未运行，[CI 门禁因缺少测试启用标签失败](https://github.com/vllm-project/vllm-ascend/actions/runs/42948787492/job/130294950097)。作者的 eager 模式算子计时与此前图回放计时边界不同，不适合直接对比，更不能扩大为完整模型服务吞吐提升。本站未运行硬件复测。
 
 ## 编辑说明
 
