@@ -3,7 +3,7 @@
   "checked_on": "2026-11-11",
   "scope": "公开资料非穷尽性调查；记录单位为文章表格条目，不等同独立机构、模型、用户或芯片数量。",
   "evidence_legend": {
-    "A": "原作者论文、报告、模型卡或实验材料报告实际运行；未由本站独立复现。",
+    "A": "原始论文、报告、模型卡或实验材料报告实际运行；社区第一手运行报告单独标注；未由本站独立复现。",
     "B": "可执行设备、分布式或算子实现；不代表全部功能通过硬件验证。",
     "C": "官方支持声明或指南；不自动等于生产使用。",
     "D": "待核、矛盾、模拟或仅线索，不并入确认实机结论。"
@@ -2075,6 +2075,57 @@
       "checked_on": "2026-11-11"
     },
     {
+      "id": "ascend-118",
+      "record_type": "open_source_project",
+      "category": "历史运行案例：LLaDA2.1-flash 的 910B profiling",
+      "name": "LLaDA2.1-flash / SGLang 历史运行案例，2026-04 至 08",
+      "fields": {
+        "案例与来源": "LLaDA2.1-flash / SGLang 历史运行案例，2026-04 至 08",
+        "实际运行配置": "4 月 23 日 issue #23565：SGLang 0.5.10、TP=8、BF16、JointThreshold；32 请求，配置输入 4096 / 输出 1536 token，并发上限 1；H20 用 FlashInfer，910B 用 Ascend 后端",
+        "原始报告结果": "H20 / 910B 输出吞吐分别为 519.55 / 212.40 tok/s，平均 TTFT 为 1355.06 / 3131.61 ms；5 月 15 日补充 另有算子与主机等待 profiling，其 profiler 命令仅 2 请求、4096 输入、100 输出，不混作主帖的 32 请求 / 1536 输出实验",
+        "证据与限制": "A 类社区第一手运行报告，本站未复现，非维护者确认的公平芯片对比。后端、完整拓扑、生成轨迹未严格对齐；6 月 9 日结果 来自 fork、新软件栈及 NPU FP16/在线量化，不是同配置对照。相关 mini 优化 #27127、#31772、#21094 已合入；flash 的 #29433 关闭未合入；多块 prefill #31586 仍未合入且该路径要求 FlashInfer。issue 因不活跃自动关闭，不是修复验收"
+      },
+      "sources": [
+        {
+          "title": "4 月 23 日 issue #23565",
+          "url": "https://github.com/sgl-project/sglang/issues/23565"
+        },
+        {
+          "title": "5 月 15 日补充",
+          "url": "https://github.com/sgl-project/sglang/issues/23565#issuecomment-4463490781"
+        },
+        {
+          "title": "6 月 9 日结果",
+          "url": "https://github.com/sgl-project/sglang/issues/23565#issuecomment-4661538231"
+        },
+        {
+          "title": "#27127",
+          "url": "https://github.com/sgl-project/sglang/pull/27127"
+        },
+        {
+          "title": "#31772",
+          "url": "https://github.com/sgl-project/sglang/pull/31772"
+        },
+        {
+          "title": "#21094",
+          "url": "https://github.com/sgl-project/sglang/pull/21094"
+        },
+        {
+          "title": "#29433",
+          "url": "https://github.com/sgl-project/sglang/pull/29433"
+        },
+        {
+          "title": "#31586",
+          "url": "https://github.com/sgl-project/sglang/pull/31586"
+        },
+        {
+          "title": "因不活跃自动关闭",
+          "url": "https://github.com/sgl-project/sglang/issues/23565#issuecomment-5228946254"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
       "id": "ascend-076",
       "record_type": "qualified_or_pending",
       "category": "四 不应混入强证据清单的材料",
@@ -2341,5 +2392,5 @@
       "checked_on": "2026-11-11"
     }
   ],
-  "revision_note": "2026-11-11 补查：新增 SemBlock、SAID 等漏项；保留原有记录标识，不将适配说明与论文实机实验混同。"
+  "revision_note": "2026-11-11 补查：新增 SemBlock、SAID 等漏项及 LLaDA2.1-flash / SGLang 社区历史运行案例；保留原有记录标识，区分适配、实机报告、历史异配置结果与当前修复状态。"
 }

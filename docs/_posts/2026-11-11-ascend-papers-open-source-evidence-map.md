@@ -21,7 +21,7 @@ sources:
 
 **资料核查截止：2026 年 11 月 11 日。** 本文调查公开论文、技术报告、官方文档和开源实现，覆盖历史与近期材料，并非仅筛选最近 24 小时。文中的实验结果均来自作者报告，本站未持有相关集群，也未复跑训练或性能测试。项目代码优先固定到提交版本；动态文档可能在此后变化。
 
-**修订说明（2026 年 11 月 11 日）：** 首版漏收 SemBlock、SAID 等项目。本次补查将二者加入开源证据表，并沿扩散语言模型、相关团队与算子/通信实现扩展核验。SemBlock 有可执行 NPU 路径，SAID 提供官方手工适配说明；两者都不能据此列为“论文已在 910B 上实测”。本文同步更新结构化清单，并在第六节说明首版覆盖缺口与补查方法。原有链接与记录标识保持稳定。
+**修订说明（2026 年 11 月 11 日）：** 首版漏收 SemBlock、SAID 等项目。本次补查将二者加入开源证据表，并沿扩散语言模型、相关团队与算子/通信实现扩展核验。SemBlock 有可执行 NPU 路径，SAID 提供官方手工适配说明；两者都不能据此列为“论文已在 910B 上实测”。本文同步更新结构化清单，并在第六节说明首版覆盖缺口与补查方法。原有链接与记录标识保持稳定。另补入 SGLang #23565 的 LLaDA2.1-flash 历史运行案例，并分开记录原始测量、后续异配置结果及 PR 状态。
 
 “用了昇腾”至少包含四种不同情况：模型真的在昇腾上训练过；论文只在昇腾上做了一项算子或推理实验；开源项目实现了可选昇腾后端；厂商或社区提供了移植指南。把这四种情况混成一个名单，会夸大生态，也会错过真正有价值的工程进展。
 
@@ -38,7 +38,7 @@ sources:
 
 | 等级 | 纳入条件 | 能够说明什么 | 不能自动说明什么 |
 |---|---|---|---|
-| A 实验或实际运行 | 原始论文、技术报告、官方实验记录明确写出昇腾与实验场景 | 作者确实报告在该硬件上运行过指定工作 | 本站独立复现、全模型生命周期都用昇腾、普遍性能优势 |
+| A 实验或实际运行 | 原始论文、技术报告、官方实验或单独标注的社区第一手记录明确写出昇腾与运行场景 | 作者确实报告在该硬件上运行过指定工作 | 本站独立复现、全模型生命周期都用昇腾、普遍性能优势 |
 | B 可执行实现 | 上游或明确身份的适配仓库中有实际设备、分布式或算子调用 | 项目存在昇腾执行路径 | 所有功能、模型、版本与卡型均可用 |
 | C 支持声明 | 官方安装指南、兼容列表、路线图或迁移文档 | 维护方声明的支持范围 | 已完成论文实验或生产部署 |
 | D 待核线索 | 搜索摘要、转载、未核实型号的 NPU、存在冲突的材料 | 值得继续追查 | 计入“已确认使用”的结论 |
@@ -221,6 +221,20 @@ RL 的适配不能只看训练器：rollout 引擎、权重同步、休眠/唤�
 | TileKernels，deepseek-ai 上游 | [950 环境要求](https://github.com/deepseek-ai/TileKernels/blob/c1cf914a82e6901c679445f872051ce44ac2cc63/README.md)、[Ascend Engram backward](https://github.com/deepseek-ai/TileKernels/blob/c1cf914a82e6901c679445f872051ce44ac2cc63/tile_kernels/engram/engram_gate_bwd_asc.py)、[参考数值测试](https://github.com/deepseek-ai/TileKernels/blob/c1cf914a82e6901c679445f872051ce44ac2cc63/tests/engram/test_engram_gate_bwd.py) | B+C | 可确认训练相关反向算子，不仅是推理适配；要求 950、CANN≥9.2.0 等。不能将全库内部使用声明升级为某个完整模型已在 950 训练完成 |
 
 这些新组件也需要保留可复现性边界。DeepGEMM-Ascend 的 [维护者说明](https://github.com/deepseek-ai/DeepGEMM-Ascend/issues/1#issuecomment-5907944599) 将性能口径限定为 32-core 950DT；README 的“CANN 9.20”与 [笔误讨论](https://github.com/deepseek-ai/DeepGEMM-Ascend/issues/29) 尚不能当作已确认的精确构建版本。FlashMLA [#242](https://github.com/deepseek-ai/FlashMLA/issues/242) 有特定 950DT/CANN 环境编译缺符号的公开用户报告，本次未复现，也未取得维护者确认，不能扩成普遍故障或把 issue 正文中的修补建议当官方修复。本次按固定提交查询 DeepGEMM-Ascend、FlashMLA、DeepSelect、TileKernels 四仓的公开 Actions 时，未找到对应 950 硬件正确性/性能执行记录；CodeQL 等检查不是 NPU 测试，公开记录缺失也不证明作者没有内部测试。
+
+### 历史运行案例：LLaDA2.1-flash 的 910B profiling
+
+SGLang 的通用 NPU 后端已在前表收录，以下单列一个有运行日志的社区案例，不将它重复计作新的软件项目、厂商认证或独立采用机构。时间线及 PR 状态核查于 2026 年 11 月 11 日；issue 和评论是带日期的来源，并非不可修改的代码快照。
+
+| 案例与来源 | 实际运行配置 | 原始报告结果 | 证据与限制 |
+|---|---|---|---|
+| LLaDA2.1-flash / SGLang 历史运行案例，2026-04 至 08 | [4 月 23 日 issue #23565](https://github.com/sgl-project/sglang/issues/23565)：SGLang 0.5.10、TP=8、BF16、JointThreshold；32 请求，配置输入 4096 / 输出 1536 token，并发上限 1；H20 用 FlashInfer，910B 用 Ascend 后端 | H20 / 910B 输出吞吐分别为 519.55 / 212.40 tok/s，平均 TTFT 为 1355.06 / 3131.61 ms；[5 月 15 日补充](https://github.com/sgl-project/sglang/issues/23565#issuecomment-4463490781) 另有算子与主机等待 profiling，其 profiler 命令仅 2 请求、4096 输入、100 输出，不混作主帖的 32 请求 / 1536 输出实验 | A 类社区第一手运行报告，本站未复现，非维护者确认的公平芯片对比。后端、完整拓扑、生成轨迹未严格对齐；[6 月 9 日结果](https://github.com/sgl-project/sglang/issues/23565#issuecomment-4661538231) 来自 fork、新软件栈及 NPU FP16/在线量化，不是同配置对照。相关 mini 优化 [#27127](https://github.com/sgl-project/sglang/pull/27127)、[#31772](https://github.com/sgl-project/sglang/pull/31772)、[#21094](https://github.com/sgl-project/sglang/pull/21094) 已合入；flash 的 [#29433](https://github.com/sgl-project/sglang/pull/29433) 关闭未合入；多块 prefill [#31586](https://github.com/sgl-project/sglang/pull/31586) 仍未合入且该路径要求 FlashInfer。issue [因不活跃自动关闭](https://github.com/sgl-project/sglang/issues/23565#issuecomment-5228946254)，不是修复验收 |
+
+这份案例的价值是把“能执行”进一步拆成可检查的服务过程，而不是为芯片排一个不带条件的名次。4 月主帖的两组运行虽然都设置 BF16 和 TP8，却使用不同注意力后端；总输入 token 和重新分词后的输出 token 数也不同，未提供相同生成轨迹、互联拓扑及完整软件栈的控制证据。日志输出吞吐不是重新分词后的吞吐，不能任意替换口径，更不能据此断言瓶颈只来自峰值算力或内存带宽。
+
+**5 月与 6 月是另外两轮测量。** 5 月 15 日补充列 SGLang 0.5.10-post1，NPU 栈为 CANN 8.5.0、torch/torch_npu 2.9.1、sgl-kernel-npu 2026.04.15.rc4；其中 operator profiling 的输入/输出长度与完整 serving benchmark 不同。评论据此提出注意力、MoE、主机调度和内存管理优化方向，这些诊断与潜在收益仍是报告者判断。6 月 9 日则使用 SGLang 0.5.12 相关 fork：NPU 为 CANN 9.0、torch 2.8.0、torch_npu 2.8.0.post4，改用 FP16 和在线量化，H20 仍为 BF16、torch 2.11.0。新表报告 NPU 平均 TTFT 1367.51 ms，但精度、分支、软件栈和批处理设置都改变了，不能把差值全归某一优化，也不能认定同一 BF16 workload 已复验达标。评论给的是可变分支名，未固定测量时 SHA。
+
+**后续代码进展也不能替代 flash 的同配置复测。** #27127 于 7 月 20 日合入 NPU 融合 QKV/RMSNorm/RoPE；#31772 于 7 月 21 日合入 NZ 权重转换后的内存修正；#21094 于 7 月 30 日合入向量化解码与跳过重复 attention 初始化。它们公开展示的模型测试主要是 LLaDA2.0/2.1-mini；合入代码可固定到 [e856eae](https://github.com/sgl-project/sglang/commit/e856eae921980e58a38975fac36b0eb07e55f9b5)、[c0ed009](https://github.com/sgl-project/sglang/commit/c0ed009f5b566be023661bd4e93065b8b4b8b31f)、[36afd44](https://github.com/sgl-project/sglang/commit/36afd442c7a96c4997f14fbc30058616581810b0)。#29433 的 flash 优化虽有分支性能报告，却在 8 月 27 日关闭未合入。#31586 仍开放，其 [1859d14 固定代码](https://github.com/sgl-project/sglang/blob/1859d14d5a424a733f42c676e2a4ec296c00d035/python/sglang/srt/dllm/config.py#L13-L22) 对多块 prefill 要求 FlashInfer，不能直接算 Ascend 方案。原 issue 在 8 月 9 日由机器人因不活跃关闭，不构成问题已修复的证据。
 
 ### 华为基础生态单列
 
