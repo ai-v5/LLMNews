@@ -21,6 +21,8 @@ sources:
 
 **资料核查截止：2026 年 11 月 11 日。** 本文调查公开论文、技术报告、官方文档和开源实现，覆盖历史与近期材料，并非仅筛选最近 24 小时。文中的实验结果均来自作者报告，本站未持有相关集群，也未复跑训练或性能测试。项目代码优先固定到提交版本；动态文档可能在此后变化。
 
+**修订说明（2026 年 11 月 11 日）：** 首版漏收 SemBlock、SAID 等项目。本次补查将二者加入开源证据表，并沿扩散语言模型、相关团队与算子/通信实现扩展核验。SemBlock 有可执行 NPU 路径，SAID 提供官方手工适配说明；两者都不能据此列为“论文已在 910B 上实测”。本文同步更新结构化清单，并在第六节说明首版覆盖缺口与补查方法。原有链接与记录标识保持稳定。
+
 “用了昇腾”至少包含四种不同情况：模型真的在昇腾上训练过；论文只在昇腾上做了一项算子或推理实验；开源项目实现了可选昇腾后端；厂商或社区提供了移植指南。把这四种情况混成一个名单，会夸大生态，也会错过真正有价值的工程进展。
 
 本次调查得到的核心判断是：**公开证据已覆盖大模型训练、后训练、推理服务、多模态和底层系统，而且使用者不止华为；但“有适配”“有实测”和“已经规模化生产使用”仍须逐项区分。** 训练端可追溯到 PanGu-α、CodeGeeX，并延伸到运营商、互联网公司、科研机构的项目；软件端则同时存在 PyTorch 的 `torch_npu` 路线、MindSpore 路线以及直接调用 CANN 的 C++ 路线。
@@ -119,6 +121,30 @@ sources:
 | Ascend to Science，2026-07，v1；鹏城实验室 | 分实验使用 910A / 910B / 910C，涉及 HPL-MxP、低秩 SVD、GEMM、量子仿真与蒙特卡洛 | A；[论文与实验附录](https://arxiv.org/html/2607.20120v1) | 非 LLM 科学计算；各代硬件、精度与比较基线不同，不宜合成一个通用加速比 |
 | Tensor Yard，2021；华为与莫斯科大学联合 | Ascend 310 上的 ResNet 推理与张量分解优化 | A；[原文](https://arxiv.org/html/2108.04029v1) | 是 310 推理，不是 910 系列训练；保留它可避免把昇腾生态缩成大模型训练卡 |
 
+### 补查发现的扩散模型 系统与算子实验
+
+以下是首版遗漏、在修订中重新回到原论文核实的材料。名称接近的 AscSpMM 与 Ascend-SpMM 来自不同作者和仓库，分别保留，不能合并或互用硬件配置。
+
+| 工作与公开版本 | 平台与用途 | 可追溯证据 | 解释边界 |
+|---|---|---|---|
+| ENEC，2026-04，v2；中科院计算所、国科大与华为 | Ascend 910B2 上的模型权重无损压缩、解压与推理；端到端部分使用 Qwen3-32B / Falcon-40B | A；[§VI 与 artifact 附录](https://arxiv.org/html/2604.03298v2) | 对照是单卡放不下完整权重、需部分 CPU 卸载的未压缩推理；不能推广为权重完全驻留 HBM 时的通用收益，也不证明这些模型在昇腾预训练 |
+| AscSpMM，2026-11-09，v1；西安交通大学 | 910B3、CANN 8.5.0 上的 Vector–Cube 流水 SpMM；包含 TorchNPU / MindSpore 的两层 GCN 推理 | A；[§V-A](https://arxiv.org/html/2611.11823v1) | 是稀疏算子和图网络推理评估，不是大语言模型训练；A100 为跨平台参考，性能需保留稀疏度与矩阵形状 |
+| Ascend-SpMM，2026-11-01，v1；北京邮电大学与华为 | Atlas 800I A2、CANN 8.5.0；820 个稀疏矩阵与两层 GCN 端到端训练 | A；[§4.1、§4.5](https://arxiv.org/html/2611.01936v1) | 原文采用整机产品名，未明确 910 子型号，不从参数表猜测；与上行 AscSpMM 是不同工作，2027 会议模板标记不等于会议已举行 |
+| Streaming-dLLM，2026，v3 | 官方仓库将 OpenPangu 扩展标为 910B，提供 NPU 推理路径；论文表 7 与仓库列出同组六任务结果 | A+B，硬件依据为[固定版仓库说明](https://github.com/xiaoshideta/Streaming-dLLM/blob/c4320c2d42f049f4610d8273217f5d168146d016/README.md)；[论文 §4.4、表 7](https://arxiv.org/html/2601.17917v3) 对照数据 | 仓库该扩展约 1.4–1.6 倍；论文 §4.1 仍总述实验在单 A800，硬件说明未同步，不能称论文自身明确披露 910B。最高 68.2 倍不属于这组 Ascend 结果，也不能推断基模训练硬件 |
+| AURORA-LM，2026-08，v1；南京大学、南洋理工与帝国理工等 | 作者自己的训练和评测声明均在 Ascend；含 130M 与 1.01B 去噪器 | A+B；[§4、§6.2](https://arxiv.org/html/2608.02602v1)、[设备实现](https://github.com/fyv587/AURORA-LM/blob/cfa6cfe87fb612880cd9158e43f31e0d7b91d178/src/aurora/utils/device_utils.py) | 参数量不含自编码器；未披露 SKU 与卡数，不据示例命令猜测。部分对照数字引用别作，不将它们一并归入昇腾实验 |
+| PV-Decoding，Findings of EMNLP 2026 | 单 Ascend 上的 Dream-7B / GSM8K 推理，与 Fast-dLLM 按并发 1/4/8 对照 | A；[正式论文 §5.3、表 2](https://aclanthology.org/2026.findings-emnlp.2228.pdf) | PV1/2 吞吐有约 7–13.6% 提升，multi 变体则下降；arXiv HTML 与 PDF/正式版的 910B3 描述不一致，本表保留泛型号 Ascend，不把更具体网页文字当一致结论 |
+| FastAttention，2024-10，v1 | 单 910B 注意力算子及 LLaMA2-7B 全模型吞吐；8×910B 的 PanGu-38B/71B 端到端推理，另有 attention、Linear、AllReduce 组合测试 | A；[§5.2–5.3、表 2、4、6](https://arxiv.org/html/2410.16663v1) | 最高 10.7 倍是注意力算子收益；表 6 单 910B、512-token 输入、batch=1 的 LLaMA2-7B 吞吐约 5.16 倍，不能混用。256K 结果属于 V100。本轮未核得论文对应正式开源代码 |
+| Laga，2026-07，v1；中国移动九天作者 | 单节点 8×910B、跨节点 16 ranks，研究 MLA 训练通信与激活内存 | A；[§4.1、§4.4–4.7](https://arxiv.org/html/2607.17644v1) | 通信字节数为解析计算，内存与吞吐为实测。使用 DeepSeek-V3 公开维度的 attention 层/四层 stack 原型；不是完整 DeepSeek-V3 预训练，也不是 Megatron-Core 全栈基准 |
+| AVSG，2026-09，v1 | 12 节点 910B 集群、64GB/chip，GLM-5.3 的稀疏 KV 卸载服务实验 | A；[§4.5、表 2、附录 G](https://arxiv.org/html/2609.37538v1) | 吞吐提升不等于所有指标改善：相较无卸载，TPOT 与 TTFT 仍有代价；须保留 5 prefill / 1 decode 实例及请求分布 |
+| VPP，2026-08，v1 | 作者记为 Atlas 900 A3 SuperPoD、16 个 910C NPU，最长 1M 输入的 chunked prefill | A；[§6.1](https://arxiv.org/html/2608.26523v1) | 每个请求只生成 1 个输出 token，研究的是 prefill，不是完整多 token 解码；按原文保留 NPU 计数，不自行换算 card/die |
+| FlashOffloading，2026-11，v1 | 910C KV 卸载：内核单 die；端到端 4 服务器、32 卡/64 die，1P1D | A；[§6.1–6.4](https://arxiv.org/html/2611.07542v1) | 内核和端到端有实机实验，但部分缓存策略评估使用离线 trace 模拟；不能说全篇每一项均为硬件实测 |
+| OmniInfer，2025-11，v1；华为 Theory Lab | 910C 上服务 DeepSeek-R1 INT8；最佳 6P8-1D32 配置合计 10 节点 | A；[§6.1–6.2、表 2](https://arxiv.org/html/2511.22481v1) | 包含 OmniAttn、专家调度和 PD 等组合优化，不能将完整系统收益全归一个算子；QPM 按正文为每分钟请求数，不改成每秒 |
+| Boundary-Protection W8A8 HiFloat8，2026，v1 | 910B 64GB、CANN 8.2.RC1 上的 Wan2.1-T2V-14B 量化视频生成 | A；[§IV-F](https://arxiv.org/html/2606.00957v1) | 49 帧卸载配置中 PTQ 为 887 秒，BF16 为 763 秒，不能称该实现已加速；仅 5 个 prompt，且原生映射与 QDQ 开销叙述需谨慎，不据此证明原生 HiF8 优势 |
+| Rethinking Streaming Video Diffusion Model，2026-09，v1 | 训练使用 16×Ascend 910B2C、DP=16、BF16；推理使用 4/8/12 个 910B2C，执行流式视频 DiT 与 context parallel | A；[§5、表 3、附录 A 表 4](https://arxiv.org/html/2609.22283v1) | 学生全参数更新，fake-score 网络比较 LoRA 与全参数适配，非从零基模训练。推理收益为稳态 DiT，含通信/cache，但不含 VAE 与流水填充/排空，不能写成完整视频端到端收益 |
+| Efficient Multi-Scale Deformable Attention on NPU，2025-05，v1；腾讯微信 | Ascend 上多尺度可变形注意力算子的 forward/backward profiling，CANN 8.1.RC1.beta1 | A；[§5.1–5.2](https://arxiv.org/html/2505.14022v1) | 未披露 910 子型号；表中 Train(Fwd+Bwd) 是算子组合时间，不是完整检测模型训练速度 |
+| HA-NPU / Empowering Hybrid Attention Models on NPUs，2026-09，v1 | Ascend 310P/310B 的线性与混合注意力；310P 上端到端模型评估 | A；[§7.1、图 13–15](https://arxiv.org/html/2609.32114v1) | 310B 只对应部分内核实验，文中说明 vLLM-Ascend 不支持其端到端路径；不归入 910 系列，也不将文中引用的其他 NPU 平台自动算昇腾 |
+| openPangu-R-7B-Diffusion，官方模型卡；华为 | 基于 openPangu-Embedded-7B 继续训练的 block diffusion 模型，作者声明整个模型训练与推理过程基于 Ascend | A，作者模型卡；[固定版本说明](https://huggingface.co/openpangu/openPangu-R-7B-Diffusion/blob/c708886fb188687e862230c61d45c0e65d863e7e/README_EN.md) | 不是从零初始化；部署要求列 Atlas 800T A2 64GB，不能回填为全部训练的型号/卡数。与 Streaming-dLLM 的第三方推理实验分别记载，不合算独立采用者 |
+
 系统论文带来的信息往往比“支持哪些模型”的列表更有解释力：有的解决算子布局，有的解决通信与调度，有的解决 KV 缓存或输入等待。它们揭示了实际使用昇腾时花时间的地方，也提醒我们不能只按峰值算力判断迁移成本。
 
 ## 三 开源项目的昇腾执行路径
@@ -178,6 +204,24 @@ RL 的适配不能只看训练器：rollout 引擎、权重同步、休眠/唤�
 | ContentV，ByteDance 上游 | [demo.py](https://github.com/bytedance/ContentV/blob/8ad3ca206e4c9f0a29885de87476ce190a6c746d/demo.py) 有 `USE_ASCEND_NPU` 与实际迁移分支 | B，demo 范围 | 能证明代码提供昇腾入口，不能证明训练、数值一致性或生产规模 |
 | FunASR，ModelScope 上游 | [Ascend 说明](https://github.com/modelscope/FunASR/blob/2b4a0623613013b2b59ae289b189768426006cfa/docs/ascend_npu.md) 记录贡献者在 310P3 上的局部运行；[部署矩阵](https://github.com/modelscope/FunASR/blob/2b4a0623613013b2b59ae289b189768426006cfa/docs/deployment_matrix_zh.md) 列限制 | B+C，局部兼容 | 原贡献者的运行报告与后续修订的 CPU 检查不同；FunASR-Nano 不应被写成已具备官方生产 NPU runtime |
 
+### 补查发现的模型推理与通信实现
+
+| 项目与归属 | 具体实现或文档证据 | 等级 | 支持范围应怎样读 |
+|---|---|---|---|
+| SemBlock，TH-AI-Lab-PKU 官方仓 | [NPU 设备与精度处理](https://github.com/TH-AI-Lab-PKU/SemBlock/blob/c9507dbc82cbd17b900192596dfc1e80bc11cbea/llada/accelerator_utils.py)、[环境与运行指南](https://github.com/TH-AI-Lab-PKU/SemBlock/blob/c9507dbc82cbd17b900192596dfc1e80bc11cbea/README.md) | B+C | `torch_npu`、NPU 可用性、设备/BF16/缓存等被训练与评估入口调用；未确认具体 SKU 或昇腾 benchmark。[论文 §5.1](https://arxiv.org/html/2606.04964v1) 主实验明确单 NVIDIA H20，不能把结果移植归因于昇腾 |
+| SAID，TH-AI-Lab-PKU 官方仓 | [Ascend-adapted 指南](https://github.com/TH-AI-Lab-PKU/SAID/blob/792d6d3ec5d646262a11b2c7979bb46716af038e/README.md) 要求添加 `torch_npu` 并修改设备、同步调用 | C，需手工修改 | 官方声明有昇腾适配路径；本次检查的主分支运行入口仍保留 CUDA 配置，不能写成开箱即用的完整 NPU 后端。[论文](https://arxiv.org/html/2606.04974v1) 未给出昇腾型号或对应量化性能，最高加速比不能归入昇腾实测 |
+| DeepInfer，deepseek-ai 官方仓 | [固定版支持范围](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/README.md)、[NPU attention 调用](https://github.com/deepseek-ai/DeepInfer/blob/a679bb86ce36e883a98a97733492b686e5b9a08e/deepinfer/npu_ops/vit_attn.py) | B+C | 明确 Ascend 950、CANN 9.2 与 DeepSeek-V4.1-Flash；发布版为离线推理核心，完整服务仍需 KV 系统、分离部署和负载均衡。README 性能图用 SM100，不能算昇腾数字，也不能据框架生产声明推定具体生产集群的芯片 |
+| DeepEP-Ascend，deepseek-ai 官方仓 | [950DT 验证配置与限制](https://github.com/deepseek-ai/DeepEP-Ascend/blob/4dfccac4fc345519427e1019557301c9e59e9c76/README.md)、[dispatch 内核启动](https://github.com/deepseek-ai/DeepEP-Ascend/blob/4dfccac4fc345519427e1019557301c9e59e9c76/csrc/kernels/ep/dispatch.hpp) | A+B，作者通信微基准 | Ascend 950DT、CANN 9.2.0 上的 MoE dispatch/combine；结果使用未公开分发的 PoC HDK 与手工配置，其他代际未获同等验证。PP/Engram/Bucket 有实验性或未实现部分，不能等同完整 DeepEP 功能和大型模型训练已验证 |
+| Helios，PKU-YuanGroup 官方仓 | [固定版 README](https://github.com/PKU-YuanGroup/Helios/blob/f1a8aadd7c42df29968b9ed73b5c3bc6ae2980c4/README.md) 声明单 Ascend NPU 视频生成约 10 FPS | A，项目方运行声明；C | 未披露 910 SKU；具体 NPU 复现路径仍需检查，不能仅凭导入自动认定当前 CUDA/NCCL 入口完整可用。H100 的 19.5 FPS 与训练优化不是昇腾测量值 |
+| LightX2V，ModelTC 上游 | [固定版双 NPU 启动脚本](https://github.com/ModelTC/LightX2V/blob/7d9cd357919478ee6f26b85f814595d6c3c06425/scripts/wan22/inference/distill/run_wan22_moe_i2v_distill_int8_4step_ulysses_npu.sh) 配置 Ascend 平台与 Wan2.2 INT8/4step/Ulysses | B | 是实际部署入口，不是只检测依赖；本次未运行硬件、核验 CI 或确认具体 910B/C 性能 |
+| vLLM-Omni / RainFusion，vllm-project 集成 | [官方 RainFusion 文档](https://docs.vllm.ai/projects/vllm-omni/en/latest/user_guide/diffusion/attention_backends/rainfusion/) 描述 Ascend 上调用 MindIE-SD 稀疏视频注意力 | C，官方集成指南 | 依赖 `mindiesd`；使用序列并行时采用 Ulysses、`ring_degree=1`；[源码](https://github.com/vllm-project/vllm-omni/blob/c47ea33839041e6b835c4b39eb489123b15cd480/vllm_omni/diffusion/attention/backends/rainfusion_attn.py) 不支持 ring 或 AllGather-KV 并行，未开启序列并行不因此被排除。warmup、跳过层、短视频段等会回退 dense；不能把选中后端视为每次实际执行稀疏内核 |
+| DeepGEMM-Ascend，deepseek-ai 官方仓 | [固定 README 与 benchmark](https://github.com/deepseek-ai/DeepGEMM-Ascend/blob/3a35326271b069b8b5bf1a754435acd6cc91575b/README.md)、[数值测试](https://github.com/deepseek-ai/DeepGEMM-Ascend/blob/3a35326271b069b8b5bf1a754435acd6cc91575b/tests/common.py) | A+B，作者算子微基准 | BF16/FP8/FP4 GEMM、MQA/MegaMoE 等；公开 benchmark 特指 32-core 950DT，CANN 版本原文写作 9.20。特定 shape 的利用率不是模型 MFU，scale 布局也不能无条件照搬 CUDA |
+| FlashMLA，deepseek-ai 上游 | [固定支持矩阵](https://github.com/deepseek-ai/FlashMLA/blob/395cb3afbb331fef7b1b21e9340861b9436b42d8/README.md)、[Ascend sparse prefill 派发](https://github.com/deepseek-ai/FlashMLA/blob/395cb3afbb331fef7b1b21e9340861b9436b42d8/csrc/api/sparse_prefill.cpp) | A+B，作者 950 算子报告 | Ascend 支持 sparse prefill/decode；融合 norm/RoPE 等及 dense forward/backward 明确 CUDA-only，不能据整仓有反向算子推断 Ascend 训练支持。当前形状/缓存限制及 ABI 需按版本核对 |
+| DeepSelect，deepseek-ai 上游 | [Ascend TopK 内核](https://github.com/deepseek-ai/DeepSelect/blob/bfa4507d935f17ebfc3d0f00ff7d3c9a4d0e5c18/csrc/ascend_kernels/kernel.asc)、[固定 README](https://github.com/deepseek-ai/DeepSelect/blob/bfa4507d935f17ebfc3d0f00ff7d3c9a4d0e5c18/README.md) | B+C | Ascend 为 BF16 输入、int32 索引、topk≤4096，有限制的词表大小与布局，不支持按 value 排序；FP32 sampling 仍为 CUDA-only。构建架构默认值不等于完整硬件实测配置 |
+| TileKernels，deepseek-ai 上游 | [950 环境要求](https://github.com/deepseek-ai/TileKernels/blob/c1cf914a82e6901c679445f872051ce44ac2cc63/README.md)、[Ascend Engram backward](https://github.com/deepseek-ai/TileKernels/blob/c1cf914a82e6901c679445f872051ce44ac2cc63/tile_kernels/engram/engram_gate_bwd_asc.py)、[参考数值测试](https://github.com/deepseek-ai/TileKernels/blob/c1cf914a82e6901c679445f872051ce44ac2cc63/tests/engram/test_engram_gate_bwd.py) | B+C | 可确认训练相关反向算子，不仅是推理适配；要求 950、CANN≥9.2.0 等。不能将全库内部使用声明升级为某个完整模型已在 950 训练完成 |
+
+这些新组件也需要保留可复现性边界。DeepGEMM-Ascend 的 [维护者说明](https://github.com/deepseek-ai/DeepGEMM-Ascend/issues/1#issuecomment-5907944599) 将性能口径限定为 32-core 950DT；README 的“CANN 9.20”与 [笔误讨论](https://github.com/deepseek-ai/DeepGEMM-Ascend/issues/29) 尚不能当作已确认的精确构建版本。FlashMLA [#242](https://github.com/deepseek-ai/FlashMLA/issues/242) 有特定 950DT/CANN 环境编译缺符号的公开用户报告，本次未复现，也未取得维护者确认，不能扩成普遍故障或把 issue 正文中的修补建议当官方修复。本次按固定提交查询 DeepGEMM-Ascend、FlashMLA、DeepSelect、TileKernels 四仓的公开 Actions 时，未找到对应 950 硬件正确性/性能执行记录；CodeQL 等检查不是 NPU 测试，公开记录缺失也不证明作者没有内部测试。
+
 ### 华为基础生态单列
 
 基础适配栈是生态能够运行的前提，但不能将每个组件都当成一家独立企业的采纳案例：
@@ -207,6 +251,8 @@ RL 的适配不能只看训练器：rollout 引擎、权重同步、休眠/唤�
 | 原模型在昇腾的第三方复现 | 只归入该复现 | 第三方 MindSpore / NPU 移植，不能追溯改变原论文的硬件事实 |
 | Qwen 等模型的 MindIE / vLLM-Ascend 指南 | 只证明指定部署路线 | 不能因此声称 Qwen 原始预训练使用昇腾，或模型仓自身实现了完整 NPU 后端 |
 | OpenRLHF | 上游合入未确认，另有第三方适配线索 | [Ascend PR #605](https://github.com/OpenRLHF/OpenRLHF/pull/605) 已关闭且未合并；第三方 fork 应另核版本、运行路径和维护状态，不能算成上游默认支持 |
+| HiFA4，2026 | 理论时延估算，不计实机性能 | [§7、附录 B/J](https://arxiv.org/html/2607.04302v1) 说明基于指令调度估算，目标 NPU 尚未公开、硬件计时待后续；不能据 Ascend/HiF4 名称或加速预测列为 910B 实测 |
+| HATA，2025 | 原论文 GPU 实验与后续 NPU 线索分开 | [原论文 §5.1](https://arxiv.org/html/2506.02572v1) 是 CUDA/GPU；[后续 vLLM-Ascend RFC](https://github.com/vllm-project/vllm-ascend/issues/5507) 引用该方法，不会追溯改变原论文实验平台。适配需另核具体实现与运行 |
 
 这一区分也适用于媒体新闻。“计划采用”“采购设备”“适配完成”“上线服务”是不同阶段。仅凭采购、路标或匿名消息，本文不把某家公司所有模型训练归入昇腾。
 
@@ -245,6 +291,32 @@ Transformers、Accelerate、Diffusers、DeepSpeed、Ray、SGLang、Liger 等仓�
 因此，引用性能数字时至少需要保留：模型和权重版本、精度、卡数、软件版本、输入输出长度、batch、延迟约束、比较基线，以及该数值是实测还是预测。缺一组关键条件，就应降低结论强度。
 
 ## 六 检索覆盖 方法与盲区
+
+### 首版为什么漏了 SemBlock 和 SAID
+
+这两项是首版的真实漏收，应当补入。复核时，用项目全名与 `Ascend` 组合即可找到官方仓库；SemBlock 的 [2026 年 6 月 5 日 NPU 适配提交](https://github.com/TH-AI-Lab-PKU/SemBlock/commit/ff1c3fde209682741f7b6742b601befe10fc535c) 与 SAID [至少在 8 月 14 日已有的迁移指南](https://github.com/TH-AI-Lab-PKU/SAID/blob/a2d7f60dca8b5c1fb4d9defa9e5a9c296485cf5a/README.md)，都早于首版调查。没有证据支持把漏检归咎于“材料尚未发布”“搜索引擎封禁”或“完全无法索引”。
+
+可以确认的覆盖缺口是：首版主要围绕芯片词、已知大模型与主流框架展开，没有充分把扩散语言模型子领域、论文配套仓库和同团队相关项目串起来。SemBlock 和 SAID 的论文标题、摘要不突出昇腾，关键证据在仓库；前者的真实执行路径还封装在 `accelerator_utils.py` 中。SAID 则说明，仅在代码正文检索导入会漏掉写在 README 中、需要用户手工执行的适配方案。**论文实验平台与后续开源适配必须分别检索，再按证据类型记录。**
+
+首版已经收录 B/C 类适配项目，因此“它们不是已核实的 910B 实测”不能解释为完全不收录的理由。反过来，首版方法也不止搜 `910B` 或一行 `import torch_npu`，不能事后把复杂漏检简化成一个并不存在的单关键词过滤规则。
+
+这里也有无法倒推的部分：首版没有保留足以逐条复现的完整查询、返回排序及筛选日志，因此不能断言某一条查询具体在哪一步漏掉了两项。上述是从已发布清单与复核证据确认的覆盖缺口，不是对搜索引擎内部机制的诊断。通用限制说明不能代替补查与纠正。
+
+### 补查怎样改变方法
+
+本次不只追加两个名字，而是增加几条交叉检索路线：
+
+- **按子领域展开**：扩散语言模型、block decoding、KV 缓存与卸载、长上下文通信、量化、稀疏矩阵、图网络等，分别结合 Ascend、Atlas、CANN、HCCL 和 NPU 消歧词。
+- **论文与仓库双向核对**：从论文找到作者仓库，再看 README、环境依赖、设备抽象、实际算子、运行入口和测试；也从仓库反查论文，避免把 GPU 论文结果归到后加的昇腾路径。
+- **沿团队与依赖扩展**：同实验室项目、相关工作、论文引用和显式依赖用于发现候选；例如从推理框架继续检查通信与算子库，但不把同一底层库及其调用者相加当独立用户。
+- **不把型号缩窄成 910B**：保留 910C、950、Atlas 产品名以及型号未知的 Ascend，分别标注；没有明确映射就不猜 SKU。
+- **保留负面与未完成记录**：手工适配、未合并 PR、GPU benchmark、访问失败与仅被依赖提及，不能为了扩大数量升级成实机证据。
+
+后续维护还应保存逐查询的日期、命中、接纳/排除理由和所读版本，分别记录摘要、正文与代码核验。网页内查找的零命中也只能当检索结果，不能替代实验章节的直接阅读。本次不同原始格式对 PV-Decoding 型号的披露差异，则说明 HTML、PDF、正式版本有冲突时需要保留来源差异，而不是选择更具体的那一句。
+
+新发现并不意味着材料刚刚出现。下文继续保留首版方法和限制，新增条目均按本次读到的一手版本标注，而不把补查日期写成项目首次支持日期。
+
+### 检索范围与仍然存在的盲区
 
 本次采用分主题、分来源的小批量查询，先用搜索引擎发现候选，再回到原始论文、会议附录、官方模型卡和仓库文件。代码检索不仅看 `import torch_npu`，还补查 `torch.npu`、`npu_fusion_attention`、HCCL、CANN、AscendC、ACLNN、NPU 后端目录、安装依赖及 CI 配置。对同一项目的镜像、fork 与上下游组件去重，不按搜索命中数量计数。
 
