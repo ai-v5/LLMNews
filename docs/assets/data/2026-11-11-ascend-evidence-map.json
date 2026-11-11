@@ -1,0 +1,1720 @@
+{
+  "title": "昇腾论文与开源项目证据清单",
+  "checked_on": "2026-11-11",
+  "scope": "公开资料非穷尽性调查；记录单位为文章表格条目，不等同独立机构、模型、用户或芯片数量。",
+  "evidence_legend": {
+    "A": "原作者论文、报告、模型卡或实验材料报告实际运行；未由本站独立复现。",
+    "B": "可执行设备、分布式或算子实现；不代表全部功能通过硬件验证。",
+    "C": "官方支持声明或指南；不自动等于生产使用。",
+    "D": "待核、矛盾、模拟或仅线索，不并入确认实机结论。"
+  },
+  "records": [
+    {
+      "id": "ascend-001",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "PanGu-α，2021",
+      "fields": {
+        "工作与公开版本": "PanGu-α，2021",
+        "团队或来源": "华为与鹏城等联合团队",
+        "明确的昇腾使用": "2,048 颗 Ascend 910，最大 200B 语言模型训练",
+        "证据与边界": "A；原始论文。是原始 910，不能改写成 910B"
+      },
+      "sources": [
+        {
+          "title": "原始论文",
+          "url": "https://arxiv.org/abs/2104.12369"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-002",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "PanGu-Σ，2023",
+      "fields": {
+        "工作与公开版本": "PanGu-Σ，2023",
+        "团队或来源": "华为主导",
+        "明确的昇腾使用": "1.085T 参数稀疏模型，512 颗 Ascend 910，训练 329B tokens",
+        "证据与边界": "A；v1 论文。继承 PanGu-α 并扩展为稀疏模型，不是完全从零初始化；总参数不等于每 token 激活量"
+      },
+      "sources": [
+        {
+          "title": "v1 论文",
+          "url": "https://arxiv.org/html/2303.10845v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-003",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "CodeGeeX，KDD 2023，训练于 2022",
+      "fields": {
+        "工作与公开版本": "CodeGeeX，KDD 2023，训练于 2022",
+        "团队或来源": "清华、智谱主导，含华为合作者",
+        "明确的昇腾使用": "13B 代码模型，1,536 颗 Ascend 910、192 节点；850B tokens，约两个月",
+        "证据与边界": "A；v2 §2.3 与表 2/3。原始实现为 MindSpore 1.7，公开 PyTorch 版本不能反推原训练栈"
+      },
+      "sources": [
+        {
+          "title": "v2 §2.3 与表 2/3",
+          "url": "https://arxiv.org/html/2303.17568v2"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-004",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "FRAME，ACL Findings 2025",
+      "fields": {
+        "工作与公开版本": "FRAME，ACL Findings 2025",
+        "团队或来源": "美团、北大、北航、清华",
+        "明确的昇腾使用": "3B 预训练实验使用 512 颗 910B，每模型超过 180 小时；1.3B 实验使用 96 颗",
+        "证据与边界": "A；附录 B.1。不同大小实验的训练预算应分别读，不能混算"
+      },
+      "sources": [
+        {
+          "title": "附录 B.1",
+          "url": "https://aclanthology.org/2025.findings-acl.1040.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-005",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "Haidass-143M-v1 / 1.5，2026",
+      "fields": {
+        "工作与公开版本": "Haidass-143M-v1 / 1.5，2026",
+        "团队或来源": "DALabCommunity",
+        "明确的昇腾使用": "v1 模型卡报告 64 颗 910B，从零训练约 100B tokens；v1.5 报告约 400B tokens 与 MindSpeed-LLM",
+        "证据与边界": "A，作者模型卡；v1、1.5。不是同行评审论文，不能将 v1 卡数直接沿用到 v1.5"
+      },
+      "sources": [
+        {
+          "title": "v1",
+          "url": "https://huggingface.co/DALabCommunity/Haidass-143M-v1"
+        },
+        {
+          "title": "1.5",
+          "url": "https://huggingface.co/DALabCommunity/Haidass1.5-143M"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-006",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "Pangu Ultra，2025",
+      "fields": {
+        "工作与公开版本": "Pangu Ultra，2025",
+        "团队或来源": "华为主导",
+        "明确的昇腾使用": "135B dense 模型，8,192 颗 Ascend NPU，13.2T tokens",
+        "证据与边界": "A；v1 报告。本文保留 NPU 平台粒度，不补写 910B"
+      },
+      "sources": [
+        {
+          "title": "v1 报告",
+          "url": "https://arxiv.org/html/2504.07866v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-007",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "Pangu Ultra MoE，2025",
+      "fields": {
+        "工作与公开版本": "Pangu Ultra MoE，2025",
+        "团队或来源": "华为主导",
+        "明确的昇腾使用": "718B MoE 模型，约 6K 颗 Ascend NPU 训练",
+        "证据与边界": "A；v1 报告。与上一报告分属不同公开材料，不把型号推断当论文原文"
+      },
+      "sources": [
+        {
+          "title": "v1 报告",
+          "url": "https://arxiv.org/html/2505.04519v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-008",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "TeleChat2 / 2.5 / T1，2025",
+      "fields": {
+        "工作与公开版本": "TeleChat2 / 2.5 / T1，2025",
+        "团队或来源": "中国电信团队",
+        "明确的昇腾使用": "报告 Atlas 900 A2、最多 8,000 颗 Ascend NPU 的训练集群",
+        "证据与边界": "A；报告。正文未直接写 910B；集群规模也不等于每个实验都使用全部设备"
+      },
+      "sources": [
+        {
+          "title": "报告",
+          "url": "https://arxiv.org/html/2507.18013v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-009",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "TeleChat3-MoE，2025",
+      "fields": {
+        "工作与公开版本": "TeleChat3-MoE，2025",
+        "团队或来源": "中国电信与华为等联合团队",
+        "明确的昇腾使用": "从 105B 到超过 1T 的 MoE 家族，报告 Ascend 集群端到端训练",
+        "证据与边界": "A；报告。不自动认定为 910B，也不列为完全无华为参与"
+      },
+      "sources": [
+        {
+          "title": "报告",
+          "url": "https://arxiv.org/html/2512.24157v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-010",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "JIUTIAN-139MoE，2024",
+      "fields": {
+        "工作与公开版本": "JIUTIAN-139MoE，2024",
+        "团队或来源": "中国移动九天",
+        "明确的昇腾使用": "原报告明确 A800 向 910B 迁移，并继续训练",
+        "证据与边界": "A，阶段细节不完整；§2.5。未拆清 910B 阶段卡数、token 数和时长，不能写成“896 张 910B 训练两个月”"
+      },
+      "sources": [
+        {
+          "title": "§2.5",
+          "url": "https://www.modelscope.cn/models/JiuTian-AI/JIUTIAN-139MoE-chat/resolve/master/JIUTIAN-139MOE%20TECHNICAL%20REPORT.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-011",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "Open-Sora-Plan v1.5.0",
+      "fields": {
+        "工作与公开版本": "Open-Sora-Plan v1.5.0",
+        "团队或来源": "北大 YuanGroup / LanguageBind 社区",
+        "明确的昇腾使用": "四个图像阶段分别 512/384/256/256 颗 910B；五个视频阶段均为 512 颗 910B",
+        "证据与边界": "A；官方版本报告。8.5B 视频生成模型，使用 MindSpeed-MM；不把其他版本硬件混入 v1.5"
+      },
+      "sources": [
+        {
+          "title": "官方版本报告",
+          "url": "https://huggingface.co/LanguageBind/Open-Sora-Plan-v1.5.0/blob/main/Report-V1.5.0.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-012",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "Intern Lumina U2，2026-10，v1",
+      "fields": {
+        "工作与公开版本": "Intern Lumina U2，2026-10，v1",
+        "团队或来源": "上海 AI 实验室主导，含高校与华为作者",
+        "明确的昇腾使用": "五个训练阶段均为 1,024 颗 910B，并提供昇腾推理、评估路径",
+        "证据与边界": "A；§5.2 与附录 D。基于 LLaDA2.0-mini，不能写成语言基模全程从零预训练；1,024 是训练卡数，不是每次推理所需卡数"
+      },
+      "sources": [
+        {
+          "title": "§5.2 与附录 D",
+          "url": "https://arxiv.org/html/2610.20818v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-013",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "DiC，CVPR 2025，v2",
+      "fields": {
+        "工作与公开版本": "DiC，CVPR 2025，v2",
+        "团队或来源": "北大、北邮、华为",
+        "明确的昇腾使用": "DiC-XL / H 图像扩散模型在 8 颗 910B 上训练",
+        "证据与边界": "A；§4.1。吞吐测试使用单张 A100，不能当作 910B 推理速度"
+      },
+      "sources": [
+        {
+          "title": "§4.1",
+          "url": "https://arxiv.org/html/2501.00603v2"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-014",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "MindVL，2025-09，v1",
+      "fields": {
+        "工作与公开版本": "MindVL，2025-09，v1",
+        "团队或来源": "华为",
+        "明确的昇腾使用": "MindVL-8B / 32B 在千卡规模 910B 集群训练",
+        "证据与边界": "A；§2、§4.2.2。千卡不能改写成精确 1,024 卡；使用既有 Qwen2.5ViT 与 Qwen3 / DeepSeek V3 语言底模，不是语言模型从零训练"
+      },
+      "sources": [
+        {
+          "title": "§2、§4.2.2",
+          "url": "https://arxiv.org/html/2509.11662v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-015",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "BitCPM-CANN，2026 模型卡",
+      "fields": {
+        "工作与公开版本": "BitCPM-CANN，2026 模型卡",
+        "团队或来源": "OpenBMB",
+        "明确的昇腾使用": "基于 Megatron-LM、MindSpeed 和 910B 的分布式量化感知训练，覆盖 0.5B / 1B / 3B / 8B",
+        "证据与边界": "A，作者模型卡；官方说明。另有 16 卡 910C 吞吐报告，不能归入 910B；发布权重是 fake-quantized 浮点格式"
+      },
+      "sources": [
+        {
+          "title": "官方说明",
+          "url": "https://huggingface.co/openbmb/BitCPM-CANN-8B"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-016",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "OSUM-Pangu，2026-03，v1",
+      "fields": {
+        "工作与公开版本": "OSUM-Pangu，2026-03，v1",
+        "团队或来源": "西北工业大学 ASLP",
+        "明确的昇腾使用": "基于 openPangu 7B，训练与推理均使用 Ascend",
+        "证据与边界": "A；报告。未取得明确 910 SKU，不能归入已确认 910B 清单"
+      },
+      "sources": [
+        {
+          "title": "报告",
+          "url": "https://arxiv.org/html/2603.10862v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-017",
+      "record_type": "paper_or_report",
+      "category": "大模型与多模态训练",
+      "name": "Spark-Audio 1.0，2026-10，v1",
+      "fields": {
+        "工作与公开版本": "Spark-Audio 1.0，2026-10，v1",
+        "团队或来源": "科大讯飞",
+        "明确的昇腾使用": "报告音频模型训练使用国产平台，明确包括 910B 与海光 BW1000",
+        "证据与边界": "A；报告。未拆分两种芯片的逐阶段份额，不能称“纯 910B 全程训练”"
+      },
+      "sources": [
+        {
+          "title": "报告",
+          "url": "https://arxiv.org/html/2610.31292v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-018",
+      "record_type": "paper_or_report",
+      "category": "继续训练 强化学习与任务研究",
+      "name": "Spark-Prover-X1，v3",
+      "fields": {
+        "工作与公开版本": "Spark-Prover-X1，v3",
+        "团队或来源": "科大讯飞研究院",
+        "明确的昇腾使用": "7B 模型继续预训练 512 颗 910B；Prover SFT 256 颗；Formalizer SFT 128 颗；GRPO 320 颗",
+        "证据与边界": "A；§4.2。这是已有数学底模上的 CPT、SFT、RL，不能称为从零训练基础 LLM"
+      },
+      "sources": [
+        {
+          "title": "§4.2",
+          "url": "https://arxiv.org/html/2511.13043v3"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-019",
+      "record_type": "paper_or_report",
+      "category": "继续训练 强化学习与任务研究",
+      "name": "SummOrchestra / Beyond Overlap Metrics，ACL Findings 2026",
+      "fields": {
+        "工作与公开版本": "SummOrchestra / Beyond Overlap Metrics，ACL Findings 2026",
+        "团队或来源": "浙江师范、华为与多所高校联合",
+        "明确的昇腾使用": "8 颗 910B 64GB，在 Qwen2.5 / Qwen3 的对话摘要模型上开展 SFT 后 GRPO",
+        "证据与边界": "A；§4.1。硬件结论限作者自训练模型，不能把外部 GPT teacher / judge 的运行硬件也算入"
+      },
+      "sources": [
+        {
+          "title": "§4.1",
+          "url": "https://aclanthology.org/2026.findings-acl.1161.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-020",
+      "record_type": "paper_or_report",
+      "category": "继续训练 强化学习与任务研究",
+      "name": "verl Async RL Training Tuning Guide，2026-10-26",
+      "fields": {
+        "工作与公开版本": "verl Async RL Training Tuning Guide，2026-10-26",
+        "团队或来源": "verl 官方工程报告",
+        "明确的昇腾使用": "在 910B 上调优 Qwen3-30B、Qwen3.5-35B、Qwen3-Omni 等异步 RL 资源配比与流水",
+        "证据与边界": "A，工程报告；原文。完整 run 配置未披露，局部收益不能推广到所有任务；URL 日期不等于页面发布日期"
+      },
+      "sources": [
+        {
+          "title": "原文",
+          "url": "https://verl-project.github.io/posts/2026-10-23-async-rl-training-tuning/"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-021",
+      "record_type": "paper_or_report",
+      "category": "继续训练 强化学习与任务研究",
+      "name": "MindSpeed RL，2025-07，v1",
+      "fields": {
+        "工作与公开版本": "MindSpeed RL，2025-07，v1",
+        "团队或来源": "昇腾官方训练系统",
+        "明确的昇腾使用": "16 颗 Ascend NPU 的端到端对比；671B MoE 扩展到 384 颗，每颗 128GB",
+        "证据与边界": "A；实验设置。报告未明确 910 SKU；不能把全部实验都写成 384 卡。项目当前维护状态另见下文"
+      },
+      "sources": [
+        {
+          "title": "实验设置",
+          "url": "https://arxiv.org/html/2507.19017v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-022",
+      "record_type": "paper_or_report",
+      "category": "继续训练 强化学习与任务研究",
+      "name": "Pangu Embedded，2025-05，v1",
+      "fields": {
+        "工作与公开版本": "Pangu Embedded，2025-05，v1",
+        "团队或来源": "华为主导",
+        "明确的昇腾使用": "7B 模型 GRPO；policy 训练与推理使用 1,024 颗 Ascend NPU，另 256 颗用于 reference model",
+        "证据与边界": "A；§2.6。未明确 910 SKU；不能把两组资源合并成 policy 单项 1,280 卡"
+      },
+      "sources": [
+        {
+          "title": "§2.6",
+          "url": "https://arxiv.org/html/2505.22375v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-023",
+      "record_type": "paper_or_report",
+      "category": "继续训练 强化学习与任务研究",
+      "name": "Attention Editing，2026-04，v1",
+      "fields": {
+        "工作与公开版本": "Attention Editing，2026-04，v1",
+        "团队或来源": "招商银行 AI 实验室",
+        "明确的昇腾使用": "在 910B 集群将 Qwen3 注意力结构改造成 MLA / GateSWA 并蒸馏；另有单张 910B 推理实验",
+        "证据与边界": "A；§5.2、§6.2。未披露训练卡数；图 4 明确使用 H800，故不能照抄“全部实验都在 910B”"
+      },
+      "sources": [
+        {
+          "title": "§5.2、§6.2",
+          "url": "https://arxiv.org/html/2604.05688v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-024",
+      "record_type": "paper_or_report",
+      "category": "继续训练 强化学习与任务研究",
+      "name": "Enhancing Cross-Lingual Emotion Detection with Data Augmentation and Token-Label Mapping，WASSA 2024",
+      "fields": {
+        "工作与公开版本": "Enhancing Cross-Lingual Emotion Detection with Data Augmentation and Token-Label Mapping，WASSA 2024",
+        "团队或来源": "中国电信云团队",
+        "明确的昇腾使用": "8 颗 910B、每颗 64GB，开展跨语言情绪识别与触发词检测微调",
+        "证据与边界": "A；§4。这是 XLM-R 等任务模型实验，不是大语言模型预训练"
+      },
+      "sources": [
+        {
+          "title": "§4",
+          "url": "https://aclanthology.org/2024.wassa-1.53.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-025",
+      "record_type": "paper_or_report",
+      "category": "继续训练 强化学习与任务研究",
+      "name": "Decoding Matters，EMNLP 2024",
+      "fields": {
+        "工作与公开版本": "Decoding Matters，EMNLP 2024",
+        "团队或来源": "中科大、新加坡国立大学、华为联合",
+        "明确的昇腾使用": "推荐解码研究，在六个数据集实验，报告单颗 910B 32GB",
+        "证据与边界": "A；§6.1。研究对象为推荐解码，不应写成通用 LLM 集群训练"
+      },
+      "sources": [
+        {
+          "title": "§6.1",
+          "url": "https://aclanthology.org/2024.emnlp-main.589.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-026",
+      "record_type": "paper_or_report",
+      "category": "继续训练 强化学习与任务研究",
+      "name": "ECHO-LLaMA，EMNLP Industry 2025",
+      "fields": {
+        "工作与公开版本": "ECHO-LLaMA，EMNLP Industry 2025",
+        "团队或来源": "华为多伦多 Ascend 团队、滑铁卢大学",
+        "明确的昇腾使用": "LLaMA 共享 KV 架构转换及训练性能，对照 V100 和 910B",
+        "证据与边界": "A；论文。包含短步数性能基准，不代表大型 LLM 完整从零训练"
+      },
+      "sources": [
+        {
+          "title": "论文",
+          "url": "https://aclanthology.org/2025.emnlp-industry.156.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-027",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "xLLM Technical Report，2025-10，v1；京东与高校联合",
+      "fields": {
+        "工作与公开版本": "xLLM Technical Report，2025-10，v1；京东与高校联合",
+        "平台与用途": "910B / 910C 推理服务；DeepSeek-R1 分别使用 16 颗 910B 或 8 颗 910C，报告京东业务部署",
+        "可追溯证据": "A；§5",
+        "解释边界": "报告中的框架加速来自指定软件版本、模型与 SLO，不能换算成昇腾对 NVIDIA 的芯片优劣"
+      },
+      "sources": [
+        {
+          "title": "§5",
+          "url": "https://arxiv.org/html/2510.14686v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-028",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "Serving Large Language Models on Huawei CloudMatrix384，2025，v3；华为与 SiliconFlow",
+      "fields": {
+        "工作与公开版本": "Serving Large Language Models on Huawei CloudMatrix384，2025，v3；华为与 SiliconFlow",
+        "平台与用途": "系统含 384 个文中称 Ascend 910 的双 die NPU；§5.1 这组实验分配 256 个，其中 prefill 96、decode 160",
+        "可追溯证据": "A；§5.1、表 2",
+        "解释边界": "保留正文型号，不将“910”解释为 910B 或 2019 原始款。384 是系统容量，非该实验用卡数；Perfect EPLB 为理想预测项"
+      },
+      "sources": [
+        {
+          "title": "§5.1、表 2",
+          "url": "https://arxiv.org/html/2506.12708v3"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-029",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "大模型服务 Field Study，2026-07，v1",
+      "fields": {
+        "工作与公开版本": "大模型服务 Field Study，2026-07，v1",
+        "平台与用途": "16 设备 Ascend 910 系统，CANN / vLLM-Ascend，MoE 与多模态推理",
+        "可追溯证据": "A，作者现场报告；论文摘要",
+        "解释边界": "单作者报告，未明确 B/C 子型号；不与多方独立可复现基准视为同等可信度"
+      },
+      "sources": [
+        {
+          "title": "论文摘要",
+          "url": "https://arxiv.org/abs/2607.08215"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-030",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "THOR，AAAI 2021",
+      "fields": {
+        "工作与公开版本": "THOR，AAAI 2021",
+        "平台与用途": "8 / 256 颗 Ascend 910 上的 ResNet-50 训练与二阶优化研究",
+        "可追溯证据": "A；会议原文",
+        "解释边界": "属视觉训练和优化器研究，不是 LLM 证据"
+      },
+      "sources": [
+        {
+          "title": "会议原文",
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/view/16867"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-031",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "APOLLO，MLSys 2022",
+      "fields": {
+        "工作与公开版本": "APOLLO，MLSys 2022",
+        "平台与用途": "§6.4 在 Ascend 910 上开展 BERT、PanGu-α 2.6B 训练，含 64 / 128 卡设置",
+        "可追溯证据": "A；会议论文",
+        "解释边界": "§6.6 的推理实验是 GPU，不能把整篇实验都归于昇腾"
+      },
+      "sources": [
+        {
+          "title": "会议论文",
+          "url": "https://proceedings.mlsys.org/paper_files/paper/2022/file/e175e8a86d28d935be4f43719651f86d-Paper.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-032",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "RazorAttention，ICLR 2025",
+      "fields": {
+        "工作与公开版本": "RazorAttention，ICLR 2025",
+        "平台与用途": "附录 A.3 使用 8 颗 910B 对 GLM-9B-1M 做 128K / 256K 长上下文推理",
+        "可追溯证据": "A；会议论文",
+        "解释边界": "属 KV 缓存与推理优化，不证明 GLM 原始训练硬件"
+      },
+      "sources": [
+        {
+          "title": "会议论文",
+          "url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/2a98af4fea6a24b73af7b588ca95f755-Paper-Conference.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-033",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "XSched，OSDI 2025",
+      "fields": {
+        "工作与公开版本": "XSched，OSDI 2025",
+        "平台与用途": "Ascend 910b、CANN 8.0.0，抢占式调度实验",
+        "可追溯证据": "A+B；固定版实验材料",
+        "解释边界": "Ascend 对应原 artifact fig7、论文终稿 Figure 9；其余 Intel NPU3720 / NVIDIA DLA 实验不得算作昇腾"
+      },
+      "sources": [
+        {
+          "title": "固定版实验材料",
+          "url": "https://github.com/XpuOS/xsched-artifacts/blob/e5ed1086200798ff1a81ea160d6aca30555bd1a2/README.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-034",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "Automatically Planning Optimal Parallel Strategy for Large Language Models，2024-12 / arXiv 2501",
+      "fields": {
+        "工作与公开版本": "Automatically Planning Optimal Parallel Strategy for Large Language Models，2024-12 / arXiv 2501",
+        "平台与用途": "两台服务器、16 颗 910b 64GB，以 ModelLink 对 Baichuan2 / Qwen / Aquila2 配置做训练 profiling",
+        "可追溯证据": "A；实验设置",
+        "解释边界": "包含模拟估计，也有实际设备测量；结论受测试模型与层数配置限制"
+      },
+      "sources": [
+        {
+          "title": "实验设置",
+          "url": "https://arxiv.org/html/2501.00254v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-035",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "Segmented Operations using Matrix Multiplications，2025",
+      "fields": {
+        "工作与公开版本": "Segmented Operations using Matrix Multiplications，2025",
+        "平台与用途": "在 910B 上实现并测试 segmented scan / sum，覆盖合成与 LLM 数据",
+        "可追溯证据": "A；正式摘要",
+        "解释边界": "是算子算法实验，不是完整 LLM 训练"
+      },
+      "sources": [
+        {
+          "title": "正式摘要",
+          "url": "https://arxiv.org/abs/2506.23906"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-036",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "NeutronSparse，2026 预印本",
+      "fields": {
+        "工作与公开版本": "NeutronSparse，2026 预印本",
+        "平台与用途": "910B 上的 SpMM 稀疏矩阵乘，协调异构计算引擎",
+        "可追溯证据": "A；正式摘要",
+        "解释边界": "与 MindSpore 及 GPU 库比较需保留配置；页面标注 SIGMOD 2027 不等于该会议已经举行"
+      },
+      "sources": [
+        {
+          "title": "正式摘要",
+          "url": "https://arxiv.org/abs/2606.22482"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-037",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "AcOrch，2026 公开预印本",
+      "fields": {
+        "工作与公开版本": "AcOrch，2026 公开预印本",
+        "平台与用途": "910B 上的 CPU–NPU 协同采样式 GNN 训练",
+        "可追溯证据": "A；正式摘要",
+        "解释边界": "属图学习，与 MindSporeGL 比较；Frontiers of Computer Science 的 2027 标记是期刊卷期，此处按 2026 年公开预印本记录"
+      },
+      "sources": [
+        {
+          "title": "正式摘要",
+          "url": "https://arxiv.org/abs/2606.01161"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-038",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "AgenticCANN，2026",
+      "fields": {
+        "工作与公开版本": "AgenticCANN，2026",
+        "平台与用途": "在 910B 上评测生成的 Ascend C 算子，涵盖六种算子与五类模式",
+        "可追溯证据": "A；正式摘要",
+        "解释边界": "被生成算子在昇腾执行，不代表生成它的 Agent / LLM 在昇腾训练"
+      },
+      "sources": [
+        {
+          "title": "正式摘要",
+          "url": "https://arxiv.org/abs/2607.26661"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-039",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "W4A16 Mixed-Precision Matrix Multiplication on Decoupled Architecture，2026",
+      "fields": {
+        "工作与公开版本": "W4A16 Mixed-Precision Matrix Multiplication on Decoupled Architecture，2026",
+        "平台与用途": "Ascend 910 上的 INT4 解量化、FP16 GEMM、Split-K 内核 benchmark",
+        "可追溯证据": "A；正式摘要",
+        "解释边界": "已核对摘要未明确 B/C 子型号；内核收益不能直接换成端到端服务收益"
+      },
+      "sources": [
+        {
+          "title": "正式摘要",
+          "url": "https://arxiv.org/abs/2601.16536"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-040",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "Hermes，USENIX ATC 2025",
+      "fields": {
+        "工作与公开版本": "Hermes，USENIX ATC 2025",
+        "平台与用途": "Ascend 训练性能分析与优化系统，报告 2022–2024 年生产案例",
+        "可追溯证据": "A；会议资料",
+        "解释边界": "135 个案例、40 个客户为作者报告，本轮未核得具体 910 SKU"
+      },
+      "sources": [
+        {
+          "title": "会议资料",
+          "url": "https://www.usenix.org/conference/atc25/presentation/zhou"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-041",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "Squeezing Operator Performance Potential for the Ascend Architecture，ASPLOS 2025",
+      "fields": {
+        "工作与公开版本": "Squeezing Operator Performance Potential for the Ascend Architecture，ASPLOS 2025",
+        "平台与用途": "Ascend 算子性能分析，含 MobileNetV3、PanGu 100B 等工作负载",
+        "可追溯证据": "A；作者论文 PDF",
+        "解释边界": "已确认平台，未确认具体 910 SKU；不强行归为 910B"
+      },
+      "sources": [
+        {
+          "title": "作者论文 PDF",
+          "url": "https://grace-liu.github.io/static/papers/25-ASPLOS-ascend.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-042",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "DataHelix，2026-11",
+      "fields": {
+        "工作与公开版本": "DataHelix，2026-11",
+        "平台与用途": "8 颗 910B，11 类视频与多模态训练负载的输入数据调度",
+        "可追溯证据": "A；论文",
+        "解释边界": "证明输入流水线的系统实验，不等于这些基础模型都在昇腾上完成全量预训练"
+      },
+      "sources": [
+        {
+          "title": "论文",
+          "url": "https://arxiv.org/abs/2611.09411"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-043",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "Ascend to Science，2026-07，v1；鹏城实验室",
+      "fields": {
+        "工作与公开版本": "Ascend to Science，2026-07，v1；鹏城实验室",
+        "平台与用途": "分实验使用 910A / 910B / 910C，涉及 HPL-MxP、低秩 SVD、GEMM、量子仿真与蒙特卡洛",
+        "可追溯证据": "A；论文与实验附录",
+        "解释边界": "非 LLM 科学计算；各代硬件、精度与比较基线不同，不宜合成一个通用加速比"
+      },
+      "sources": [
+        {
+          "title": "论文与实验附录",
+          "url": "https://arxiv.org/html/2607.20120v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-044",
+      "record_type": "paper_or_report",
+      "category": "推理 系统与非 LLM 工作负载",
+      "name": "Tensor Yard，2021；华为与莫斯科大学联合",
+      "fields": {
+        "工作与公开版本": "Tensor Yard，2021；华为与莫斯科大学联合",
+        "平台与用途": "Ascend 310 上的 ResNet 推理与张量分解优化",
+        "可追溯证据": "A；原文",
+        "解释边界": "是 310 推理，不是 910 系列训练；保留它可避免把昇腾生态缩成大模型训练卡"
+      },
+      "sources": [
+        {
+          "title": "原文",
+          "url": "https://arxiv.org/html/2108.04029v1"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-045",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "DeepSpeed，deepspeedai 上游",
+      "fields": {
+        "项目与归属": "DeepSpeed，deepspeedai 上游",
+        "具体实现或文档证据": "NPU 安装与验证指南，配套 NPU Accelerator / op_builder",
+        "等级": "B+C",
+        "支持范围应怎样读": "指南明确在 Atlas 300T A2 验证；从 v0.12.6 起支持自动识别。不是全部 CUDA 算子均等价可用"
+      },
+      "sources": [
+        {
+          "title": "NPU 安装与验证指南",
+          "url": "https://github.com/deepspeedai/DeepSpeed/blob/b9100c541ac1b8e25148bc8000d1ad45c4c095db/docs/_tutorials/accelerator-setup-guide.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-046",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "Accelerate，Hugging Face 上游",
+      "fields": {
+        "项目与归属": "Accelerate，Hugging Face 上游",
+        "具体实现或文档证据": "设备与分布式状态、NPU 启动参数和大模型派发",
+        "等级": "B",
+        "支持范围应怎样读": "不是仅有一个 import；仍需核对实际训练策略和依赖版本"
+      },
+      "sources": [
+        {
+          "title": "设备与分布式状态",
+          "url": "https://github.com/huggingface/accelerate/blob/f47439c1fb24721ea71ab98f9b512726b5a97828/src/accelerate/state.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-047",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "Transformers，Hugging Face 上游",
+      "fields": {
+        "项目与归属": "Transformers，Hugging Face 上游",
+        "具体实现或文档证据": "NPU FlashAttention 集成，实际调用 NPU attention",
+        "等级": "B",
+        "支持范围应怎样读": "证明特定 attention 执行路径，不等于模型库全覆盖"
+      },
+      "sources": [
+        {
+          "title": "NPU FlashAttention 集成",
+          "url": "https://github.com/huggingface/transformers/blob/a72a1c385297bfaf1c8a07b5f4e689a315b90b77/src/transformers/integrations/npu_flash_attention.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-048",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "Diffusers，Hugging Face 上游",
+      "fields": {
+        "项目与归属": "Diffusers，Hugging Face 上游",
+        "具体实现或文档证据": "attention_processor 使用 torch_npu.npu_fusion_attention；DreamBooth 示例有 NPU 分支",
+        "等级": "B",
+        "支持范围应怎样读": "扩散模型也进入昇腾适配范围；未逐模型核验硬件 CI"
+      },
+      "sources": [
+        {
+          "title": "attention_processor",
+          "url": "https://github.com/huggingface/diffusers/blob/0905b667fe3f37f43b6ef9c6e05ad20636206938/src/diffusers/models/attention_processor.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-049",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "LlamaFactory，hiyouga 上游",
+      "fields": {
+        "项目与归属": "LlamaFactory，hiyouga 上游",
+        "具体实现或文档证据": "v1 NPU 指南、融合 RMSNorm / RoPE / SwiGLU / MoE 实现",
+        "等级": "B+C",
+        "支持范围应怎样读": "当前 v1 文档列 SFT、LoRA、DPO、RM 等支持，QLoRA 不支持；旧 README 的另一分支方案不能与 v1 混写"
+      },
+      "sources": [
+        {
+          "title": "v1 NPU 指南",
+          "url": "https://github.com/hiyouga/LlamaFactory/blob/f28b1b45ae175b55778a78ebe49961b03a684ac0/docs/zh/multi-backend/npu/index.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-050",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "ms-swift，ModelScope 上游",
+      "fields": {
+        "项目与归属": "ms-swift，ModelScope 上游",
+        "具体实现或文档证据": "固定版 NPU 文档 明确 8×910B3 64GB 验证及具体组合",
+        "等级": "B+C",
+        "支持范围应怎样读": "覆盖 CPT/SFT/DPO/RM/GRPO/PPO 等路径。该文档对 QLoRA、Liger、SGLang 的限制是本项目集成范围，不是那些上游项目的全局结论"
+      },
+      "sources": [
+        {
+          "title": "固定版 NPU 文档",
+          "url": "https://github.com/modelscope/ms-swift/blob/4c21511f00d610e88bbc186d86dc7b7269b5a4ab/docs/source_en/BestPractices/NPU-support.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-051",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "ColossalAI，hpcaitech 上游",
+      "fields": {
+        "项目与归属": "ColossalAI，hpcaitech 上游",
+        "具体实现或文档证据": "NpuAccelerator 导入 torch_npu、设置 HCCL，并调用 torch.npu",
+        "等级": "B",
+        "支持范围应怎样读": "另有 npu_fusion_attention 实现；未确认每个 booster、插件、模型的硬件验证"
+      },
+      "sources": [
+        {
+          "title": "NpuAccelerator",
+          "url": "https://github.com/hpcaitech/ColossalAI/blob/da8f5c2dd56f97d3d23d3d222b114e1a3d4710f5/colossalai/accelerator/npu_accelerator.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-052",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "Ray，ray-project 上游",
+      "fields": {
+        "项目与归属": "Ray，ray-project 上游",
+        "具体实现或文档证据": "NPU 资源管理器 与调度文档",
+        "等级": "B",
+        "支持范围应怎样读": "证明设备发现、资源与调度支持，不能单独证明某个 LLM 在昇腾训练成功"
+      },
+      "sources": [
+        {
+          "title": "NPU 资源管理器",
+          "url": "https://github.com/ray-project/ray/blob/16aa1bb8588e0729ba2ecb37b0a4e191b091ed53/python/ray/_private/accelerators/npu.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-053",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "PaddleCustomDevice，PaddlePaddle 上游",
+      "fields": {
+        "项目与归属": "PaddleCustomDevice，PaddlePaddle 上游",
+        "具体实现或文档证据": "Ascend 自定义设备后端，paddle_custom_npu 与运行示例",
+        "等级": "B+C",
+        "支持范围应怎样读": "当前文档明确 910B，910A 指向 release/2.6；不依赖 torch_npu"
+      },
+      "sources": [
+        {
+          "title": "Ascend 自定义设备后端",
+          "url": "https://github.com/PaddlePaddle/PaddleCustomDevice/blob/d0e25eef753eadf23a2ab4a5d90de4fcca123c74/backends/npu/README.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-054",
+      "record_type": "open_source_project",
+      "category": "训练框架与设备基础设施",
+      "name": "MindSpore Transformers / MindFormers，MindSpore 生态",
+      "fields": {
+        "项目与归属": "MindSpore Transformers / MindFormers，MindSpore 生态",
+        "具体实现或文档证据": "2.0.0 安装指南 与架构文档",
+        "等级": "C，框架路线明确",
+        "支持范围应怎样读": "预训练、微调、推理和评估；2.0.0 安装页列 Atlas A2/A3 及配套依赖，不将旧版本与新版本矩阵混合"
+      },
+      "sources": [
+        {
+          "title": "2.0.0 安装指南",
+          "url": "https://www.mindspore.cn/mindformers/docs/en/stable/installation.html"
+        },
+        {
+          "title": "架构文档",
+          "url": "https://www.mindspore.cn/mindformers/docs/en/r1.3.0/start/overview.html"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-055",
+      "record_type": "open_source_project",
+      "category": "强化学习与后训练",
+      "name": "verl，verl-project 上游",
+      "fields": {
+        "项目与归属": "verl，verl-project 上游",
+        "具体实现或文档证据": "Ascend 工作流配置、安装指南",
+        "等级": "B+C",
+        "支持范围应怎样读": "存在训练后端与 vLLM/SGLang rollout 组合；不代表每个组合都已通过本次核查，版本依赖冲突也需处理"
+      },
+      "sources": [
+        {
+          "title": "Ascend 工作流配置",
+          "url": "https://github.com/verl-project/verl/blob/81464bb6d35cbb43962be42b0088a591e7020f21/.github/workflows/model_ascend.yml"
+        },
+        {
+          "title": "安装指南",
+          "url": "https://github.com/verl-project/verl/blob/main/docs/ascend_tutorial/en/get_start/install_guidance.rst"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-056",
+      "record_type": "open_source_project",
+      "category": "强化学习与后训练",
+      "name": "ROLL，Alibaba 上游",
+      "fields": {
+        "项目与归属": "ROLL，Alibaba 上游",
+        "具体实现或文档证据": "NpuPlatform 与 Ascend RLVR 指南",
+        "等级": "B+C",
+        "支持范围应怎样读": "文档明确 Atlas 900 A2 PODc / 910B1 与 A3 产品，需按硬件系列配镜像"
+      },
+      "sources": [
+        {
+          "title": "NpuPlatform",
+          "url": "https://github.com/alibaba/ROLL/blob/7c0ded3d621ad4f45fb4d6675914de5eae8918eb/roll/platforms/npu.py"
+        },
+        {
+          "title": "Ascend RLVR 指南",
+          "url": "https://github.com/alibaba/ROLL/blob/7c0ded3d621ad4f45fb4d6675914de5eae8918eb/docs_roll/docs/User%20Guides/Hardware%20Support/ascend_npu_rlvr.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-057",
+      "record_type": "open_source_project",
+      "category": "强化学习与后训练",
+      "name": "slime，THUDM 上游及配套适配",
+      "fields": {
+        "项目与归属": "slime，THUDM 上游及配套适配",
+        "具体实现或文档证据": "NPUAccelerator、补丁说明",
+        "等级": "B",
+        "支持范围应怎样读": "需要外部 ascend-slime、特定 SGLang 分支与 Megatron 补丁，不能写成所有工作流无补丁即插即用"
+      },
+      "sources": [
+        {
+          "title": "NPUAccelerator",
+          "url": "https://github.com/THUDM/slime/blob/79aa41a884ab0bf65222c94418f6357d3c31192b/slime/utils/accelerator/npu.py"
+        },
+        {
+          "title": "补丁说明",
+          "url": "https://github.com/THUDM/slime/blob/79aa41a884ab0bf65222c94418f6357d3c31192b/docker/npu_patch/README.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-058",
+      "record_type": "open_source_project",
+      "category": "强化学习与后训练",
+      "name": "AReaL，areal-project 官方适配分支",
+      "fields": {
+        "项目与归属": "AReaL，areal-project 官方适配分支",
+        "具体实现或文档证据": "NPUPlatform、固定版安装指南",
+        "等级": "B+C",
+        "支持范围应怎样读": "使用 ascend-v1.0.5 专用分支与 A2/A3 镜像；支持 vLLM-Ascend rollout 及 FSDP/Megatron 训练，该集成不支持 SGLang；不能当作 main 所有功能均已支持"
+      },
+      "sources": [
+        {
+          "title": "NPUPlatform",
+          "url": "https://github.com/areal-project/AReaL/blob/2262610b8c87abe355b98194afcb6d0846c57795/areal/infra/platforms/npu.py"
+        },
+        {
+          "title": "固定版安装指南",
+          "url": "https://github.com/areal-project/AReaL/blob/2262610b8c87abe355b98194afcb6d0846c57795/docs/en/tutorial/installation_npu.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-059",
+      "record_type": "open_source_project",
+      "category": "强化学习与后训练",
+      "name": "TRL，Hugging Face 上游",
+      "fields": {
+        "项目与归属": "TRL，Hugging Face 上游",
+        "具体实现或文档证据": "vLLM generation 有 NPU cache、内存与 sleep mode 处理",
+        "等级": "B，范围局部",
+        "支持范围应怎样读": "有实际集成代码，但不能外推为所有 RL 算法均完成昇腾验证"
+      },
+      "sources": [
+        {
+          "title": "vLLM generation",
+          "url": "https://github.com/huggingface/trl/blob/6a7764ac47291f290521e5e6f8ef1176d068281c/trl/generation/vllm_generation.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-060",
+      "record_type": "open_source_project",
+      "category": "推理服务与轻量部署",
+      "name": "vLLM Ascend，vllm-project 社区插件",
+      "fields": {
+        "项目与归属": "vLLM Ascend，vllm-project 社区插件",
+        "具体实现或文档证据": "官方版本文档、固定版 NPU LoRA 实现",
+        "等级": "B+C",
+        "支持范围应怎样读": "是官方推荐的独立硬件插件，而非 vLLM 核心内置全部昇腾实现；不能把所有版本的支持矩阵叠加"
+      },
+      "sources": [
+        {
+          "title": "官方版本文档",
+          "url": "https://docs.vllm.ai/projects/ascend/en/v0.23.0/"
+        },
+        {
+          "title": "固定版 NPU LoRA 实现",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/c251a6a5ed5cc10f7ec6daa5b87d410d731bf6fd/vllm_ascend/lora/punica_npu.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-061",
+      "record_type": "open_source_project",
+      "category": "推理服务与轻量部署",
+      "name": "SGLang，sgl-project 上游",
+      "fields": {
+        "项目与归属": "SGLang，sgl-project 上游",
+        "具体实现或文档证据": "Ascend attention 后端、A3 quickstart",
+        "等级": "B+C",
+        "支持范围应怎样读": "上游已有 NPU 路径，同时依赖独立的 sgl-kernel-npu；不能因 ms-swift 的集成限制而说 SGLang 不支持昇腾"
+      },
+      "sources": [
+        {
+          "title": "Ascend attention 后端",
+          "url": "https://github.com/sgl-project/sglang/blob/23a45fd33921164fa440fd7c28cc63341259c28c/python/sglang/srt/hardware_backend/npu/attention/ascend_backend.py"
+        },
+        {
+          "title": "A3 quickstart",
+          "url": "https://github.com/sgl-project/sglang/blob/23a45fd33921164fa440fd7c28cc63341259c28c/docs/docs/hardware-platforms/ascend-npus/getting-started/quick_start.mdx"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-062",
+      "record_type": "open_source_project",
+      "category": "推理服务与轻量部署",
+      "name": "LMDeploy，InternLM 上游",
+      "fields": {
+        "项目与归属": "LMDeploy，InternLM 上游",
+        "具体实现或文档证据": "Ascend PyTorchEngine 指南、模型矩阵",
+        "等级": "B+C",
+        "支持范围应怎样读": "依赖 dlinfer-ascend，列 A2/A3/300I Duo；同版本 quickstart 与矩阵对 A3 模型范围不完全一致，部署前应确认具体组合"
+      },
+      "sources": [
+        {
+          "title": "Ascend PyTorchEngine 指南",
+          "url": "https://github.com/InternLM/lmdeploy/blob/cf52797ec6890fb6fe99aee8c4768d209d5a720b/docs/en/get_started/ascend/get_started.md"
+        },
+        {
+          "title": "模型矩阵",
+          "url": "https://github.com/InternLM/lmdeploy/blob/cf52797ec6890fb6fe99aee8c4768d209d5a720b/docs/en/supported_models/supported_models.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-063",
+      "record_type": "open_source_project",
+      "category": "推理服务与轻量部署",
+      "name": "llama.cpp，ggml-org 上游",
+      "fields": {
+        "项目与归属": "llama.cpp，ggml-org 上游",
+        "具体实现或文档证据": "CANN 后端文档，直接使用 AscendC / ACLNN",
+        "等级": "B+C",
+        "支持范围应怎样读": "910B 与 310P 有明确支持项；310P 不支持 BF16，量化矩阵乘受限。硬件表中 910/910C 空白验证栏不能自动算通过"
+      },
+      "sources": [
+        {
+          "title": "CANN 后端文档",
+          "url": "https://github.com/ggml-org/llama.cpp/blob/b8abe41a5081728f9f4c824ef810902a11ab7ffd/docs/backend/CANN.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-064",
+      "record_type": "open_source_project",
+      "category": "推理服务与轻量部署",
+      "name": "sherpa-onnx，k2-fsa 上游",
+      "fields": {
+        "项目与归属": "sherpa-onnx，k2-fsa 上游",
+        "具体实现或文档证据": "Ascend 模型、命令和运行输出",
+        "等级": "B+C，语音推理路径",
+        "支持范围应怎样读": "有 910B 模型部署资料；不代表这些语音模型原始训练使用昇腾"
+      },
+      "sources": [
+        {
+          "title": "Ascend 模型、命令和运行输出",
+          "url": "https://k2-fsa.github.io/sherpa/onnx/ascend/models.html"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-065",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "TileLang 主线，tile-ai",
+      "fields": {
+        "项目与归属": "TileLang 主线，tile-ai",
+        "具体实现或文档证据": "固定版 README 与 Ascend 后端",
+        "等级": "B+C",
+        "支持范围应怎样读": "当前主线声明 Ascend 950 支持；不能据此把 A2/A3 独立后端的状态全部归入主线"
+      },
+      "sources": [
+        {
+          "title": "固定版 README",
+          "url": "https://github.com/tile-ai/tilelang/blob/348e8072a824e217caf6d09c70272a8a5661c25f/README.md"
+        },
+        {
+          "title": "Ascend 后端",
+          "url": "https://github.com/tile-ai/tilelang/blob/348e8072a824e217caf6d09c70272a8a5661c25f/tilelang/ascend/README.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-066",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "TileLang-Ascend，tile-ai 独立后端",
+      "fields": {
+        "项目与归属": "TileLang-Ascend，tile-ai 独立后端",
+        "具体实现或文档证据": "固定版 README 声明 A2/A3 测试与验证，提供 GEMM / attention 示例",
+        "等级": "B+C",
+        "支持范围应怎样读": "与 TileLang 主线按仓库和硬件分开记录，不当成两个独立终端用户"
+      },
+      "sources": [
+        {
+          "title": "固定版 README",
+          "url": "https://github.com/tile-ai/tilelang-ascend/blob/4805777d691b0c586e647fc0f975fa4cc306c00e/README.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-067",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "Liger-Kernel，LinkedIn 上游",
+      "fields": {
+        "项目与归属": "Liger-Kernel，LinkedIn 上游",
+        "具体实现或文档证据": "Ascend 安装与后端、backend 说明",
+        "等级": "B+C",
+        "支持范围应怎样读": "有主线 Ascend 派发与 HCCL；CI badge 不等于本文检查过全部硬件测试"
+      },
+      "sources": [
+        {
+          "title": "Ascend 安装与后端",
+          "url": "https://github.com/linkedin/Liger-Kernel/blob/42dc23c41dcaf1f95d858837aed5301fd4faa27a/README.md"
+        },
+        {
+          "title": "backend 说明",
+          "url": "https://github.com/linkedin/Liger-Kernel/blob/42dc23c41dcaf1f95d858837aed5301fd4faa27a/src/liger_kernel/ops/backends/README.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-068",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "FlagGems，flagos-ai 上游",
+      "fields": {
+        "项目与归属": "FlagGems，flagos-ai 上游",
+        "具体实现或文档证据": "Ascend 后端注册、BMM 实现",
+        "等级": "B",
+        "支持范围应怎样读": "有实际 Triton/CANN 算子执行路径及 NPU 派发；存在逐算子排除项，不代表完整模型或所有精度、形状均通过验证"
+      },
+      "sources": [
+        {
+          "title": "Ascend 后端注册",
+          "url": "https://github.com/flagos-ai/FlagGems/blob/4d3d9f70c9c92ae9adf004ed0202355fe26fd511/src/flag_gems/runtime/backend/_ascend/__init__.py"
+        },
+        {
+          "title": "BMM 实现",
+          "url": "https://github.com/flagos-ai/FlagGems/blob/4d3d9f70c9c92ae9adf004ed0202355fe26fd511/src/flag_gems/runtime/backend/_ascend/ops/bmm.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-069",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "MMCV，OpenMMLab 上游",
+      "fields": {
+        "项目与归属": "MMCV，OpenMMLab 上游",
+        "具体实现或文档证据": "逐算子 Ascend 支持表，配套 NPU C++ 实现",
+        "等级": "B",
+        "支持范围应怎样读": "是算子级支持，不能套成所有 MMDetection / 3D 模型都已适配"
+      },
+      "sources": [
+        {
+          "title": "逐算子 Ascend 支持表",
+          "url": "https://github.com/open-mmlab/mmcv/blob/d2111bda571f3b3eb53954af6f9cff25f34e626f/docs/en/understand_mmcv/ops.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-070",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "DIOPI，DeepLink 上游",
+      "fields": {
+        "项目与归属": "DIOPI，DeepLink 上游",
+        "具体实现或文档证据": "Ascend 构建实现、Ascend NPU 实现",
+        "等级": "B",
+        "支持范围应怎样读": "属第三方适配层；未核查完整逐算子通过表"
+      },
+      "sources": [
+        {
+          "title": "Ascend 构建实现",
+          "url": "https://github.com/DeepLink-org/DIOPI/blob/b179d61735ce26bcc6585f38d194455afe28d2dc/impl/ascend/CMakeLists.txt"
+        },
+        {
+          "title": "Ascend NPU 实现",
+          "url": "https://github.com/DeepLink-org/DIOPI/blob/b179d61735ce26bcc6585f38d194455afe28d2dc/impl/ascend_npu/CMakeLists.txt"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-071",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "timm / pytorch-image-models，Hugging Face 上游",
+      "fields": {
+        "项目与归属": "timm / pytorch-image-models，Hugging Face 上游",
+        "具体实现或文档证据": "NPU 分布式设备代码",
+        "等级": "B",
+        "支持范围应怎样读": "changelog 记录昇腾支持，不能将“should work”升格成全部模型验证"
+      },
+      "sources": [
+        {
+          "title": "NPU 分布式设备代码",
+          "url": "https://github.com/huggingface/pytorch-image-models/blob/43b549bfe9d680bc94284cfd0b611152d18e97d7/timm/utils/distributed.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-072",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "WeNet，wenet-e2e 上游",
+      "fields": {
+        "项目与归属": "WeNet，wenet-e2e 上游",
+        "具体实现或文档证据": "AISHELL NPU 训练脚本 与 README 安装说明",
+        "等级": "B+C",
+        "支持范围应怎样读": "是语音模型训练的实质入口；本文没有核对硬件 benchmark"
+      },
+      "sources": [
+        {
+          "title": "AISHELL NPU 训练脚本",
+          "url": "https://github.com/wenet-e2e/wenet/blob/be6ad97fdb512589df113042f7ff3a29d392fb38/examples/aishell/s0/run_npu.sh"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-073",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "CogAgent，zai-org 上游",
+      "fields": {
+        "项目与归属": "CogAgent，zai-org 上游",
+        "具体实现或文档证据": "微调文档 有 Atlas A2、torch_npu、transfer_to_npu 迁移步骤",
+        "等级": "C，项目内示例",
+        "支持范围应怎样读": "不等于持续硬件 CI，也不能据此推断原模型预训练平台"
+      },
+      "sources": [
+        {
+          "title": "微调文档",
+          "url": "https://github.com/zai-org/CogAgent/blob/27498ca74268e05fdddd27f83c64671d50bc7146/finetune/README_en.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-074",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "ContentV，ByteDance 上游",
+      "fields": {
+        "项目与归属": "ContentV，ByteDance 上游",
+        "具体实现或文档证据": "demo.py 有 USE_ASCEND_NPU 与实际迁移分支",
+        "等级": "B，demo 范围",
+        "支持范围应怎样读": "能证明代码提供昇腾入口，不能证明训练、数值一致性或生产规模"
+      },
+      "sources": [
+        {
+          "title": "demo.py",
+          "url": "https://github.com/bytedance/ContentV/blob/8ad3ca206e4c9f0a29885de87476ce190a6c746d/demo.py"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-075",
+      "record_type": "open_source_project",
+      "category": "算子 编译器 视觉与语音",
+      "name": "FunASR，ModelScope 上游",
+      "fields": {
+        "项目与归属": "FunASR，ModelScope 上游",
+        "具体实现或文档证据": "Ascend 说明 记录贡献者在 310P3 上的局部运行；部署矩阵 列限制",
+        "等级": "B+C，局部兼容",
+        "支持范围应怎样读": "原贡献者的运行报告与后续修订的 CPU 检查不同；FunASR-Nano 不应被写成已具备官方生产 NPU runtime"
+      },
+      "sources": [
+        {
+          "title": "Ascend 说明",
+          "url": "https://github.com/modelscope/FunASR/blob/2b4a0623613013b2b59ae289b189768426006cfa/docs/ascend_npu.md"
+        },
+        {
+          "title": "部署矩阵",
+          "url": "https://github.com/modelscope/FunASR/blob/2b4a0623613013b2b59ae289b189768426006cfa/docs/deployment_matrix_zh.md"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-076",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "AcceLLM，2024",
+      "fields": {
+        "条目或情况": "AcceLLM，2024",
+        "本轮判断": "模拟评估，单独列出",
+        "原因与来源": "摘要 明确 simulated evaluations，包含 H100 与 910B2；不能作为纯实机评测证据"
+      },
+      "sources": [
+        {
+          "title": "摘要",
+          "url": "https://arxiv.org/abs/2411.05555"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-077",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "UNIT，NeurIPS 2024",
+      "fields": {
+        "条目或情况": "UNIT，NeurIPS 2024",
+        "本轮判断": "作者硬件声明存在内部冲突",
+        "原因与来源": "正式论文附录 A.1 写 128×910B 64GB、150 小时，同时写 CUDA 11.7。保留声明与矛盾，不替作者解释，也不据此断言整项工作虚假"
+      },
+      "sources": [
+        {
+          "title": "正式论文附录 A.1",
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/dcfb4b195fe1ec750ef13312974b620e-Paper-Conference.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-078",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "Parallel Scan on Ascend AI Accelerators",
+      "fields": {
+        "条目或情况": "Parallel Scan on Ascend AI Accelerators",
+        "本轮判断": "候选，未完成原文核查",
+        "原因与来源": "OpenReview 的搜索线索涉及 910B，但本轮直接读取遇到浏览器验证，未将索引摘要当作已读全文"
+      },
+      "sources": [
+        {
+          "title": "OpenReview",
+          "url": "https://openreview.net/forum?id=wPepcNWMhs"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-079",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "AMLA、IndexSLM、A-IO、NPUMeter、AscQLUT",
+      "fields": {
+        "条目或情况": "AMLA、IndexSLM、A-IO、NPUMeter、AscQLUT",
+        "本轮判断": "待进一步核查",
+        "原因与来源": "AMLA、IndexSLM、A-IO、NPUMeter、AscQLUT 尚未完成与主表同等深度的核查，不据索引片段给出确定硬件结论"
+      },
+      "sources": [
+        {
+          "title": "AMLA",
+          "url": "https://arxiv.org/abs/2509.25224"
+        },
+        {
+          "title": "IndexSLM",
+          "url": "https://arxiv.org/abs/2607.09885"
+        },
+        {
+          "title": "A-IO",
+          "url": "https://arxiv.org/abs/2604.09752"
+        },
+        {
+          "title": "NPUMeter",
+          "url": "https://doi.org/10.1145/3820380"
+        },
+        {
+          "title": "AscQLUT",
+          "url": "https://www.sciencedirect.com/science/article/pii/S1383762126001578"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-080",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "Rethinking Expert Trajectory Utilization、RLKD",
+      "fields": {
+        "条目或情况": "Rethinking Expert Trajectory Utilization、RLKD",
+        "本轮判断": "RL 候选，全文硬件待复核",
+        "原因与来源": "ACL 条目 的大文件读取超工具大小限制；RLKD 原 PDF 遇反机器人拒绝。仅索引线索不足以升级为全文核查成功"
+      },
+      "sources": [
+        {
+          "title": "ACL 条目",
+          "url": "https://aclanthology.org/2026.acl-long.1528/"
+        },
+        {
+          "title": "RLKD 原 PDF",
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/download/40710/44671"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-081",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "LMGL-WD",
+      "fields": {
+        "条目或情况": "LMGL-WD",
+        "本轮判断": "候选，训练硬件与阶段待核",
+        "原因与来源": "AAAI 原 PDF 本轮无法直接读取，不据线索确定设备配置；即使后续确认任务模型使用昇腾，也需区分任务训练与所用语言底模的原始预训练"
+      },
+      "sources": [
+        {
+          "title": "AAAI 原 PDF",
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/download/38577/42539"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-082",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "大气与海洋模型迁移相关工作",
+      "fields": {
+        "条目或情况": "大气与海洋模型迁移相关工作",
+        "本轮判断": "候选，配置与实验范围待核",
+        "原因与来源": "AAAI 原 PDF 本轮无法直接读取，暂不引用未经正文核实的硬件参数或性能比较"
+      },
+      "sources": [
+        {
+          "title": "AAAI 原 PDF",
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/download/41497/45458"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-083",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "MagicDrive-V2",
+      "fields": {
+        "条目或情况": "MagicDrive-V2",
+        "本轮判断": "兼容性线索，待核；不计入昇腾训练实测",
+        "原因与来源": "ICCV 2025 补充材料 直接读取返回 403，本轮未完成主训练硬件与兼容性范围的原文复核"
+      },
+      "sources": [
+        {
+          "title": "ICCV 2025 补充材料",
+          "url": "https://www.openaccess.thecvf.com/content/ICCV2025/supplemental/Gao_MagicDrive-V2_High-Resolution_Long_ICCV_2025_supplemental.pdf"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-084",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "AntAngelMed",
+      "fields": {
+        "条目或情况": "AntAngelMed",
+        "本轮判断": "昇腾部署支持，非训练硬件证据",
+        "原因与来源": "官方模型卡 提供 8×64GB 910B 与 vLLM-Ascend 部署说明；不能推出原模型在 910B 训练或已在医院生产部署"
+      },
+      "sources": [
+        {
+          "title": "官方模型卡",
+          "url": "https://huggingface.co/MedAIBase/AntAngelMed"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-085",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "原模型在昇腾的第三方复现",
+      "fields": {
+        "条目或情况": "原模型在昇腾的第三方复现",
+        "本轮判断": "只归入该复现",
+        "原因与来源": "第三方 MindSpore / NPU 移植，不能追溯改变原论文的硬件事实"
+      },
+      "sources": [],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-086",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "Qwen 等模型的 MindIE / vLLM-Ascend 指南",
+      "fields": {
+        "条目或情况": "Qwen 等模型的 MindIE / vLLM-Ascend 指南",
+        "本轮判断": "只证明指定部署路线",
+        "原因与来源": "不能因此声称 Qwen 原始预训练使用昇腾，或模型仓自身实现了完整 NPU 后端"
+      },
+      "sources": [],
+      "checked_on": "2026-11-11"
+    },
+    {
+      "id": "ascend-087",
+      "record_type": "qualified_or_pending",
+      "category": "四 不应混入强证据清单的材料",
+      "name": "OpenRLHF",
+      "fields": {
+        "条目或情况": "OpenRLHF",
+        "本轮判断": "上游合入未确认，另有第三方适配线索",
+        "原因与来源": "Ascend PR #605 已关闭且未合并；第三方 fork 应另核版本、运行路径和维护状态，不能算成上游默认支持"
+      },
+      "sources": [
+        {
+          "title": "Ascend PR #605",
+          "url": "https://github.com/OpenRLHF/OpenRLHF/pull/605"
+        }
+      ],
+      "checked_on": "2026-11-11"
+    }
+  ]
+}
