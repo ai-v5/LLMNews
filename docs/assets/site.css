@@ -100,9 +100,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visibl
 .article-body .article-disclaimer { margin-top: 34px; padding-top: 16px; border-top: 1px solid var(--line); color: #777a70; font-family: var(--sans); font-size: 12px; line-height: 1.8; }
 .back-link { display: inline-block; margin-top: 35px; font-family: var(--sans); font-size: 12px; font-weight: 700; }
 @media (min-width: 900px) {
-  .article.has-toc .article-header, .article.has-toc .article-layout { margin-left: max(220px, calc((100% - 760px) / 2)); margin-right: auto; }
+  .article.wrap { width: min(1920px, calc(100% - 48px)); }
+  .article-header, .article-layout { max-width: none; }
+  .article.has-toc .article-header, .article.has-toc .article-layout { margin-left: calc(clamp(192px, 18vw, 288px) + 24px); margin-right: 0; }
   .article.has-toc .article-layout { position: relative; }
-  .article-toc { position: absolute; top: 0; right: calc(100% + 28px); bottom: 0; width: 192px; margin: 0; }
+  .article-toc { position: absolute; top: 0; right: calc(100% + 24px); bottom: 0; width: clamp(192px, 18vw, 288px); margin: 0; }
   .article-toc-inner { position: sticky; top: 24px; }
   .article-toc-disclosure { border-top: 1px solid var(--ink); border-bottom: 0; }
   .article-toc-nav { max-height: calc(100vh - 100px); }
