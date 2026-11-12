@@ -100,7 +100,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visibl
 .article-body .article-disclaimer { margin-top: 34px; padding-top: 16px; border-top: 1px solid var(--line); color: #777a70; font-family: var(--sans); font-size: 12px; line-height: 1.8; }
 .back-link { display: inline-block; margin-top: 35px; font-family: var(--sans); font-size: 12px; font-weight: 700; }
 @media (min-width: 900px) {
-  .article.wrap { width: min(1920px, calc(100% - 48px)); }
+  .article.wrap { width: min(1920px, calc(100% - 48px)); padding-right: clamp(16px, calc(4vw - 24px), 56px); }
   .article-header, .article-layout { max-width: none; }
   .article.has-toc .article-header, .article.has-toc .article-layout { margin-left: calc(clamp(192px, 18vw, 288px) + 24px); margin-right: 0; }
   .article.has-toc .article-layout { position: relative; }
