@@ -1,6 +1,6 @@
 ---
 title: "AI 日报｜Duo 开放双工交互模型，ggml 1.0 发布，权重取证开始接受代码检验"
-date: 2026-11-14T05:40:00+08:00
+date: 2026-11-14T05:36:00+08:00
 summary: "本期精选 3 条：Duo 公开模型和流式部署分支；ggml 1.0 带来多后端优化与兼容性变化；两份公开代码让模型权重取证更容易复查，但不能直接证明完整训练硬件。"
 section: daily
 label: "AI 动态"
@@ -17,7 +17,7 @@ sources:
     url: "https://github.com/peterjliu/checkpoint-forensics-repro"
 ---
 
-本期资料截止 **北京时间 2026 年 11 月 14 日 05:40（UTC 11 月 13 日 21:40）**，观察窗口为此前 24 小时。只收录能核实原始发布时间、且有实质信息的变化，本期共 3 条。
+本期资料截止 **北京时间 2026 年 11 月 14 日 05:36（UTC 11 月 13 日 21:36）**，观察窗口为此前 24 小时。只收录能核实原始发布时间、且有实质信息的变化，本期共 3 条。
 
 ## 1. Duo 公开模型与部署代码：让 AI 一边听看，一边回应
 
@@ -62,4 +62,4 @@ sources:
 
 ### 日期核查说明
 
-本期没有把聚合网站的“今日收录”当成“今日发布”。例如 Gemini 4 Hydrogen 的官方页面发布时间为 UTC 11 月 12 日 18:00；Inkling 2 Small 的权重上传提交为当日 19:53，均早于本期窗口起点，因此没有作为本期新发布消息重复收录。
+本期没有把聚合网站的“今日收录”当成“今日发布”。例如 [Gemini 4 Hydrogen 的官方页面](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/)发布时间为 UTC 11 月 12 日 18:00；[Inkling 2 Small 的权重上传提交](https://huggingface.co/thinkingmachines/Inkling-2-Small/commit/78cb6c0ef68e1f089b77e78cfd94783d05b5c41b)为当日 19:53，均早于本期窗口起点，因此没有作为本期新发布消息重复收录。
