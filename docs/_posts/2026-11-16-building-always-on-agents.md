@@ -19,6 +19,8 @@ sources:
     url: "https://docs.github.com/en/webhooks/using-webhooks/best-practices-for-using-webhooks"
   - title: "GitHub Docs：Actions 工作流运行 API"
     url: "https://docs.github.com/en/rest/actions/workflow-runs"
+  - title: "AWS：事务发件箱与重复投递边界"
+    url: "https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html"
   - title: "GitHub Docs：处理失败投递"
     url: "https://docs.github.com/en/webhooks/using-webhooks/handling-failed-webhook-deliveries"
 ---
@@ -72,7 +74,7 @@ Outbox → 派发 / 对账 → 私有通知列表
 2. **领取：只允许一个有效提交者，而非假定永远只有一个进程。** 用短事务领取任务、设置租约和递增的代号，外部读和模型调用放到事务外。提交时在 SQL 里校验代号与业务状态版本；超时接管后，旧 Worker 即使恢复，也不能把旧结论写回。同一 PR 首版串行，不同 PR 可以并发；不要让一个正在解释日志的任务阻塞全仓。
 3. **归并：传输去重不等于业务去重。** 收件箱去重只解决同一 delivery 多次到达；Webhook 与对账可能对同一故障提供不同 ID。业务状态按 `仓库 / PR / head SHA / workflow_id` 分组，用 API 复查 run attempt，不能按事件抵达顺序覆盖。发件箱再以 `业务键 / 故障轮次 / 通知类型` 去重。正在重跑不等于已经恢复；更新的 execution 未结束时暂停派发旧失败候选，等它有明确终态。一轮失败直到恢复只报警一次，恢复后若又红则开新轮次。不要给未报过红灯的短暂故障发送恢复提醒。
 4. **定时：等两分钟必须是业务状态，不是让模型睡两分钟。** 初次确认红灯就写 `due_at`；调度器把到期复查写进 Inbox，并在同一事务更新定时器，事件用 `(timer_id, scheduled_for)` 去重。定期巡检停机补跑可合并为一次最新全量核对，不积攒几十个旧 tick；审批过期和即时失败复查则不能被旧事件覆盖。时间戳存 UTC；未来若有用户当地日程，另外存时区与补跑语义。
-5. **发送：数据库事务保证的是“有意图”，不是对方“已收到”。** 业务状态与 outbox 同事务提交，避免“业务做完但忘了发”。试点内置私有收件列表，dispatcher 可在数据库事务里按消息 ID 插入通知、标记已写入。接第三方时优先用其官方幂等键；返回超时且无法查询是否接收，标记 `unknown` 并对账，不盲重发。发送前再检查当前状态版本、是否暂停、目的地授权；一旦外部已接收，不能靠回滚数据库撤回。已写入收件箱不等于用户已经阅读。
+5. **发送：数据库事务保证的是“有意图”，不是对方“已收到”。** 按[事务发件箱模式](https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html)，业务状态与 outbox 同事务提交，避免“业务做完但忘了发”。试点内置私有收件列表，dispatcher 可在数据库事务里按消息 ID 插入通知、标记已写入。接第三方时优先用其官方幂等键；返回超时且无法查询是否接收，标记 `unknown` 并对账，不盲重发。发送前再检查当前状态版本、是否暂停、目的地授权；一旦外部已接收，不能靠回滚数据库撤回。已写入收件箱不等于用户已经阅读。
 
 **最少的数据表：**`inbox(delivery_key, payload_ref, status, lease_until, lease_epoch, attempts)`、`timers(timer_id, due_at, schedule_rule, status)`、`subjects(domain_key, state, version, incident_generation, source_ref)`、`outbox(message_key, subject_version, recipient_ref, status, provider_ref)`。另留结构化运行审计：输入引用、规则版本、决策理由、模型预算与派发结果；原文日志不默认进记忆，不把密钥或用户授权凭证交给模型。首版的状态迁移可以这样写：
 
@@ -89,7 +91,7 @@ Outbox → 派发 / 对账 → 私有通知列表
 
 **第 1 阶段：回放与影子运行。** 第 1–2 天接一个公开仓库，只收集事实不推送。用历史和合成事件测试：重复投递、旧失败在新成功之后抵达、相同 workflow rerun、Webhook 漏投、租约过期旧 Worker 返回、写状态后派发器崩溃、通知回执丢失、暂停后队列里还留着通知。工具输出和日志当数据，不能变成指令。故障原因不明就写“不确定”，不要把模型概括当成证据。
 
-**第 2 阶段：小流量真实通知。** 第 3–7 天启用私有通知、保留一键暂停与纯模板降级。试点建议门槛：重复/乱序回归包内零重复和零过时推送；每次推送能追到 head、run 和原始来源；人工标注的历史集里有效失败通知召回和精确率分别至少 95%，同时报告绝对分母及误报漏报；Webhook 正常时，审核失败窗口结束之后到私有收件箱的 P95 小于 60 秒；漏投场景单独测对账恢复，不混入正常路径的延迟。数据量小时，这些是试点验收条件，不是已证明的生产 SLA。
+**第 2 阶段：小流量真实通知。** 第 3–7 天启用私有通知、保留一键暂停与纯模板降级。试点建议门槛：重复/乱序回归包内零重复和零过时推送；每次推送能追到 head、run 和原始来源；人工标注的历史集里有效失败通知召回和精确率分别至少 95%，同时报告绝对分母及误报漏报；Webhook 正常时，审核失败窗口结束之后到私有收件箱的 P95 小于 60 秒；漏投场景单独测对账恢复，不混入正常路径的延迟。数据量小时，这些是试点验收条件，不是已证明的生产 SLA。另设独立健康检查：每分钟检查最近一次成功对账、最老待处理事件年龄、通知 unknown 数量；连续两个 5 分钟对账周期未成功就亮“观测中断”。安静应该表示没事，而不是系统坏了。
 
 **成本也做上限。** 例如一天 300 条进入队列的原始事件，若规则合并后 30 条值得摘要，最多给其中 20 条模型调用，每条上限约 2,000 输入、300 输出 token，则这 20 次的摘要预算最多约 **4 万输入 + 6,000 输出 token/天**。这是假设预算，不是实测价格；还要分别统计 API 配额、入队与对账开销，以及每个有效提醒带来的阅读成本。每个任务的软超时、硬预算和熔断规则由服务层执行，不能靠提示词自报。没有证据表明摘要比模板更有用，就关闭模型。[Claude 提示缓存](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) 默认 5 分钟、另有 1 小时选项；跨小时醒来的任务不能把复用计为必然，预算按缓存未命中也能运行来设计。
 
