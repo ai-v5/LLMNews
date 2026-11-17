@@ -74,11 +74,11 @@ Qwen3.5-397B-A17B 从预训练 checkpoint 起跑，以 GRPO 在 R2E-Gym 的 SWE 
 
 三项千卡配置都是 **32 prompts × 16 trajectories = 512/步**、分置的 **256 actor + 768 rollout GPU**，达标 checkpoint 均为第 10 步。训练消耗的 5,120 是名义 trajectory slots；不是 5,120 个不同题，也不是全通过或全部贡献同等梯度的轨迹。下表取各项三份里榜单时间中位所在日志，有效 token 累计第 1–10 步；阶段计时只取前 9 步，避免第 10 步混入 checkpoint 保存，计时列均为秒。
 
-| 1,024 卡 | 原始中位日志 / pass@4 | 轨迹槽位/s（榜单窗口） | 有效 loss token/s（榜单窗口，约） | 前 9 步外层用时 | policy training | exposed generation | 权重同步 |
-|---|---|---:|---:|---:|---:|---:|---:|---:|
-| GB300 vLLM | [result_1](https://github.com/mlcommons/training_results_v6.1/blob/d5458b9f8c3c4a767e6f2c894b008cb95200e6f7/NVIDIA/results/theia-jhb_ngpu1024_nemo_rl_vllm/qwen35_397b_grpo/result_1.txt) / .7570 | 6.19 | 34,001 | 451.0 | 295.7 | 109.8 | 31.6 |
-| Rubin vLLM | [result_0](https://github.com/mlcommons/training_results_v6.1/blob/d5458b9f8c3c4a767e6f2c894b008cb95200e6f7/NVIDIA/results/hecate_ngpu1024_nemo_rl_vllm/qwen35_397b_grpo/result_0.txt) / .7410 | 7.80 | 43,502 | 378.8 | 237.2 | 104.3 | 24.9 |
-| Rubin TRT-LLM | [result_1](https://github.com/mlcommons/training_results_v6.1/blob/d5458b9f8c3c4a767e6f2c894b008cb95200e6f7/NVIDIA/results/hecate_ngpu1024_nemo_rl_trtllm/qwen35_397b_grpo/result_1.txt) / .7570 | 8.17 | 44,868 | 401.6 | 234.4 | 89.7 | 70.3 |
+| 1,024 卡 | 原始中位日志 / pass@4 | 轨迹槽位/s（榜单窗口） | 有效 loss token/s（榜单窗口，约） | 前 9 步外层用时 | policy training | exposed generation | 权重同步 | Actor MFU（混精估算） | Decode MBU（实测 / 情景） |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| GB300 vLLM | [result_1](https://github.com/mlcommons/training_results_v6.1/blob/d5458b9f8c3c4a767e6f2c894b008cb95200e6f7/NVIDIA/results/theia-jhb_ngpu1024_nemo_rl_vllm/qwen35_397b_grpo/result_1.txt) / .7570 | 6.19 | 34,001 | 451.0 | 295.7 | 109.8 | 31.6 | **7.0–8.9%** | 未公开；示例 **10.6%** |
+| Rubin vLLM | [result_0](https://github.com/mlcommons/training_results_v6.1/blob/d5458b9f8c3c4a767e6f2c894b008cb95200e6f7/NVIDIA/results/hecate_ngpu1024_nemo_rl_vllm/qwen35_397b_grpo/result_0.txt) / .7410 | 7.80 | 43,502 | 378.8 | 237.2 | 104.3 | 24.9 | **4.8–6.3%** | 未公开；示例 **4.4%** |
+| Rubin TRT-LLM | [result_1](https://github.com/mlcommons/training_results_v6.1/blob/d5458b9f8c3c4a767e6f2c894b008cb95200e6f7/NVIDIA/results/hecate_ngpu1024_nemo_rl_trtllm/qwen35_397b_grpo/result_1.txt) / .7570 | 8.17 | 44,868 | 401.6 | 234.4 | 89.7 | 70.3 | **4.9–6.4%** | 未公开；示例 **4.4%** |
 
 三条日志的 `global_valid_toks` 累计约 **28.12M / 28.56M / 28.12M**，按全分配卡时约 **33.2 / 42.5 / 43.8 loss tokens/s/GPU**。该计数把 token mask 与样本 mask 合在一起，只衡量参与 loss 归一化的有效 token；它不等于所有前后向输入、所有生成 token 或训练 FLOPs。三项实测每次均在第一次允许验证的 checkpoint 达标，因此表里的 pass@4 不支持给三个系统排最终模型能力。
 
@@ -88,6 +88,18 @@ Qwen3.5-397B-A17B 从预训练 checkpoint 起跑，以 GRPO 在 R2E-Gym 的 SWE 
 
 日志名字还有两个坑。该提交版本的 [NeMo RL 吞吐实现](https://github.com/NVIDIA-NeMo/RL/blob/a6ec8a93df4062e5991e225166f60ea981d170e3/nemo_rl/algorithms/utils.py#L797-L909) 的生成组 Tokens/sec 以 `total_num_tokens` 作分子；异步分母是 policy、logprobs 与 exposed 等时间，不是纯 decode GPU 工作时间。另一个 `Training Worker Idle Time Ratio` 的实现，在 exposed 等待大于 0.1 秒时反而**返回 0**。这个字段不能证明训练卡完全没有空转。
 
+### 补算：Actor MFU 和 Decode MBU 的分母不是同一组卡
+
+**Actor MFU：前 9 步、只算 256 张训练卡。** [NeMo RL 固定版代码](https://github.com/NVIDIA-NeMo/RL/blob/a6ec8a93df4062e5991e225166f60ea981d170e3/nemo_rl/algorithms/grpo.py#L5754-L5790) 用展开后的 `input_lengths` 记录全输入 token。把日志里每步的 `Policy Training (Tokens/sec/gpu)` 乘对应 `policy_training_time × 256`，还原三行各约 **135.86M / 137.20M / 136.83M** 个输入 token，即 **1,795 / 2,260 / 2,280 token/s/训练卡**。这是含对话上下文的前后向工作量代理，不是 loss token、不是 padding 后内核执行量，也不是生成输出。
+
+按 [Qwen 固定 checkpoint 架构](https://huggingface.co/Qwen/Qwen3.5-397B-A17B/blob/8472618112abcbd45acbcdc58436aff4233c23f7/config.json) 建模：60 层 MoE（Top-10 + 共享专家），其中 45 层 Gated DeltaNet、15 层全注意力；提交日志中 actor MTP=0。每输入 token 粗计 **98.8 + 0.00073728 × L_eff GFLOP**，其中 MoE 路由专家线性项约 **45.3 GFLOP**。常数含专家、共享 FFN、注意力与 GDN 投影、输出头及 GDN 递推近似；二次注意力项按因果半三角计算，`L_eff = ΣL² / ΣL`。没有逐序列长度，用约 29.5–29.8K 的输入均长至 65,536 上下文上限给区间，假设每条展开轨迹是一个注意力段；这是长度敏感性范围，不是统计置信区间。省略 padding、重算、优化器、冻结参数等的细粒度影响。
+
+[提交的精度配方](https://github.com/mlcommons/training_results_v6.1/blob/d5458b9f8c3c4a767e6f2c894b008cb95200e6f7/NVIDIA/benchmarks/qwen35_397b_grpo/implementations/theia-jhb_ngpu1024_nemo_rl_vllm/conf/te_routed_mxfp8_fwd_bwd.yaml) 让路由专家矩阵走 MXFP8，其余以 BF16 作为名义峰值近似。表里的混精 MFU 用 `token/s/训练卡 × [F_MXFP8 / P_dense_FP8 + (F_total − F_MXFP8) / P_dense_BF16]`。计入 actor 阶段的通信等墙钟，但不把它们当有效 FLOPs。估计的有效算力三行约 **216–264 / 273–333 / 275–335 TFLOP/s/训练卡**；若为了和本文 DeepSeek 表保持同一 dense FP8 分母、不分精度，则约 **4.3–5.3% / 1.6–1.9% / 1.6–1.9%**。两者都不是 Tensor Core 计数器，也不能把剩余百分比叫做空闲。
+
+**Decode MBU：公开表能算参考场景，不能反推这三次运行的实际值。** 实测应在 decode-active 窗口用 `Σ(HBM 实际读字节 + 写字节) / Σ(每卡 HBM 峰值 × 同窗秒数)`，用 CUPTI/Nsight 的 DRAM 字节计数配合引擎 trace，把 prefill 与 decode 拆开。日志既没有可与 decode 窗口配对的 HBM 字节计数，也没有完整的逐 engine decode 批量、迭代时间和上下文长度。不能拿 768 卡整段墙钟、训练有效 token 或 exposed generation 来代替。
+
+给一个可复算的统一敏感性例子：**TP8、每个副本一次 decode 迭代推进 16 条活跃序列、旧上下文 8,192、一次迭代假设 20 ms**，对所有三行都用相同负载。按 Top-10 近似均匀且跨序列独立，预计每层读取不同专家 `512 × [1 − (1 − 10/512)^16] ≈ 139`；路由专家权重按 MXFP8（含每 32 权重约 1 字节 scale），其余投影/共享专家/输出头按 BF16，按每专家 `3 × 4096 × 1024` 权重计，含非路由权重合约 **125.4 GB/迭代/副本**。15 层全注意力的 BF16 KV 逻辑读写按 `16 × (8192+1) × 15 × 2(K/V) × 2头 × 256 × 2字节`，约 **4.0 GB**；45 层 GDN 假定 FP32 状态各读写一次，`16 × 45 × 64 × 128² × 4字节 × 2`，约 **6.0 GB**。合计 **135.5 GB**，除以 `8 × 20 ms` 得每卡约 **0.85 TB/s 的负载等效带宽**，分别是 8 / 19.2 TB/s 名义 HBM 峰值的 **10.6% / 4.4%**。这是场景示例，不是端到端或 decode 实测；它不计 KV 头在 TP8 下可能的复制、激活流量、缓存命中、路由倾斜和融合差异。实际 MBU 更高还是更低都不能由示例判定，两个 Rubin 后端的示例相同也不代表实测相同。
+
 ### 原始日志复算提示
 
 解析每行 `:::MLLOG` 后的 JSON。DS 用 `tracked_stats.value.train_step_time`，按三条日志汇总 `条数 × 15360 × 4096 / Σ(step_time) / 1024`；原始达标窗口按 `run_stop.metadata.samples_count × 4096` 做分子。RL 先对三条 `(run_stop.time_ms - run_start.time_ms)/1000` 取中位日志，用该日志的 `samples_count / global_batch_size` 找达标步；按步累加 `tracked_stats.value.global_valid_toks`，按前九步分别累加 `train_step_time`、`policy_training_time`、`exposed_generation_time` 和 `weight_sync_time`。不要累加达标后的第 11 步。
@@ -96,7 +108,7 @@ Qwen3.5-397B-A17B 从预训练 checkpoint 起跑，以 GRPO 在 R2E-Gym 的 SWE 
 
 1. **对 DeepSeek 式预训练，先标定有效模型 PFLOP/s，再追瓶颈。** 固定 seq、batch、精度、EP/TP/PP 布局及 GPU 频率，分别对照 TP1/TP2 和 MLP 重算开关。按每 step 采 Tensor Core 活跃、实际 HBM read/write bytes、MoE token 分布和 exposed A2A；NVLink 与 NIC 的 TX/RX 分开计，不能拿合计和单向峰值相除。用 Nsight/CUPTI、DCGM 和交换机端口时序定位，跟同时满载的微基准作对照，而不是用标称峰值替代。预训练的 GPU·h、有效模型 PFLOP/s、带宽指标与 MFU 分开看。
 2. **对 RL，先量质量与经济性，再分池。** 用通过目标的最早合格 checkpoint 的时间、分配 GPU·h 和（生产环境）确认评估时间；固定模型、任务、每题采样数、seed、上下文与工具超时。再统计训练消费的轨迹、正奖励有差异的 prompt group、保留的 loss-mask token、过长/失败/过期丢弃率、轨迹新鲜度。更快地产生冗长输出未必训练更快。
-3. **Decode 只当诊断指标，且应至少报两种分母。** 从服务引擎单独收集真正交付的 assistant output tokens（不含 prompt、工具输出、未接受的 speculative token），分别除以 rollout 池整段墙钟、以及卡级实际 decode-active 时长。前者计入工具等待、排队和空闲；后者更接近引擎能力。再配 TTFT、TPOT、未命中缓存的 prefill tokens、KV 占用/抢占、工具队列 p95/p99、测试沙箱 CPU/IO，以及每次 refit 的实际链路字节和停顿。现有公开日志提供部分引擎瞬时值和阶段代理，不能复原全部 768 卡在计分窗口的同口径纯 Decode 吞吐；也不能反推可靠的 HBM%、NVLink%、Tensor Core 活跃百分比或焦耳/达标。日志甚至明示该 Qwen 配置不支持内置 FLOPs tracker；actor MFU 要独立建模：用实际参与前后向的全部上下文和 loss mask 分开计数，考虑混合 GDN/Attention、MoE 和重算，再只除训练池的 GPU 时长，不能用 loss token × 6×17B 代替。
+3. **Decode 只当诊断指标，且应至少报两种分母。** 从服务引擎单独收集真正交付的 assistant output tokens（不含 prompt、工具输出、未接受的 speculative token），分别除以 rollout 池整段墙钟、以及卡级实际 decode-active 时长。前者计入工具等待、排队和空闲；后者更接近引擎能力。再配 TTFT、TPOT、未命中缓存的 prefill tokens、KV 占用/抢占、工具队列 p95/p99、测试沙箱 CPU/IO，以及每次 refit 的实际链路字节和停顿。现有公开日志提供部分引擎瞬时值和阶段代理，不能复原全部 768 卡在计分窗口的同口径纯 Decode 吞吐；也不能反推可靠的 HBM%、NVLink%、Tensor Core 活跃百分比或焦耳/达标。日志甚至明示该 Qwen 配置不支持内置 FLOPs tracker；上表 actor MFU 是独立模型估计，不能拿 loss token × 6×17B 或全作业的 1,024 卡时间代替 actor 分母。
 4. **第一轮实验优先试卡池比例和长尾。** 固定节点总数、质量协议和任务预算，扫描 actor:rollout 卡数及环境 CPU 并发；每个组合跑相同 seed 集，报告 time-to-target 和 GPU·h 的 Pareto 前沿。若 trainer 常等 buffer，就用同步 trace 判断是 decode 慢还是工具/测试沙箱慢；若 buffer 常满或年龄触顶，先减少无效生成、缩短 refit 或增加 actor 吞吐，而不是盲加 rollout 卡。
 
 **结论：** DeepSeek 千卡最有用的两个数是 **GB300 1.58、Rubin 3.11 PFLOP/s/卡的有效训练工作率**；RL 最有用的两个数是 **同 vLLM 13.78→10.94 分钟且 235→187 GPU·h**。前者能校准 MoE 训练模型，后者能校准达标成本。Decode 吞吐、HBM 带宽和通信计数负责解释原因，不能替代这两个系统级结果。
