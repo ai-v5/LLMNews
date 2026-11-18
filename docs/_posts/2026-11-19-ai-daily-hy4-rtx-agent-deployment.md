@@ -1,6 +1,6 @@
 ---
 title: "AI 日报｜Hy4 flash 开放权重，RTX Spark 桌面上市，智能体工具进入迁移与部署期"
-date: 2026-11-19T05:33:00+08:00
+date: 2026-11-19T05:31:00+08:00
 summary: "Hy4 flash 与 SenseNova Loop 扩展可部署形态；OpenAI Agents SDK 更新状态恢复与沙箱支持，Replit 推进企业集成，RTX Spark 桌面进入实际供货。"
 section: daily
 label: "AI 动态"
@@ -19,7 +19,7 @@ sources:
     url: "https://replit.com/blog/build-where-your-business-works-replit-at-microsoft-ignite"
 ---
 
-截至 **2026 年 11 月 19 日 05:33（北京时间）**，回看此前约 24 小时。日期只有日级精度的来源，保留原文日期，不把抓取时间当发布时间。本期选取五条新进展；已报道的 GPT‑6.2、Gemini Tasks 和 NVIDIA 财报不重复列入。
+截至 **2026 年 11 月 19 日 05:31（北京时间）**，回看此前约 24 小时。日期只有日级精度的来源，保留原文日期，不把抓取时间当发布时间。本期选取五条新进展；已报道的 GPT‑6.2、Gemini Tasks 和 NVIDIA 财报不重复列入。
 
 今天的共同变化不是又多了一张榜单，而是模型和智能体开始面对真正部署时的问题：权重能否下载、量化能否运行、升级能否恢复状态、企业数据在哪里处理。
 
