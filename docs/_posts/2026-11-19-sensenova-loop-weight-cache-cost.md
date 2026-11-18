@@ -38,13 +38,13 @@ sources:
 
 用一层的线性投影作示意：第一遍的键是 `K₁ = h₁Wₖ`，第二遍是 `K₂ = h₂Wₖ`。共享的是 `Wₖ`；经过前一轮计算以后，`h₂` 通常已不同，因此不能用同一份历史 K/V 替换两次逻辑访问的状态。
 
-这个判断不仅是形式推导。[vLLM #64832](https://github.com/vllm-project/vllm/pull/64832) 明确为每次 loop visit 保留独立 attention/recurrent state，并在权重处理完成后再绑定共享参数。所以它还有一个容易漏掉的工程差别：**加载阶段权重峰值可能高于稳态权重占用**。拿模型文件大小预测启动能否成功，会漏掉这部分。
+这个判断不仅是形式推导。[vLLM #64832](https://github.com/vllm-project/vllm/pull/64832) 明确为每次 loop visit 保留独立 attention/recurrent state，并在权重处理完成后再绑定共享参数。在该 PR 的实现中，还有一个容易漏掉的工程差别：**加载阶段权重峰值可能高于稳态权重占用**。拿模型文件大小预测启动能否成功，会漏掉这部分。
 
-按公开的层模式推导，56 次访问中有 14 次全注意力、42 次线性注意力。若按 32 个物理层只分配 8 份全注意力缓存，就把应计的 14 份误写成 8 份，低估约 42.9%。这不是 mHC 双流再乘二：残差流数量与 KV head 数、逻辑缓存槽是不同概念。
+按公开的层模式推导，56 次访问中有 14 次全注意力、42 次线性注意力。若按 32 个物理层只分配 8 份全注意力缓存，就把应计的 14 份误写成 8 份，低估 `(14−8)/14 ≈ 42.9%`。这不是 mHC 双流再乘二：残差流数量与 KV head 数、逻辑缓存槽是不同概念。
 
 ### 一个可以复算、但带前提的容量模型
 
-[Preview 的公开配置](https://huggingface.co/sensenova/SenseNova-Loop-9B-Preview/blob/main/config.json)给出 4 个 KV heads、head dimension 256。**若正式版及目标后端沿用这些维度，并按 14 次访问独立存储**，单条 262,144-token 序列的全注意力缓存净载荷为：
+[Preview 的公开配置](https://huggingface.co/sensenova/SenseNova-Loop-9B-Preview/blob/main/config.json)给出 4 个 KV heads、head dimension 256；正式模型卡也列出 4 个 KV heads，但这里的 head dimension 仍取自 Preview 配置。**若正式版及目标后端沿用这些维度，并按 14 次访问独立存储**，单条 262,144-token 序列的全注意力缓存净载荷为：
 
 ```text
 M_KV = 14 × 2(K、V) × 4(KV heads) × 256(head dim)
