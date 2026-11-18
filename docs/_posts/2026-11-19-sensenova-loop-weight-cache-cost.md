@@ -1,6 +1,6 @@
 ---
 title: "SenseNova-Loop 的部署账：9B 权重，不等于 9B 计算，也不等于一份 KV"
-date: 2026-11-19T07:30:00+08:00
+date: 2026-11-19T05:35:00+08:00
 summary: "官方 AWQ/GGUF 已发布。拆开共享权重、重复执行、长上下文缓存与后端支持，解释为什么 4-bit 权重不是 4-bit 全链路，512K 上限也不是 512K 部署实测。"
 section: explainer
 label: "模型部署与缓存"
