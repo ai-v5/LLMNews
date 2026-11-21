@@ -1,6 +1,6 @@
 ---
 title: "每日 AI 新闻｜MoE 权重同步提速，Qwen Flash-Next 训练与混合缓存有新实测"
-date: 2026-11-22T07:30:00+08:00
+date: 2026-11-22T05:37:00+08:00
 summary: "Megatron 合并专家权重传输，TorchTitan 给出 Flash-Next 的图回放训练配方；昇腾 DSA 缓存分片、Blackwell 动态 EP 与 Qwen Code 也有新进展。"
 section: daily
 label: "AI 动态"
