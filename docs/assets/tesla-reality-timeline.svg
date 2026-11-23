@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="690" viewBox="0 0 480 690" role="img" aria-labelledby="rv-title rv-desc" xml:lang="zh-CN">
+  <title id="rv-title">Tesla Reality View：同一套视觉特征，两条独立路径</title>
+  <desc id="rv-desc">依据 Elon Musk 公开介绍绘制。18 Hz 的近期 UVE 视觉特征序列同时输入 3B 驾驶模型和独立的约 1B 条件平均流扩散模型。后者把上一次的可视化结果加噪，结合 UVE 特征进行条件去噪，输出按车机 UI 分辨率生成的短片。计算跨四个 UVE 周期，每周期约 55.6 毫秒；输出短片八帧，36 fps，每帧约 27.8 毫秒。四个 UVE 周期和八帧播放均对应约 222 毫秒的名义时长，但图中对齐不表示同步起止，不是端到端实测延迟。</desc>
+  <defs>
+    <marker id="rv-arrow" viewBox="0 0 8 8" refX="7.5" refY="4" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L8 4 L0 8 z" fill="#45566A"/>
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="478" height="688" rx="22" fill="#F8FAFD" stroke="#D5DFEB" stroke-width="2"/>
+  <g font-family="'Noto Sans CJK SC','PingFang SC','Microsoft YaHei',sans-serif" fill="#14243A">
+    <text x="26" y="45" font-size="19" font-weight="700" fill="#145754">TESLA REALITY VIEW</text>
+    <text x="26" y="85" font-size="32" font-weight="700">同一套视觉特征，两条路径</text>
+    <rect x="26" y="105" width="428" height="74" rx="13" fill="#E8EFF7" stroke="#AEBFD2" stroke-width="1.5"/>
+    <text x="240" y="138" text-anchor="middle" font-size="24" font-weight="700">共享近期 UVE 特征序列</text>
+    <text x="240" y="163" text-anchor="middle" font-size="19" fill="#374C65">视觉编码器更新频率：18 Hz</text>
+    <path d="M240 179 V194 H111 V211 M240 194 H334 V211" fill="none" stroke="#45566A" stroke-width="2.5" marker-end="url(#rv-arrow)"/>
+    <path d="M111 201 V211" stroke="#45566A" stroke-width="2.5" marker-end="url(#rv-arrow)"/>
+    <rect x="26" y="212" width="170" height="177" rx="12" fill="#EDF2FC" stroke="#AABBDD" stroke-width="1.5"/>
+    <rect x="214" y="212" width="240" height="177" rx="12" fill="#E7F3F0" stroke="#9BBCB6" stroke-width="1.5"/>
+    <text x="43" y="246" font-size="22" font-weight="700" fill="#203E71">驾驶路径</text>
+    <text x="231" y="246" font-size="22" font-weight="700" fill="#145754">可视化路径</text>
+    <text x="43" y="281" font-size="21" font-weight="700">3B 驾驶模型</text>
+    <text x="231" y="281" font-size="21" font-weight="700">约 1B 条件平均流</text>
+    <text x="43" y="315" font-size="20">输出驾驶动作</text>
+    <text x="231" y="310" font-size="20">上一段画面 → 加噪</text>
+    <text x="231" y="339" font-size="20">结合 UVE 条件去噪</text>
+    <text x="231" y="369" font-size="20">输出 UI 分辨率短片</text>
+
+    <text x="26" y="429" font-size="23" font-weight="700">计算与播放：两个不同的时间轴</text>
+    <text x="26" y="467" font-size="20" font-weight="700" fill="#203E71">UVE · 18 Hz　｜　4 个计算周期</text>
+    <g fill="#C9D8F1" stroke="#6884B4" stroke-width="1.25">
+      <rect x="26.5" y="480" width="103" height="22" rx="4"/>
+      <rect x="134.5" y="480" width="103" height="22" rx="4"/>
+      <rect x="242.5" y="480" width="103" height="22" rx="4"/>
+      <rect x="350.5" y="480" width="103" height="22" rx="4"/>
+    </g>
+    <text x="26" y="530" font-size="20" font-weight="700" fill="#145754">UI · 36 fps　｜　8 帧播放</text>
+    <g fill="#B8DED3" stroke="#537F74" stroke-width="1.25">
+      <rect x="26.5" y="543" width="49" height="22" rx="4"/>
+      <rect x="80.5" y="543" width="49" height="22" rx="4"/>
+      <rect x="134.5" y="543" width="49" height="22" rx="4"/>
+      <rect x="188.5" y="543" width="49" height="22" rx="4"/>
+      <rect x="242.5" y="543" width="49" height="22" rx="4"/>
+      <rect x="296.5" y="543" width="49" height="22" rx="4"/>
+      <rect x="350.5" y="543" width="49" height="22" rx="4"/>
+      <rect x="404.5" y="543" width="49" height="22" rx="4"/>
+    </g>
+    <text x="240" y="600" text-anchor="middle" font-size="21" font-weight="700">4 × 55.6 ms ≈ 222 ms ≈ 8 × 27.8 ms</text>
+    <text x="240" y="632" text-anchor="middle" font-size="20" font-weight="700" fill="#812E20">时长对齐 ≠ 实测端到端时延</text>
+    <text x="240" y="662" text-anchor="middle" font-size="17" fill="#475970">LLMNews 绘制 · 据 Musk 的公开说明</text>
+  </g>
+</svg>
