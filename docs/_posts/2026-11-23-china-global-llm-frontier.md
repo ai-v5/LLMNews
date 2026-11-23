@@ -143,6 +143,8 @@ sources:
 
 一个可执行的系统方案是**便宜模型跑高量、有验收器的任务，把难题和不确定结果升级给更强模型**。盈亏条件可以用实测条件概率写：若第一段支出 C₁，升级条件命中率 u、升级成本 C₂，则平均模型费为 C₁+uC₂；联合通过率要用「第一段成功 + 失败后被正确升级并最终成功」，不能假设两模型失败独立。若失败被误判成通过，应将漏检计入风险成本。决策要画**固定质量与 P95 时延下的总成本曲线**，而非只看跑出了多少 token。
 
+如果要把任务成本估算用于自建服务，还要确定真实并发下能提供多少吞吐。[Agent 推理容量的轨迹回放分析]({{ '/2026/11/21/agent-trace-sizing-kv-restore/' | relative_url }})拆开了目标负载、路由热点与 KV 回读对容量估算的影响。
+
 开放权重的竞争力在于可迁移、离线部署、量化、微调和路由接入。[DeepSeek 1017](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017) 与 GLM-5.3-Flash 提供 MIT 权重；[Kimi 权重](https://huggingface.co/moonshotai/Kimi-K3.1-Pro/blob/main/LICENSE)、[Meta Muse Spark](https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B) 有定制条款；开放权重不自动包含数据与全训练配方。法国 Mistral 的万亿级权重也说明海外并非只有闭源。反过来，能下载 2.8T 权重不等于有低成本地跑它的机房。训练来源、芯片国际供应和引擎是交叉的：中国模型可在 NVIDIA、AMD 或国产加速器上服务；国产模型价低不能直接归因于国产硅。[OpenRouter 平台样本](https://openrouter.ai/data/newsletter/the-token-state-of-play)显示 2026 年 9 月前开放权重 token 份额一度到 79%，仅表示该网关的 token 消费，不是全市场收入、客户份额或实际生产部署地域。
 
 ## 五、下一轮竞争，看哪三个可验证指标？
