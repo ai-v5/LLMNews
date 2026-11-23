@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="788" viewBox="0 0 600 788" role="img" aria-labelledby="chart-title chart-desc" xml:lang="zh-CN">
+  <title id="chart-title">Agent 自主成功率：时长有提升，任务差距仍大</title>
+  <desc id="chart-desc">OpenAI 内部研究任务在无人干预下的估计成功率。按预计人类工时，2 至 4 小时的任务从 3 月的 23% 升至 10 月的 46%，4 至 8 小时的任务从 13% 升至 35%。2026 年 8 月 1 日至 10 月 18 日，训练监控 79%，技术问答 72%，启动训练 35%，搭建评测、强化学习或 Agent 环境 29%，推理和服务栈编码 25%。这些不是对固定任务集的受控对照。</desc>
+  <style>
+    text { font-family: system-ui, "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", sans-serif; fill: #172e3b; }
+    .muted { fill: #435c69; }
+    .eyebrow { fill: #006a60; font-size: 16px; font-weight: 700; letter-spacing: 2px; }
+    .panel-title { font-size: 25px; font-weight: 700; }
+    .label { font-size: 20px; font-weight: 560; }
+    .value { font-size: 20px; font-weight: 730; font-variant-numeric: tabular-nums; }
+    .small { font-size: 17px; }
+  </style>
+  <rect width="600" height="788" rx="20" fill="#eef4f5"/>
+  <path d="M32 27h24m-24 7h15" fill="none" stroke="#008474" stroke-width="3" stroke-linecap="round"/>
+  <text x="67" y="36" class="eyebrow">LLMNEWS / 研究效率</text>
+  <text x="32" y="83" font-size="33" font-weight="750">Agent 自主成功率有多高？</text>
+  <text x="33" y="115" class="muted" font-size="20">OpenAI 内部研究任务 · 无人干预成功率估计</text>
+
+  <rect x="32" y="139" width="536" height="264" rx="15" fill="#ffffff" stroke="#d1dfe2"/>
+  <text x="52" y="174" class="panel-title">01  按预计人类工时</text>
+  <circle cx="58" cy="205" r="6" fill="#fff" stroke="#516b79" stroke-width="2.6"/>
+  <text x="71" y="211" class="muted small">3 月</text>
+  <circle cx="125" cy="205" r="6" fill="#00776c"/>
+  <text x="138" y="211" class="muted small">10 月</text>
+  <text x="545" y="211" text-anchor="end" class="muted small">2026 年</text>
+
+  <path d="M202 243v113m84-113v113m84-113v113m84-113v113m84-113v113" fill="none" stroke="#d2e0e3" stroke-width="1"/>
+  <path d="M202 271h336m-336 62h336" fill="none" stroke="#edf3f3" stroke-width="11" stroke-linecap="round"/>
+  <text x="52" y="278" class="label">2–4 小时</text>
+  <text x="52" y="340" class="label">4–8 小时</text>
+  <path d="M279.28 271h77.28m-110.88 62h73.92" fill="none" stroke="#00776c" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="279.28" cy="271" r="7" fill="#fff" stroke="#516b79" stroke-width="2.6"/>
+  <circle cx="356.56" cy="271" r="7" fill="#00776c"/>
+  <circle cx="245.68" cy="333" r="7" fill="#fff" stroke="#516b79" stroke-width="2.6"/>
+  <circle cx="319.6" cy="333" r="7" fill="#00776c"/>
+  <text x="279.28" y="253" class="value muted" text-anchor="middle">23%</text>
+  <text x="356.56" y="253" class="value" text-anchor="middle">46%</text>
+  <text x="245.68" y="315" class="value muted" text-anchor="middle">13%</text>
+  <text x="319.6" y="315" class="value" text-anchor="middle">35%</text>
+  <g class="muted small" text-anchor="middle">
+    <text x="202" y="381">0%</text><text x="286" y="381">25%</text><text x="370" y="381">50%</text><text x="454" y="381">75%</text><text x="538" y="381">100%</text>
+  </g>
+
+  <rect x="32" y="418" width="536" height="301" rx="15" fill="#ffffff" stroke="#d1dfe2"/>
+  <text x="52" y="454" class="panel-title">02  按任务类型</text>
+  <text x="52" y="481" class="muted small">2026 年 8 月 1 日至 10 月 18 日 · 选列五类任务</text>
+  <g fill="none" stroke="#eaf1f2" stroke-width="9">
+    <path d="M251 513h240 M251 551h240 M251 589h240 M251 627h240 M251 665h240"/>
+  </g>
+  <g fill="none" stroke="#00776c" stroke-width="9">
+    <path d="M251 513h189.6 M251 551h172.8 M251 589h84 M251 627h69.6 M251 665h60"/>
+  </g>
+  <g class="label">
+    <text x="52" y="520">监控训练</text>
+    <text x="52" y="558">回答技术问题</text>
+    <text x="52" y="596">启动训练</text>
+    <text x="52" y="622">搭建评测、RL 或</text>
+    <text x="52" y="645">Agent 环境</text>
+    <text x="52" y="672">编写推理与服务代码</text>
+  </g>
+  <g class="value" text-anchor="end">
+    <text x="548" y="520">79%</text>
+    <text x="548" y="558">72%</text>
+    <text x="548" y="596">35%</text>
+    <text x="548" y="634">29%</text>
+    <text x="548" y="672">25%</text>
+  </g>
+  <g class="muted small" text-anchor="middle">
+    <text x="251" y="698">0%</text><text x="371" y="698">50%</text><text x="491" y="698">100%</text>
+  </g>
+  <text x="33" y="747" class="muted small">来源：OpenAI《Research acceleration: The jagged frontier》</text>
+  <text x="33" y="771" class="muted small">注：委派的任务组合可能随时间改变；并非固定任务集对照。</text>
+</svg>

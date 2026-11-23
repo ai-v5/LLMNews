@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="594" viewBox="0 0 600 594" role="img" aria-labelledby="flow-title flow-desc" xml:lang="zh-CN">
+  <title id="flow-title">从 Agent 吞吐到可复验结论</title>
+  <desc id="flow-desc">概念示意，并非 OpenAI 实测数据。Agent 并发、任务及代码量都是活动指标，经过排队与试验得到实验记录；通过对照、正确性检查和复验后，才可形成支撑决策的证据。建议同时跟踪端到端耗时、复验通过率、每条有效结论所耗卡时。</desc>
+  <style>
+    text { font-family: system-ui, "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", sans-serif; fill: #172e3b; }
+    .tag { fill: #006a60; font-size: 16px; font-weight: 720; letter-spacing: 2px; }
+    .sub { fill: #435c69; font-size: 20px; }
+    .body { font-size: 24px; font-weight: 720; }
+  </style>
+  <rect width="600" height="594" rx="20" fill="#eef4f5"/>
+  <text x="32" y="38" class="tag">LLMNEWS / 概念示意 · 非实测</text>
+  <text x="32" y="81" font-size="32" font-weight="750">更多 Agent，不等于更多证据</text>
+  <text x="32" y="113" class="sub">把活动、运行、产出分开测</text>
+
+  <g fill="none" stroke="#00776c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M77 226v50m-5-7 5 7 5-7"/>
+    <path d="M77 363v50m-5-7 5 7 5-7"/>
+  </g>
+  <g fill="#fff" stroke="#ccdadd">
+    <rect x="32" y="142" width="536" height="85" rx="14"/>
+    <rect x="32" y="279" width="536" height="85" rx="14"/>
+  </g>
+  <rect x="32" y="416" width="536" height="85" rx="14" fill="#dceeea" stroke="#b7d6ce"/>
+  <g fill="#00776c" fill-opacity=".12">
+    <circle cx="77" cy="184" r="21"/><circle cx="77" cy="321" r="21"/><circle cx="77" cy="458" r="21"/>
+  </g>
+  <g text-anchor="middle" class="tag">
+    <text x="78" y="191">1</text><text x="78" y="328">2</text><text x="78" y="465">3</text>
+  </g>
+  <text x="111" y="178" class="body">活动吞吐</text>
+  <text x="111" y="206" class="sub">Agent 并发数、任务量、代码改动量</text>
+  <text x="105" y="260" class="tag" style="font-size:17px;letter-spacing:.5px">配额、排队与试验执行</text>
+  <text x="111" y="315" class="body">实验记录</text>
+  <text x="111" y="343" class="sub">成功结束的运行、配置与结果完整性</text>
+  <text x="105" y="397" class="tag" style="font-size:17px;letter-spacing:.5px">对照实验、正确性检查与复验</text>
+  <text x="111" y="452" class="body">可复验的结论</text>
+  <text x="111" y="480" class="sub">在预设标准下，能支撑技术决策的证据</text>
+  <path d="M32 526h536" stroke="#ccdadd"/>
+  <text x="33" y="552" class="sub" style="font-size:18px">建议记录：端到端耗时、复验通过率、</text>
+  <text x="33" y="576" class="sub" style="font-size:18px">每条有效结论消耗的卡时。</text>
+</svg>
