@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="526" viewBox="0 0 720 526" role="img" aria-labelledby="title desc">
+<title id="title">GLM-5.4 两次循环与两路 KV</title>
+<desc id="desc">前奏26层，循环28层执行两遍，尾段24层。第一遍稀疏历史和第二遍局部128个位置一起进入同一个 softmax。</desc>
+<rect width="720" height="526" rx="20" fill="#edf3fa"/>
+<g font-family="system-ui, sans-serif" fill="#142a42">
+<text x="32" y="47" font-size="27" font-weight="700">GLM-5.4：两遍共享权重，KV 不完全共享</text>
+<text x="32" y="80" font-size="18" fill="#415873">26 + 28 × 2 + 24 = 106 次层调用；不是 FLOPs 比</text>
+<rect x="32" y="110" width="125" height="58" rx="10" fill="#d1deed"/><text x="94" y="145" text-anchor="middle" font-size="19">前奏 26 层</text>
+<rect x="182" y="110" width="356" height="58" rx="10" fill="#1d4c7c"/><text x="360" y="145" text-anchor="middle" fill="white" font-size="21">共享中段 28 层 × 两遍</text>
+<rect x="564" y="110" width="124" height="58" rx="10" fill="#d1deed"/><text x="626" y="145" text-anchor="middle" font-size="19">尾段 24 层</text>
+<g fill="#526b85" font-size="22"><text x="161" y="145">→</text><text x="541" y="145">→</text></g>
+<line x1="32" y1="192" x2="688" y2="192" stroke="#bdcddd"/>
+<text x="32" y="229" font-size="21" font-weight="700">第二遍注意力：两路输入，只归一化一次</text>
+<rect x="32" y="264" width="304" height="82" rx="12" fill="#d2e7fa"/><text x="54" y="298" font-size="21" font-weight="700">第一遍稀疏历史</text><text x="54" y="325" font-size="17">复用位置索引（图示 top-2048）</text>
+<rect x="383" y="264" width="305" height="82" rx="12" fill="#d8eee9"/><text x="405" y="298" font-size="21" font-weight="700">第二遍局部 KV</text><text x="405" y="325" font-size="17">新状态，只保留最近 128 个位置</text>
+<path d="M184 347v25h176v24m176-49v25H360" fill="none" stroke="#526b85" stroke-width="3" stroke-linejoin="round"/>
+<path d="m353 387 7 9 7-9" fill="none" stroke="#526b85" stroke-width="3"/>
+<rect x="150" y="400" width="420" height="58" rx="13" fill="#16344f"/><text x="360" y="436" font-size="22" text-anchor="middle" fill="white" font-weight="700">两路 sparse MLA · 共享 softmax</text>
+<text x="32" y="492" font-size="17" fill="#415873">不同轮次，同一位置也可有不同表示。逻辑示意，不代表物理布局。</text>
+</g>
+</svg>
