@@ -21,12 +21,12 @@
 01,GLM-5.3-Flash,active_per_token,18,B parameters,https://huggingface.co/zai-org/GLM-5.3-Flash,
 01,Hy4 flash,total_or_backbone,220,B parameters,https://huggingface.co/tencent/Hy4-flash,总量含64B Engram
 01,Hy4 flash,active_per_token,12,B parameters,https://huggingface.co/tencent/Hy4-flash,总量含64B Engram
-02,美国,AI 芯片数量,66.8,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
-02,中国,AI 芯片数量,18.2,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
-02,其他地区,AI 芯片数量,15,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
-02,美国,H100e 标称算力,72.2,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
-02,中国,H100e 标称算力,9.6,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
-02,其他地区,H100e 标称算力,18.2,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
+02,美国,AI 芯片数量,66.75362,%,https://epoch.ai/data/ai_chip_trade/ai_chip_trade_by_country.csv,2026-11-12修订；按2026 Q2累计值除以各目的地合计；图中四舍五入
+02,中国,AI 芯片数量,18.19576,%,https://epoch.ai/data/ai_chip_trade/ai_chip_trade_by_country.csv,2026-11-12修订；按2026 Q2累计值除以各目的地合计；图中四舍五入
+02,其他地区,AI 芯片数量,15.05062,%,https://epoch.ai/data/ai_chip_trade/ai_chip_trade_by_country.csv,2026-11-12修订；按2026 Q2累计值除以各目的地合计；图中四舍五入
+02,美国,H100e 标称算力,71.96294,%,https://epoch.ai/data/ai_chip_trade/ai_chip_trade_by_country.csv,2026-11-12修订；按2026 Q2累计值除以各目的地合计；图中四舍五入
+02,中国,H100e 标称算力,9.87999,%,https://epoch.ai/data/ai_chip_trade/ai_chip_trade_by_country.csv,2026-11-12修订；按2026 Q2累计值除以各目的地合计；图中四舍五入
+02,其他地区,H100e 标称算力,18.15706,%,https://epoch.ai/data/ai_chip_trade/ai_chip_trade_by_country.csv,2026-11-12修订；按2026 Q2累计值除以各目的地合计；图中四舍五入
 03,Claude Fable 5.2,AA Intelligence Index v5.0.1,65,index points,https://artificialanalysis.ai/leaderboards/models,Max / Default Fallback
 03,GPT-6.2 Astra,AA Intelligence Index v5.0.1,62,index points,https://artificialanalysis.ai/leaderboards/models,Max
 03,Gemini 4 Neon,AA Intelligence Index v5.0.1,61,index points,https://artificialanalysis.ai/leaderboards/models,Xhigh

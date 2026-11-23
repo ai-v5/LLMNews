@@ -10,8 +10,8 @@ demo: false
 sources:
   - title: "Artificial Analysis：同版智能榜与基准方法"
     url: "https://artificialanalysis.ai/leaderboards/models"
-  - title: "Epoch AI：累计加速器到货估算方法"
-    url: "https://epoch.ai/data/ai-chip-imports-documentation/methodology"
+  - title: "Epoch AI：累计加速器到货估算修订"
+    url: "https://epoch.ai/data/ai-chip-imports-documentation/changelog"
   - title: "Microsoft：MAI Base 2 预训练报告"
     url: "https://microsoft.ai/news/frontier-pre-training-at-microsoft-ai/"
   - title: "DeepSeek：V4.1-Flash 技术报告"
@@ -22,7 +22,7 @@ sources:
     url: "https://arxiv.org/html/2611.14364v1"
 ---
 
-**规模已经同档，供给仍不对称，智能差距要按任务看。** Moonshot Kimi K3.1 Pro 和 Microsoft MAI Base 2 都披露了 2.8T 总参数，但二者分别是后训练交付模型和基座，不能用参数去排名。Epoch AI 估计，美国收到的新增加速器标称算力约是中国的 **7.5 倍**；这个数字也不能套到任一家实验室的训练上。到了任务层，Kimi 的 Terminal-Bench 4.0 为 **67.2%**，高于 GPT-6.2 Astra Max 的 **64.1%**，而同一家评测机构的科学终端任务则是 **34.3% 对 78.1%**。把这些读数合成一个“中国落后几个月”，会丢掉最能指导研发和选型的信息。
+**规模已经同档，供给仍不对称，智能差距要按任务看。** Moonshot Kimi K3.1 Pro 和 Microsoft MAI Base 2 都披露了 2.8T 总参数，但二者分别是后训练交付模型和基座，不能用参数去排名。Epoch AI 估计，美国收到的新增加速器标称算力约是中国的 **7.3 倍**；这个数字也不能套到任一家实验室的训练上。到了任务层，Kimi 的 Terminal-Bench 4.0 为 **67.2%**，高于 GPT-6.2 Astra Max 的 **64.1%**，而同一家评测机构的科学终端任务则是 **34.3% 对 78.1%**。把这些读数合成一个“中国落后几个月”，会丢掉最能指导研发和选型的信息。
 
 **截面：2026 年 11 月 23 日。** 同时纳入开放权重与闭源服务。模型按研发团队归类，不按训练芯片产地、训练机房或用户所在地归类。海外前沿能力样本以美国产品为主，同时纳入法国 Mistral 的开放权重对照；样本不代表区域全量产品。“厂商披露”“独立评测”“第三方估计”“本文情景计算”分列，不用猜测填补闭源模型空白。
 
@@ -52,9 +52,9 @@ sources:
 
 ## 二、算力：到货、园区、单作业是三层证据
 
-![Epoch AI：美国累计芯片到货占比 66.8%，标称算力占比 72.2%；中国分别 18.2% 和 9.6%]({{ '/assets/data/cn-global-frontier/02-chip-arrivals.svg' | relative_url }})
+![Epoch AI：美国累计芯片到货占比 66.8%，标称算力占比 72.0%；中国分别 18.2% 和 9.9%]({{ '/assets/data/cn-global-frontier/02-chip-arrivals.svg' | relative_url }})
 
-**供给层。** [Epoch AI 估算](https://epoch.ai/data/ai-chip-imports-documentation)从 2022 年到 2026 年 6 月约有 **2,740 万 H100 当量**到货，其中美国约 **1,980 万**、中国约 **260 万**（替代结构假设下中国约 **190 万–420 万**，不是同一统计模型的置信区间）。美国与中国的芯片颗数占比相除约 **3.7 倍**，算力占比相除约 **7.5 倍**。颗数到峰值能力的差额反映样本芯片构成；既不能说中国“只有 260 万张卡”，也不能把该比值视为现场 MFU、实验室租用份额或者当前库存。该方法使用销售、海关、国内生产和到货滞后假设，既非晶片序列号普查，也不是 11 月即时读数。海外机房所在国和使用方也不一定相同。
+**供给层。** 按 [Epoch AI 11 月 12 日修订](https://epoch.ai/data/ai-chip-imports-documentation/changelog)和[同版目的地数据](https://epoch.ai/data/ai_chip_trade/ai_chip_trade_by_country.csv)，从 2022 年到 2026 年 6 月约有 **2,739 万 H100 当量**到货，美国约 **1,971 万**、中国约 **271 万**（另一组建模假设的结构范围约 **196 万–426 万**，不是单一模型的置信区间）。按底表，美国约 **1,614 万颗**对中国约 **440 万颗**：颗数约 **3.7 倍**，标称算力约 **7.3 倍**。此次修订将 H20 改为销售当季到货，替代旧版把它与其他芯片一起滞后两个月的处理。颗数到峰值能力的差额反映样本芯片构成；既不能说中国“只有 271 万张卡”，也不能把该比值视为现场 MFU、实验室租用份额或者当前库存。该方法使用销售、海关、国内生产和到货滞后假设，既非芯片序列号普查，也不是 11 月即时读数。海外机房所在国和使用方也不一定相同。
 
 **园区层。** 同一机构的案例：[和林格尔](https://epoch.ai/data/ai-data-centers/directory/huawei-horinger)估计约 **8.1 万 H100e / 170 MW IT**，[Colossus 2](https://epoch.ai/data/ai-data-centers/directory/colossus-2)约 **111.2 万 H100e / 946 MW IT**。按点估计，13.7 倍可拆成约 **5.6 倍 IT 电力**乘以约 **2.5 倍标称 H100e/MW**。这是卫星、冷却、电力与设备配置重建，不是端到端能效；和林格尔约 **3.6 万–14.1 万 H100e** 的 90% 估算区间也提醒我们，不能用两个园区替代国家普查。[Epoch 现场方法](https://epochai.substack.com/p/what-huaweis-horinger-data-center)；[SpaceX SEC 文件](https://www.sec.gov/Archives/edgar/data/1181412/000162828026042639/spaceexplorationtechnologi.htm)将两批各约 11 万颗的已投运设备与后续扩建能力分开，也未披露 Grok-5 单作业用了多少设备。
 
@@ -74,7 +74,7 @@ sources:
 
 [LongCat-2.5 的独立技报](https://tech.meituan.com/2026/11/02/Meituan-LongCat-2.5.html)给出了另一条更可操作的证据：在小于 80 GB 的国产加速器上，用超节点内 EP/FSDP/CP 处理长序列阶段；厂报相对 DDP 基线的 SFT 单卡吞吐提高 86%。这能说明并行方案解决的瓶颈，不能证明和其他厂商芯片的同口径比值。
 
-这里的 6ND 是线性层主导、一次前向和两部分反向的数量级估计，N 应按**训练路径**定义；不自动覆盖注意力、嵌入、视觉、路由、重算或优化器。用于估工期时可写成「有效模型 FLOP ÷（卡数 × 峰值 × 步内 MFU × 推进率）」；若采用已经按日历时间统计的 MFU，不应再扣一遍推进率。举个纯情景：在相同 BF16 峰值、相同作业形状下，步内 MFU 由 30% 到 45%、推进率由 80% 到 95%，有效吞吐从峰值的 24% 到 42.75%，约 **1.78 倍**；不能据此把全国 7.5 倍的供给差距缩成某个实验室倍率。
+这里的 6ND 是线性层主导、一次前向和两部分反向的数量级估计，N 应按**训练路径**定义；不自动覆盖注意力、嵌入、视觉、路由、重算或优化器。用于估工期时可写成「有效模型 FLOP ÷（卡数 × 峰值 × 步内 MFU × 推进率）」；若采用已经按日历时间统计的 MFU，不应再扣一遍推进率。举个纯情景：在相同 BF16 峰值、相同作业形状下，步内 MFU 由 30% 到 45%、推进率由 80% 到 95%，有效吞吐从峰值的 24% 到 42.75%，约 **1.78 倍**；不能据此把全国 7.3 倍的供给差距缩成某个实验室倍率。
 
 微软另报告同自家持出集 BPB 和 scaling ladder 下，相对 DeepSeek-V4-Pro-Base 的等损失拟合计算优势为 **4.2–12.3 倍**。这是在微软的四组数据上、在其拟合区间内求匹配点的厂商估计；可以讨论数据质量和配方，但不能改写成训练实际账单比、助理能力倍数或两国技术倍数。与此不同，[MLPerf Training v6.1](https://mlcommons.org/2026/11/mlperf-training-v6-1-insights/) 用同一个 DeepSeek-V3/Qwen3.5-GRPO 基准比较不同芯片系统的达标时间，是可比的工程实验；并未复现这些模型历史训练的硬件与总预算。
 
@@ -98,7 +98,7 @@ sources:
 ![六项 AA 分项：Kimi 在 Terminal-Bench 4.0 和 GDP.pdf 的观察值较高；Astra 与 Fable 在科学终端及前沿代码有明显优势]({{ '/assets/data/cn-global-frontier/04-benchmark-breakdown.svg' | relative_url }})
 
 - **科学与复杂代码的差距较大。** 相对 Kimi，Astra Max 在 Terminal-Bench Science 高 **43.8 个百分点**、FrontierCode-AA 2.0 高 **19.9 个百分点**。前者测五域的科学工作，后者有真实仓库变更与阻塞检查；这两个点比把指数折成“几倍聪明”有用。HLE Diamond 题中含图，不能当纯文字推理。
-- **终端任务有反例。** [AA 的 Terminal-Bench 4.0](https://artificialanalysis.ai/evaluations/terminalbench-4-0)有 66 项任务，固定 mini-swe-agent，每题做三次、分别按单次是否通过汇总。Kimi **67.2%**、Gemini 4 Carbon High **65.2%**、Astra Max **64.1%**，这是最高观察点，不作统计显著性宣称。同一数据集和工具不等于用了一样多的推理 token、时长或算力；也不能外推为任意代码仓都更强。
+- **终端任务有反例。** [AA 的 Terminal-Bench 4.0](https://artificialanalysis.ai/evaluations/terminalbench-4-0)有 66 项任务，固定 mini-swe-agent，每题做三次、分别按单次是否通过汇总。Kimi **67.2%**、Gemini 4 Carbon High **65.2%**、Astra Max **64.1%**，这是最高观察点，不作统计显著性宣称。同一数据集和工具不等于用了一样多的推理 token、时长或算力；也不能外推为任意代码仓都更强。[R40 行为审计](https://r40.org/papers/kimi_k31_benchmark_audit.pdf)在 63 道不需 H100 的题上复测 Kimi（每题三次），在 **44/189 次**正常尝试中标记到题面和已见输出未提供、但隐测会检查的规则；对四道题改规则后，有三道仍沿用旧规则而失败。[另一组作者的复现](https://arxiv.org/html/2611.21315v1#S2)按每题一次的不同协议，在 **9/63** 题标记到类似候选。这限制了从榜面领先推断未见任务泛化的力度；不证明训练数据来源或开发者意图，也不把审计结果当作 AA 分数更正。
 - **换 harness，差距会变。** [Search-SWE 11 月 20 日快照](https://search-swe.github.io/leaderboard/)的 47 个搜索系统构建/优化题，在 Claude Code 2.1.309 内，Opus 5.5 Max **48.4**、Sonnet 5.5 Max **38.4**、DeepSeek 1017 Max **27.6**、Kimi Pro Max **26.6**、Hy4 High **21.5**、GLM-5.3-Flash Max **16.4**。同一 DeepSeek 1017 Max 换 Codex 得 **21.1**，换 Pi 得 **18.4**；Opus 有一题引用旧版本回退，避免把分数解读成纯权重效应或成功率。
 - **偏好、多模态和工作交付应分开。** [Arena 文本](https://arena.ai/leaderboard/chat/text)、[中文子集](https://arena.ai/leaderboard/chat/text/chinese)、[视觉](https://arena.ai/leaderboard/chat/vision)分别受投票者、提示分布和对战覆盖影响，不能跨榜做 Elo 减法。11 月 20 日视觉榜已有 Qwen3.8-Max 进入前十的样本，但这证明不了高风险图表抽取的回归一致性。[Epoch 的开放工作评测](https://epoch.ai/publications/how-good-are-fable-5-2-and-gpt-6-2-astra-at-real-work)也发现：综合指数领先模型在开放式实验设计、持续迭代等工作仍会掉链子。
 
@@ -153,4 +153,4 @@ sources:
 
 **总判断：** 参数规模已经不足以区分中国和海外的领先者。现在最明显的供给护城河是大规模可用算力，美国最领先产品的能力护城河则是难任务的覆盖和完成稳定性；中国代表性的竞争力是高水平开放权重、对长上下文和缓存成本的设计，以及若干任务上已经可与最强产品交锋。未来的分水岭是能否用更多**有效**训练试验和更好的端到端交付，把这些单项优势变成可复现的广谱能力。
 
-[下载六张图使用的数据与来源（CSV）]({{ '/assets/data/cn-global-frontier/chart-data.csv' | relative_url }})。各图为本站按公开读数重绘，基准会动态更新；CSV 保留数值、单位、来源和口径，不用于填补缺失值。
+[下载六张图使用的数据与来源（CSV）]({{ '/assets/data/cn-global-frontier/chart-data.csv' | relative_url }})。编校说明：图 02 及正文已统一至 Epoch AI 的 11 月 12 日修订；图 04 保留 AA 原测分数，正文补充终端评测行为审计。各图为本站按公开读数重绘，基准会动态更新；CSV 保留数值、单位、来源和口径，不用于填补缺失值。
