@@ -30,6 +30,8 @@
 03,Claude Fable 5.2,AA Intelligence Index v5.0.1,65,index points,https://artificialanalysis.ai/leaderboards/models,Max / Default Fallback
 03,GPT-6.2 Astra,AA Intelligence Index v5.0.1,62,index points,https://artificialanalysis.ai/leaderboards/models,Max
 03,Gemini 4 Neon,AA Intelligence Index v5.0.1,61,index points,https://artificialanalysis.ai/leaderboards/models,Xhigh
+03,Gemini 4 Carbon,AA Intelligence Index v5.0.1,60,index points,https://artificialanalysis.ai/leaderboards/models,High
+03,Claude Opus 5.5,AA Intelligence Index v5.0.1,59,index points,https://artificialanalysis.ai/leaderboards/models,Max / Default Fallback
 03,GPT-6.2 Sol,AA Intelligence Index v5.0.1,57,index points,https://artificialanalysis.ai/leaderboards/models,Max
 03,Kimi K3.1 Pro,AA Intelligence Index v5.0.1,46,index points,https://artificialanalysis.ai/leaderboards/models,AA 标为 K3.1 Pro
 03,Qwen4 Max,AA Intelligence Index v5.0.1,43,index points,https://artificialanalysis.ai/leaderboards/models,AA 标为 Qwen4 Max
@@ -70,3 +72,19 @@
 05,GPT-6.1 Sol,strict instance success,66.22,%,https://arxiv.org/html/2611.14364v1#S4.SS5,3 rounds; 75 tasks per round
 05,Claude Opus 5.5,model API cost per attempt,5.69,USD,https://arxiv.org/html/2611.14364v1#S4.SS5,11-02 rate card; excludes tool and review
 05,Claude Opus 5.5,strict instance success,56.89,%,https://arxiv.org/html/2611.14364v1#S4.SS5,3 rounds; 75 tasks per round
+06,Seed Evolving,GPQA Diamond,93,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,GPT-6 Astra,GPQA Diamond,96,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Claude Opus 5.5,GPQA Diamond,94,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Gemini 4 Argon,GPQA Diamond,96,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Seed Evolving,OTIS Mock AIME,99,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,GPT-6 Astra,OTIS Mock AIME,100,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Claude Opus 5.5,OTIS Mock AIME,100,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Gemini 4 Argon,OTIS Mock AIME,100,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Seed Evolving,SimpleQA Verified,42,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,GPT-6 Astra,SimpleQA Verified,76,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Claude Opus 5.5,SimpleQA Verified,72,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Gemini 4 Argon,SimpleQA Verified,76,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Seed Evolving,Chess Puzzles,40,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,GPT-6 Astra,Chess Puzzles,76,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Claude Opus 5.5,Chess Puzzles,67,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
+06,Gemini 4 Argon,Chess Puzzles,59,%,https://epoch.ai/models/doubao-seed-evolving-nov-2026,"Epoch public scorecard; different product vintages, not compute-budget matched"
