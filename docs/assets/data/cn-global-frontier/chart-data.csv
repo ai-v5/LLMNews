@@ -1,0 +1,72 @@
+﻿figure,model_or_region,metric,value,unit,source,notes
+01,Kimi K3.1 Pro,total_or_backbone,2800,B parameters,https://huggingface.co/moonshotai/Kimi-K3.1-Pro,
+01,Kimi K3.1 Pro,active_per_token,104,B parameters,https://huggingface.co/moonshotai/Kimi-K3.1-Pro,
+01,Microsoft MAI Base 2,total_or_backbone,2800,B parameters,https://microsoft.ai/news/frontier-pre-training-at-microsoft-ai/,基座规格公开，未开放下载
+01,Microsoft MAI Base 2,active_per_token,80,B parameters,https://microsoft.ai/news/frontier-pre-training-at-microsoft-ai/,基座规格公开，未开放下载
+01,Qwen4-Max,total_or_backbone,2728,B parameters,https://qwen.ai/blog?id=qwen4-max,2400B主干+328B N-gram表；非Qwen3.8权重
+01,Qwen4-Max,active_per_token,71,B parameters,https://qwen.ai/blog?id=qwen4-max,2400B主干+328B N-gram表；非Qwen3.8权重
+01,Qwen3.8 2.4T A95B,total_or_backbone,2400,B parameters,https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B,
+01,Qwen3.8 2.4T A95B,active_per_token,95,B parameters,https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B,
+01,Mistral Large 4,total_or_backbone,1050,B parameters,https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B,另有1.6B视觉编码器；不计嵌入与输出为49B激活
+01,Mistral Large 4,active_per_token,52,B parameters,https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B,另有1.6B视觉编码器；不计嵌入与输出为49B激活
+01,Muse Spark Open,total_or_backbone,816,B parameters,https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B,开放权重，需同意定制许可
+01,Muse Spark Open,active_per_token,42,B parameters,https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B,开放权重，需同意定制许可
+01,腾讯 Hy4,total_or_backbone,770,B parameters,https://huggingface.co/tencent/Hy4,语言主干；不含视觉塔、适配器、草稿模型
+01,腾讯 Hy4,active_per_token,49,B parameters,https://huggingface.co/tencent/Hy4,语言主干；不含视觉塔、适配器、草稿模型
+01,DeepSeek V4.1 Flash,total_or_backbone,748,B parameters,https://arxiv.org/html/2609.19969v1,552B主干+196B Engram；prefill/decode分别8/16B
+01,DeepSeek V4.1 Flash,active_per_token,8 / 16,B parameters,https://arxiv.org/html/2609.19969v1,552B主干+196B Engram；prefill/decode分别8/16B
+01,Nemotron 3 Ultra,total_or_backbone,550,B parameters,https://research.nvidia.com/labs/nemotron/Nemotron-3-Ultra/,
+01,Nemotron 3 Ultra,active_per_token,55,B parameters,https://research.nvidia.com/labs/nemotron/Nemotron-3-Ultra/,
+01,GLM-5.3-Flash,total_or_backbone,320,B parameters,https://huggingface.co/zai-org/GLM-5.3-Flash,
+01,GLM-5.3-Flash,active_per_token,18,B parameters,https://huggingface.co/zai-org/GLM-5.3-Flash,
+01,Hy4 flash,total_or_backbone,220,B parameters,https://huggingface.co/tencent/Hy4-flash,总量含64B Engram
+01,Hy4 flash,active_per_token,12,B parameters,https://huggingface.co/tencent/Hy4-flash,总量含64B Engram
+02,美国,AI 芯片数量,66.8,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
+02,中国,AI 芯片数量,18.2,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
+02,其他地区,AI 芯片数量,15,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
+02,美国,H100e 标称算力,72.2,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
+02,中国,H100e 标称算力,9.6,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
+02,其他地区,H100e 标称算力,18.2,%,https://epoch.ai/data/ai-chip-imports-documentation/methodology,其他地区为总量减中美
+03,Claude Fable 5.2,AA Intelligence Index v5.0.1,65,index points,https://artificialanalysis.ai/leaderboards/models,Max / Default Fallback
+03,GPT-6.2 Astra,AA Intelligence Index v5.0.1,62,index points,https://artificialanalysis.ai/leaderboards/models,Max
+03,Gemini 4 Neon,AA Intelligence Index v5.0.1,61,index points,https://artificialanalysis.ai/leaderboards/models,Xhigh
+03,GPT-6.2 Sol,AA Intelligence Index v5.0.1,57,index points,https://artificialanalysis.ai/leaderboards/models,Max
+03,Kimi K3.1 Pro,AA Intelligence Index v5.0.1,46,index points,https://artificialanalysis.ai/leaderboards/models,AA 标为 K3.1 Pro
+03,Qwen4 Max,AA Intelligence Index v5.0.1,43,index points,https://artificialanalysis.ai/leaderboards/models,AA 标为 Qwen4 Max
+03,Grok 4.7,AA Intelligence Index v5.0.1,35,index points,https://artificialanalysis.ai/leaderboards/models,Xhigh
+03,腾讯 Hy4,AA Intelligence Index v5.0.1,35,index points,https://artificialanalysis.ai/leaderboards/models,AA 标为 Hy4
+03,DeepSeek V4.1 Flash 1017,AA Intelligence Index v5.0.1,33,index points,https://artificialanalysis.ai/leaderboards/models,Max
+03,GLM-5.3-Flash,AA Intelligence Index v5.0.1,28,index points,https://artificialanalysis.ai/leaderboards/models,AA 标为 GLM-5.3-Flash
+03,Mistral Large 4,AA Intelligence Index v5.0.1,26,index points,https://artificialanalysis.ai/leaderboards/models,High
+04,Claude Fable 5.2 Max,HLE Diamond,80.2,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,GPT-6.2 Astra Max,HLE Diamond,72.2,%,https://artificialanalysis.ai/models/comparisons/gpt-6-2-astra-vs-kimi-k3-1-pro,AA comparison pages
+04,Kimi K3.1 Pro,HLE Diamond,37.3,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,Qwen4 Max,HLE Diamond,44.9,%,https://artificialanalysis.ai/models/comparisons/qwen4-max-vs-kimi-k3-1-pro,AA comparison pages
+04,Claude Fable 5.2 Max,Terminal-Bench Science,73.3,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,GPT-6.2 Astra Max,Terminal-Bench Science,78.1,%,https://artificialanalysis.ai/models/comparisons/gpt-6-2-astra-vs-kimi-k3-1-pro,AA comparison pages
+04,Kimi K3.1 Pro,Terminal-Bench Science,34.3,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,Qwen4 Max,Terminal-Bench Science,23.3,%,https://artificialanalysis.ai/models/comparisons/qwen4-max-vs-kimi-k3-1-pro,AA comparison pages
+04,Claude Fable 5.2 Max,FrontierCode-AA 2.0,48.8,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,GPT-6.2 Astra Max,FrontierCode-AA 2.0,45.4,%,https://artificialanalysis.ai/models/comparisons/gpt-6-2-astra-vs-kimi-k3-1-pro,AA comparison pages
+04,Kimi K3.1 Pro,FrontierCode-AA 2.0,25.5,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,Qwen4 Max,FrontierCode-AA 2.0,26.5,%,https://artificialanalysis.ai/models/comparisons/qwen4-max-vs-kimi-k3-1-pro,AA comparison pages
+04,Claude Fable 5.2 Max,Terminal-Bench 4.0,59.6,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,GPT-6.2 Astra Max,Terminal-Bench 4.0,64.1,%,https://artificialanalysis.ai/models/comparisons/gpt-6-2-astra-vs-kimi-k3-1-pro,AA comparison pages
+04,Kimi K3.1 Pro,Terminal-Bench 4.0,67.2,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,Qwen4 Max,Terminal-Bench 4.0,48.5,%,https://artificialanalysis.ai/models/comparisons/qwen4-max-vs-kimi-k3-1-pro,AA comparison pages
+04,Claude Fable 5.2 Max,AutomationBench-AA,76.4,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,GPT-6.2 Astra Max,AutomationBench-AA,77.2,%,https://artificialanalysis.ai/models/comparisons/gpt-6-2-astra-vs-kimi-k3-1-pro,AA comparison pages
+04,Kimi K3.1 Pro,AutomationBench-AA,73.3,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,Qwen4 Max,AutomationBench-AA,72.6,%,https://artificialanalysis.ai/models/comparisons/qwen4-max-vs-kimi-k3-1-pro,AA comparison pages
+04,Claude Fable 5.2 Max,GDP.pdf,24.2,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,GPT-6.2 Astra Max,GDP.pdf,29.8,%,https://artificialanalysis.ai/models/comparisons/gpt-6-2-astra-vs-kimi-k3-1-pro,AA comparison pages
+04,Kimi K3.1 Pro,GDP.pdf,31.4,%,https://artificialanalysis.ai/models/comparisons/claude-fable-5-2-vs-kimi-k3-1-pro,AA comparison pages
+04,Qwen4 Max,GDP.pdf,26.2,%,https://artificialanalysis.ai/models/comparisons/qwen4-max-vs-kimi-k3-1-pro,AA comparison pages
+05,GLM-5.3-Flash,model API cost per attempt,0.2,USD,https://arxiv.org/html/2611.14364v1#S4.SS5,11-02 rate card; excludes tool and review
+05,GLM-5.3-Flash,strict instance success,30.67,%,https://arxiv.org/html/2611.14364v1#S4.SS5,3 rounds; 75 tasks per round
+05,DeepSeek V4.1 Flash,model API cost per attempt,0.53,USD,https://arxiv.org/html/2611.14364v1#S4.SS5,11-02 rate card; excludes tool and review
+05,DeepSeek V4.1 Flash,strict instance success,39.56,%,https://arxiv.org/html/2611.14364v1#S4.SS5,3 rounds; 75 tasks per round
+05,GPT-6.1 Sol,model API cost per attempt,2.17,USD,https://arxiv.org/html/2611.14364v1#S4.SS5,11-02 rate card; excludes tool and review
+05,GPT-6.1 Sol,strict instance success,66.22,%,https://arxiv.org/html/2611.14364v1#S4.SS5,3 rounds; 75 tasks per round
+05,Claude Opus 5.5,model API cost per attempt,5.69,USD,https://arxiv.org/html/2611.14364v1#S4.SS5,11-02 rate card; excludes tool and review
+05,Claude Opus 5.5,strict instance success,56.89,%,https://arxiv.org/html/2611.14364v1#S4.SS5,3 rounds; 75 tasks per round
