@@ -2,7 +2,7 @@
 layout: post
 title: "40 万张 GPU 怎么接进 RoCE：从 xAI Colossus II 到一套可复算的组网设计"
 date: 2026-11-25T16:36:00+08:00
-summary: "核对 Colossus 的公开证据，给出 400,032 张 GB300 的双平面三层 Clos 端口账本，并推演高基数两层、跨楼切面、逐流调度、PXN 和故障验收。"
+summary: "核对 Colossus 的公开证据，给出 400,032 张 GB300 的双平面三层 Clos 端口账本，并对照国内外实装案例，区分多平面与多轨，推演高基数两层、跨楼切面、PXN 和故障验收。"
 section: explainer
 label: "AI 集群组网"
 tags: [RoCEv2, Spectrum-X, Colossus, PXN, Clos, GB300, AI集群]
@@ -24,7 +24,7 @@ sources:
 
 **我的建议：如果是 40 万卡资产池，按训练作业的通信边界给跨楼网络配带宽；如果合同明确要求 40 万卡能做全域高带宽通信，就按 1:1 切面设计，另验收实际路由、尾延迟和故障降级。** 这两个目标都能叫“40 万卡集群”，但交换机、光纤和训练调度不是一套规格。
 
-下面给出两份互相独立的答案。第一份是**马斯克的集群公开到了哪一步**。第二份是**不拿推测冒充实装**，用可核对的 GB300 NIC 和交换机端口，构造 400,032 卡的完整网络；同时列出 100K/200K 扩容方法，以及为什么某些设计确实能压到两层。前篇[RoCEv2、veRoCE 与 UBG 的协议对照]({{ '/2026/11/22/ai-scale-out-rocev2-veroce-ubg/' | relative_url }})解释协议，本篇解决如何把端点、链路和作业拼成系统。
+下面给出两份互相独立的答案。第一份是**马斯克的集群公开到了哪一步**。第二份是**不拿推测冒充实装**，用可核对的 GB300 NIC 和交换机端口，构造覆盖 400,032 卡的后端网，按轨直达、跨轨由通信栈完成；同时列出 100K/200K 扩容方法，以及为什么某些设计确实能压到两层。前篇[RoCEv2、veRoCE 与 UBG 的协议对照]({{ '/2026/11/22/ai-scale-out-rocev2-veroce-ubg/' | relative_url }})解释协议，本篇解决如何把端点、链路和作业拼成系统。
 
 ## 一、Colossus II：能证实到哪一层
 
@@ -38,19 +38,21 @@ sources:
 
 **最有证据支撑的 II 架构推断**：NVL72 柜内用 NVLink/NVSwitch；柜外是按批交付、按区域铺设的高速后端网，配独立存储/管理网络；高频通信先留在 NVL/近邻域，跨批次或站点的互联承担流量预算更清楚的阶段。**RoCE/Spectrum-X 是有前代实证、也有 GB300 公开产品支持的候选。** 还找不到能证明二代具体交换机型号、两层还是三层、同一批的 rail 映射、站点间是否有端到端 RoCE，或是否开启 PXN 的竣工资料。所谓“中央交换”即使存在，也可能是一组 spine/核心域，不能按一台 ASIC 理解。下一节是可施工验证的候选设计，不是把这些未知项填成事实。
 
-## 二、先定端点和故障域：4 条 rail × 2 个 plane
+## 二、先定哪些卡能互通：4 条独立 rail，每轨 2 个 plane
 
 以单一代同构 GB300 为基准，避免把实际机房可能混装的 GB200 和 GB300 设为同一个 800G 模板。[NVIDIA DGX 规格](https://docs.nvidia.com/dgx/dgxgb200-user-guide/hardware.html)列出 GB200 tray 为 4×400G NIC，GB300 tray 为 4×800G NIC；GB300 每柜 18 tray、每 tray 4 GPU。其[企业参考架构](https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory/latest/network-logical-architecture.html)给出 800G 拆 2×400G、每张 GPU 两条 plane 接入，并以 tray 内 GPU 位置编 rail。这是下面的接入模板；该小规模参考架构不构成对 40 万卡的认证。
 
+**本文按端点可达性用词：** 多平面（multi-plane）是在**同一个互联域**上为**同一批端点**提供多张并行网络。域内任意两端可以互通，只是报文或流分到不同 plane；它们不因 plane 被分成不同卡组。本文所说的多轨默认指独立多轨（isolated multi-rail），把端点按 GPU/NIC 位置划进不同的直达域；同轨可直接走 RDMA，跨轨需要先经 NVLink/PXN 等能力转接到同轨 NIC，或另用显式网关/共享骨干。厂商的 *rail-optimized* 仅说明同位置/同轨优先，**不自动证明轨间隔离**；若同一 plane 的 spine 允许轨间 IP 转发，就属于保留跨轨直达的 rail-optimized 网络。
+
 - **Rail 按 GPU/NIC 位置分**：每台 4 GPU tray 有 rail 0–3。每条 rail 跨所有 tray，供同位置 NIC 互达。不是给整个机柜仅配四个网口，也不是单个进程自然得到四个 NIC 的带宽。
-- **Plane 按同一 rail 的并行路径分**：每个 NIC 的 800G 拆 A/B 各 400G。基线将 A/B 的交换机、配线架和跨区光路独立；同一 NIC、光模块、tray 和 compute rack 仍有共因故障。物理上得到 **8 张 rail-plane**，每张覆盖全部 tray，但**每条只覆盖每 tray 的一个 GPU 位置**，不是每个 plane 再加一遍卡数。
+- **Plane 按同一 rail 的并行路径分**：每个 NIC 的 800G 拆 A/B 各 400G。基线将 A/B 的交换机、配线架和跨区光路独立；同一 NIC、光模块、tray 和 compute rack 仍有共因故障。物理上得到 **8 张 rail-plane**，每张覆盖全部 tray，但**每条只覆盖每 tray 的一个 GPU 位置**。每轨内，两张 plane 都覆盖同一批卡；全场没有一张让 400,032 卡两两直接 RDMA 的统一平面。
 - **端到端语义先二选一**：独立 PF/GID 的软件多平面要明确 NCCL/插件发现、平面绑定和重建行为；硬件多平面由验证过的 ConnectX-8、固件、DOCA xPlane、交换机 NOS 配套，逻辑设备和 IP 布局按指定栈生成，不能将两种路径混配。[NVIDIA 多平面支持矩阵](https://docs.nvidia.com/networking/display/kubernetes2670/spectrum-x/spectrum-x.html)列出了 GB300 的这两种模式。拓扑算术不依赖某种负载均衡，实装验收依赖。
 - **任意 GPU 互通的边界**：同 rail 两端经交换机直接互达；不同位置间可通过 tray 内 NVLink 转到对齐的 NIC/代理，或由库做同位置分片再在 NVL 域汇集。没有任何跨 rail 的裸 RoCE IP 路由作为隐式兜底。跨 rail 裸 QP 的应用要显式代理、走经测试的共同网络，或另选共享 fabric。
 - **管理、存储与训练数据面物理分开**：BMC/OOB、镜像与数据读、checkpoint、网络路由控制各有优先级/独立路径。不要让存储写风暴触发训练队列的 PFC；前端和存储另按吞吐、持久化、故障域做 BOM。
 
 ## 三、一套 400,032 卡的三层 Clos，把每根链路算清
 
-**目标**：同园区 50 个 cell，所有相同 rail 的端点连通；正常态按 400G 端点做 1:1 切面，无需假设一台巨型中央交换机。每个 cell 设计容量 2,048 tray。采用 [Spectrum-4 SN5610 级 64×800GbE](https://networking-docs.nvidia.com/sn5000hw/specifications)，[硬件手册支持 800→2×400、4×200](https://networking-docs.nvidia.com/sn5000hw/cable-installation)；采购以当前合格 SKU 和固件矩阵为准，不拿早期 SN5600 的料号默认可买。
+**目标**：同园区 50 个 cell，所有相同 rail 的端点连通；正常态在每个 rail-plane 内按 400G 端点做 1:1 切面，无需假设一台巨型中央交换机。每个 cell 设计容量 2,048 tray。采用 [Spectrum-4 SN5610 级 64×800GbE](https://networking-docs.nvidia.com/sn5000hw/specifications)，[硬件手册支持 800→2×400、4×200](https://networking-docs.nvidia.com/sn5000hw/cable-installation)；采购以当前合格 SKU 和固件矩阵为准，不拿早期 SN5600 的料号默认可买。
 
 - **整柜**：5,556 柜；44 个 cell 每个 111 柜，6 个 cell 每个 112 柜。每 cell 1,998 或 2,016 tray（7,992 或 8,064 GPU），合计 100,008 tray、400,032 卡。每条 rail-plane 接 100,008 个 400G 端点。
 - **单 rail-plane 布线**：第 `p` 个 cell 内有叶交换机 `L[p,l]`、汇聚 `A[p,i]` 各 32 台，`l,i=0..31`。核心 32 组，每组 32 台 `C[i,j]`。不同索引 `i` 的核心组彼此不直接连接。端点按 tray 序号每 64 个落一台 leaf；尾部留空，不用把半柜算成整柜。
@@ -95,7 +97,7 @@ sources:
 
 设相同速率的有效逻辑 radix 为 S，leaf 端口一半下联、一半上联，全部 leaf 对 spine 组全连；**每 rail-plane 两层端点上限为 S²/2**。四个位置 rail 是四批同形端点，双平面是同一批端点的复用。如果 64×800G 全拆成 128×400G，S=128，最多 8,192 tray/rail，四条 rail 对应 **32,768 GPU**；增加同规模的 plane 主要改善带宽/故障，不会增加同一 plane 可接的 tray 数。
 
-但更高 radix 会改变结论。公开 [Spectrum-6 SN6600 系列](https://networking-docs.nvidia.com/sn6000hw/nvidia-interconnect-for-spectrum-6-based-ethernet-switches)支持 512×200GbE 有效扇出；[NVIDIA 多平面材料](https://developer.nvidia.com/blog/giga-scale-ai-ethernet-evolution-spectrum-x-ethernet-rewrites-rules/)给出 800G 拆四张 200G plane，并展示了更高端口速率的 Rubin 512K 架构示意。**借用其原理而非复用 Rubin 图上的数量**：令 GB300 每 GPU 4×200G，4 rail×4 plane 共 16 张 fabric。每张：叶交换机 391 台，各 256×200G 下联、256×200G 上联；spine 256 台，各使用 391 个 200G 端口。叶到每台 spine 一个 200G 接口。每张能接 100,008 tray，最大理论 131,072，四 rail 不重复算 plane。
+但更高 radix 会改变结论。公开 [Spectrum-6 SN6600 系列](https://networking-docs.nvidia.com/sn6000hw/nvidia-interconnect-for-spectrum-6-based-ethernet-switches)支持 512×200GbE 有效扇出；[NVIDIA 多平面材料](https://developer.nvidia.com/blog/giga-scale-ai-ethernet-evolution-spectrum-x-ethernet-rewrites-rules/)给出 800G 拆四张 200G plane，并展示了更高端口速率的 Rubin 512K 架构示意。**借用其原理而非复用 Rubin 图上的数量**：令 GB300 每 GPU 4×200G，4 rail×4 plane 共 16 张 fabric。每张：叶交换机 391 台，各 256×200G 下联、256×200G 上联；spine 256 台，各使用 391 个 200G 端口。叶到每台 spine 一个 200G 接口。每张能接 100,008 tray，最大理论 131,072，四 rail 不重复算 plane。这里把每轨 100,008 张卡的两层直达域复制到四个 GPU 位置。**若需求改成全场 400,032 卡两两原生 RoCE 直达**，这份 512 口、四条独立 rail 方案不合格。不能把四条 rail 的卡数当作同一两层 RDMA 域；要改成全域共享可达，并重新论证交换机有效基数、切面和布线。
 
 | 40 万卡候选 | 交换台数 | 端点物理子链 | 交换间逻辑链 | 适用条件 |
 |---|---:|---:|---:|---|
@@ -106,6 +108,25 @@ sources:
 两层方案的 200G 是逻辑链，不等于一根独立外皮或一个独立光模块。要把并行纤芯拆到 256 台不同 spine，需要实际的 1:4/1:8 分光线束/无源配线规划（按 lane 一一映射，不做功率分光广播），同一个多通道光模块的关联故障也要计入。**盒子更少不等于线更少**。单 rail-plane 391 个 leaf 覆盖 50 个 cell，其 spine 端口地理集中问题更尖锐；若光预算、模块供应或 ECMP 宽度不达标，不能订货后再指望固件补上。两层物料更适合新建且能集中布纤的园区，三层是更易分区上线的保守基线，4:1 则是为了符合通信本来就分层的训练负载。
 
 模型和账本：[Python 复算与端口断言]({{ '/assets/data/roce-400k-clos-model.py' | relative_url }})、[三层 CSV]({{ '/assets/data/roce-400k-clos-main.csv' | relative_url }})、[两层 CSV]({{ '/assets/data/roce-400k-clos-shallow.csv' | relative_url }})。脚本检查端点和端口，**不是**包级仿真。
+
+### 4.1 业界已经怎么组：两层多平面与十万卡证据对照
+
+不同公司披露的“规模”至少有四种：**已投入运行的算力池、同一个训练后端网可达的端点数、最大同步作业实跑卡数，以及设计/可交付上限**。同一家也可能同时使用两层 Ethernet、多层跨楼网络和 InfiniBand；不能按公司只贴一种拓扑标签。
+
+| 案例 | 可确认的规模与组网 | 证据边界 |
+|---|---|---|
+| **微软 Fairwater / OpenAI / Oracle Abilene** | 微软公开 Fairwater 站内两层 Ethernet，800 Gb/s/GPU；多个站点另走专用 AI WAN。OpenAI 确认 MRC 已部署在 Fairwater 和 Abilene。论文表 1 给出匿名生产网的 GB200 + ConnectX-8 **4×200G**、**8×100G** 两层配置，并报告 **50K、75K 卡同步预训练**故障案例。 | **131,072** 是论文两层拓扑容量算例。不要把匿名作业指认到某栋楼、把设计上限写成单作业卡数，或把这套网络套到 Azure 所有 GPU 集群。[微软 Fairwater](https://blogs.microsoft.com/blog/2025/11/12/infinite-scale-the-architecture-behind-the-azure-ai-superfactory/) · [OpenAI 生产部署](https://openai.com/index/mrc-supercomputer-networking/) · [MRC 论文](https://arxiv.org/html/2605.04333v1#S5) |
+| **Meta 129K H100 / Prometheus** | Meta 披露曾用 5 栋楼建成 **129K H100** 单集群。更新的 Prometheus 由数十万 GPU 组成，单楼多层 Ethernet fabric 最多 **20,736 卡**，用 DSF 或 NSF；楼间用深缓存的 BAG，跨度 **2 到 100+ km**。 | 集群规模不等于同一作业。Prometheus 公布可并行跑多个数万卡作业，并按模型副本分层，把最敏感的通信尽量放在副本内，再给跨楼同步单独配带宽。[129K 历史披露](https://engineering.fb.com/2025/09/29/data-infrastructure/metas-infrastructure-evolution-and-the-advent-of-ai/) · [Prometheus](https://engineering.fb.com/2026/10/19/data-center-engineering/inside-prometheus-meta-gigawatt-scale-supercluster/) |
+| **NVIDIA DGX B300 / Rubin** | DGX B300 SuperPOD 正式参考架构为 **512 节点 / 4,096 GPU**，两层 leaf–spine、rail 对齐、每 GPU 双平面 2×400G；B300 文档明确同一平面可经 spine 跨轨。厂商另展示了 512K Rubin 架构。 | 这是参考设计和更大规模的架构图，不是 512K 卡单作业验收数据。[DGX B300](https://docs.nvidia.com/dgx-superpod/reference-architecture/scalable-infrastructure-b300/latest/network-fabrics.html) · [512K Rubin 设计图](https://developer.nvidia.com/blog/giga-scale-ai-ethernet-evolution-spectrum-x-ethernet-rewrites-rules/) |
+| **阿里云 HPN / 电信韶关真武** | HPN 论文披露已部署的 **15K GPU／Pod**：两层、双 ToR、rail 对齐、双平面。该版不同 Pod 之间另加 Core，**15:1** 超售，以 PP 为典型跨 Pod 通信。韶关真武另有万卡上线公告，采用卡间 RoCE 与双平面多轨。 | HPN 的北向配比只适用于那一版负载假设，不能照搬到广域 EP。真武是另一套加速卡与项目，十万是扩容规划，不是该公告所证实的上线规模。[HPN 论文](https://rmiao.github.io/assets/pdf/sigcomm24-hpn.pdf) · [阿里云上线公告](https://ue.aliyun.com/news/20260407) · [双平面多轨报道](https://www.cnr.cn/gd/xgyxgd/20260405/t20260405_527574164.shtml) |
+| **腾讯星脉** | 腾讯产品文档称支持单集群 **10 万+ GPU 组网**，星脉披露多轨 RDMA 与 TCCL 协同。 | 产品支持上限；未披露该规模的竣工配线、每轨端点、交换层数或同规模同步作业日志。[IHN 产品文档](https://cloud.tencent.com/document/product/1779/110321) · [星脉 2.0](https://developer.cloud.tencent.com/article/2433459) |
+| **字节跳动** | MegaScale 有 **12,288 GPU、175B、55.2% MFU** 的训练基准。火山引擎另公开 veRoCE 的多路径、选择重传与拥控设计。 | 两条证据不能拼成“12,288 卡用 veRoCE”或“已用 veRoCE 跑十万卡单作业”。[MegaScale](https://www.usenix.org/conference/nsdi24/presentation/jiang-ziheng) · [火山引擎 veRoCE 原文](https://volc-developer.tos-cn-beijing.volces.com/course/1765958096125_beb86bae351fa165dba84add1c01d92a.pdf) |
+| **百度昆仑芯 / 中科曙光** | 百度披露 P800 **3.2 万卡**点亮并规模化使用；十万卡是交付能力。曙光披露郑州上线十万卡级资源池，网络为 scaleFabric 类 IB 原生 RDMA。 | 国产加速卡/资源池不等于十万 GPU 两层 RoCE；不据此推断单作业。[百度 3.2 万卡](https://cloud.baidu.com/news/news_312c7a72-b32c-4b45-a3fb-da21e99562fc) · [百度交付口径](https://cloud.baidu.com/news/news_49a6cfa4-2785-4d74-b564-bfba65c16647) · [曙光半年报](https://static.cninfo.com.cn/finalpage/2026-08-26/1225507613.PDF) |
+
+协议也要按项目区分。例如，微软还披露过一个不同的 Azure GB300 集群，柜外是 [800G Quantum-X800 InfiniBand 全胖树](https://azure.microsoft.com/en-us/blog/microsoft-azure-delivers-the-first-large-scale-cluster-with-nvidia-gb300-nvl72-for-openai-workloads/)。AWS [Rainier 的 50 万+](https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Fourth-Quarter-Results/default.aspx)是 Trainium2，Google [Ironwood](https://cloud.google.com/blog/products/compute/inside-the-Ironwood-tpu-codesigned-ai-stack)则用 TPU ICI 与光路交换连接多个 cube；两者可作系统思路对照，不计入 GPU RoCE 样本。
+
+**对两层设计最有用的启发是故障粒度。** MRC 在 50K 卡作业里报告过 leaf 侧光模块闪断，作业吞吐短时约降 25%，但没重启；论文也明确说，若故障发生在 **NIC 端共用光模块**、四条子链一起掉，QP 仍可能失败。四个 plane 不能当四个完全独立的光模块。传统 RoCE 逐流 ECMP、Spectrum-X NIC 的 PLB、MRC 的逐包多路径、NCCL 的 PXN 是四件事：**PXN 可经本地 GPU 转接到对齐的 NIC，并在适用时聚合消息；它不代替跨平面调度和重传。** 工程上我会用 Fairwater 式浅网验证同园区大范围 EP；多楼、多站则先按 Meta/HPN 划分模型副本和高频通信域，再用跨界实测给北向定速，而不是按资产量给每栋楼配相同超售。
+
 
 ## 五、光纤距离、防拥塞与反压必须一起设计
 
