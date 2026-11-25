@@ -177,3 +177,47 @@ sources:
 ## 结论
 
 这两款模型最有价值的差异在于**长程高难任务要用多少预算才能交付**。Flash 用更薄的主干、潜空间专家、局部查表和滑窗，把日常任务做到了可大量调用的价位；旗舰更值得保留给错误可累积、需要全局证据或必须自我纠错的工作。工程上用任务级合格率来选路由，采购上则先看权重的部署边界，再看是否属于许可证定义中的 MaaS。这三件事分别需要评测、容量模型和许可证原文，不能由一个总榜、一个激活参数数值或一句「已开源」代替。
+
+## 附录：加入 DeepSeek-V4.1-Flash-1017，三款模型的智能怎么排？
+
+这里比较的是后训练模型：正式 **Hy4**、正式 **Hy4 Flash**，以及 2026 年 10 月 17 日发布的 **DeepSeek-V4.1-Flash-1017**。后者不是 9 月初版 V4.1-Flash，也不是 V4-Flash。两个模型都叫 Flash，但同场得分表明它们不属于同一能力档位。以下将独立评测、腾讯对照和 DeepSeek 自报分开，不混成一个总分。
+
+### 独立评测：1017 的总体成绩略高于 Hy4，但复杂终端任务反过来
+
+沿用正文的 [Vals Index 11 月 21 日快照](https://www.vals.ai/benchmarks/vals_index)，并核对模型记录：[Hy4](https://www.vals.ai/models/tencent_hy4)、[Hy4 Flash](https://www.vals.ai/models/tencent_hy4-flash)、[1017](https://www.vals.ai/models/deepseek_deepseek-v4.1-flash-1017)。1017 条目报告 Max 推理档；各测试的端点、输出预算等不保证相同，因此下表衡量的是各自服务配置下的任务成绩，并非同 token 数下的权重对照。
+
+| 独立评测（同名同版） | Hy4 | Hy4 Flash | DeepSeek 1017（Max） | 1017 相对 Hy4 |
+|---|---:|---:|---:|---:|
+| Vals Index（行业加权） | 57.87% | 49.16% | **59.66%** | +1.79 pp |
+| Terminal-Bench 4.0（终端任务） | **39.39%** | 15.15% | 31.82% | −7.57 pp |
+| Vibe Code Bench v1.1.1 | 68.88% | 61.58% | **74.64%** | +5.76 pp |
+| Finance Agent v2.1（多步金融分析） | **64.70%** | 60.81% | 62.93% | −1.77 pp |
+| EMB v1.1（Excel 建模） | 66.18% | 62.97% | **69.17%** | +2.99 pp |
+| Tax Agent Bench | 34.40% | 23.25% | **44.35%** | +9.95 pp |
+| HLAB-Vals-1.1（长程法律交付） | 12.50% | 5.42% | **14.17%** | +1.67 pp |
+| Vals Index 单测成本 | $1.72 | **$0.07** | $0.66 | 约 0.38× |
+
+1017 对 Hy4 的总榜差距只有 **1.79 pp**，两项各自报告的标准误约 1.1 pp，公开记录不足以检定配对差异，不能读成全面领先。更有选型价值的是任务拆分：**Hy4 在终端任务领先 7.57 pp，1017 在税务 Agent 领先 9.95 pp**；对 Hy4 Flash，1017 在总榜和终端分别领先 **10.50、16.67 pp**，但该榜单的单测成本约为 Flash 的 9.4 倍。作为另一把尺，[Artificial Analysis v5.0.2 的直接比较](https://artificialanalysis.ai/models/comparisons/tencent-hy4-vs-deepseek-v4-1-flash-1017)给出 Hy4 **35**、1017 Max **32**（High 29、非推理 19，网页显示为整数）。该套件的任务组成和权重不同，也未在该比较中给出 Hy4 Flash，因此不能用它填三方总排名。
+
+### 腾讯同场：1017 逼近旗舰的代码 Agent，办公与视觉要按任务拆开
+
+下表摘选[腾讯 Hy4 Flash 官方完整表](https://huggingface.co/tencent/Hy4-flash/blob/main/assets/benchmark.png)。三个模型各取可用最高推理档；代码题使用所列统一框架，WorkIndex 使用 WorkBuddy CLI。粗体只标该行观察到的最高值，不表示统计显著。腾讯既是参赛方也是执行方，内部任务不能代替独立复测。
+
+| 腾讯评测（分） | Hy4 | Hy4 Flash | DeepSeek 1017（Max） |
+|---|---:|---:|---:|
+| DeepSWE v1.1（代码仓修复） | **74.9** | 64.6 | 73.8 |
+| ProgramBench（Almost Solved） | **30.0** | 16.0 | 29.0 |
+| Terminal-Bench 4.0（Claude Code） | **44.4** | 19.2 | 40.0 |
+| APEX-Agents v1.1（Pass@1） | **75.2** | 63.1 | 72.9 |
+| HLE-Full（有工具） | **59.1** | 55.2 | 57.1 |
+| MMMU-Pro | **78.6** | 75.8 | 76.7 |
+| ZeroBench-main（有工具，Pass@5） | **55.4** | 45.8 | 16.5 |
+| WorkIndex（八项办公任务） | **51.4** | 42.1 | 约 44.4¹ |
+| WordEditBench（保留原文结构的编辑） | **97.2** | 46.2 | 53.5 |
+| MdCoEditBench（局部 Markdown 编辑） | **57.7** | 56.9 | 29.2 |
+
+¹ 1017 的 44.4 为按公开表格八项分数等权平均后四舍五入；Hy4 与 Hy4 Flash 使用腾讯明列的总分。在腾讯的另一项 [WorkBuddy 用户盲测](https://huggingface.co/tencent/Hy4-flash/blob/main/assets/blind-evaluation-en.png)里，1017 满意度 **3.09/4**、Hy4 Flash **2.79/4**；耗时中位数 **10.3 / 6.7 分钟**。这解释了为什么日常工作未必用最快的模型就能得到最满意的交付，但盲测没有正式 Hy4，不能补出第三名次。
+
+**哪些差异能跨来源复核？** 同一 Terminal-Bench 4.0 题集，腾讯（Claude Code）和 [Vals（Mini-SWE-agent）](https://www.vals.ai/benchmarks/terminal-bench-4)均看到 **Hy4 > 1017 > Hy4 Flash**，但分数不能横着相减。对 1017，[DeepSeek 10 月 17 日更新记录](https://api-docs.deepseek.com/updates/#deepseek-v41-flash-1017-update)在 Terminal-Bench 4.0 报 **42.3**，在 DeepSWE v1.1（Mini-SWE-V2）报 **77.0**，ZeroBench-main 报 **51.0**。尤其 ZeroBench 与腾讯测出的 **16.5** 相差 34.5 分，即便都是有工具的 Pass@5，也没有足够公开证据把差值归因于模型本身或某一个设置。要部署视觉工具链，这一项应固定工具接口、图像输入、预算和评分器再复测。
+
+**怎么选：** 复杂终端操作、文档精修，先试 Hy4；税务、跨文件代码仓任务或希望在旗舰级能力和 API 成本之间折中，把 1017 Max 放在同一轮候选测试里；日常 Markdown、可自动验收的轻办公，仍可从 Hy4 Flash 起跑。做路由时，用同题、同工具、同时间或费用上限测一次，再在各模型最佳配置下测一次，记录首轮合格率、重试后合格率和每份合格交付成本。这样才能分开回答「谁的能力上限更高」和「给定预算下谁交付得更多」。
