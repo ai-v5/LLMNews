@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 385" role="img" aria-labelledby="title desc">
+<title id="title">400K RoCE folded Clos: one rail in one plane</title>
+<desc id="desc">50 cells, with 32 leaves and 32 aggregation switches per cell, connect to 32 groups of 32 core switches. Each leaf connects up to 64 trays with 400G links. There are four rails and two physically separated planes.</desc>
+<rect width="880" height="385" rx="18" fill="#0c182b"/>
+<g fill="#eaf4ff" font-family="system-ui,sans-serif">
+<text x="32" y="39" font-size="25" font-weight="700">400,032 GPU · 4 rails × 2 planes</text>
+<text x="32" y="67" font-size="15" fill="#a8c2de">One rail-plane shown · link rates in one direction</text>
+<rect x="144" y="93" width="592" height="59" rx="10" fill="#274676"/>
+<text x="440" y="119" text-anchor="middle" font-size="21" font-weight="700">32 core groups × 32 switches</text>
+<text x="440" y="140" text-anchor="middle" font-size="14">C[i,j] · one 800G port to each of the 50 cells</text>
+<g stroke="#69c4f0" stroke-width="3" fill="none"><path d="M190 152V190 M440 152V190 M690 152V190"/><path d="M190 250V281 M440 250V281 M690 250V281"/></g>
+<g fill="#15555b"><rect x="82" y="190" width="216" height="60" rx="10"/><rect x="332" y="190" width="216" height="60" rx="10"/><rect x="582" y="190" width="216" height="60" rx="10"/></g>
+<g fill="#18365a"><rect x="82" y="281" width="216" height="60" rx="10"/><rect x="332" y="281" width="216" height="60" rx="10"/><rect x="582" y="281" width="216" height="60" rx="10"/></g>
+<g text-anchor="middle"><text x="190" y="216" font-size="18">Cell 1 · 32 agg</text><text x="440" y="216" font-size="18">Cell p · 32 agg</text><text x="690" y="216" font-size="18">Cell 50 · 32 agg</text><text x="190" y="237" font-size="13">32 × 800G up per agg</text><text x="440" y="237" font-size="13">32 × 800G up per agg</text><text x="690" y="237" font-size="13">32 × 800G up per agg</text><text x="190" y="307" font-size="18">32 leaf switches</text><text x="440" y="307" font-size="18">32 leaf switches</text><text x="690" y="307" font-size="18">32 leaf switches</text><text x="190" y="329" font-size="13">64 × 400G down per leaf</text><text x="440" y="329" font-size="13">64 × 400G down per leaf</text><text x="690" y="329" font-size="13">64 × 400G down per leaf</text></g>
+<text x="440" y="368" text-anchor="middle" font-size="14" fill="#a8c2de">Within each cell: every leaf connects once to every aggregation switch at 800G</text>
+</g></svg>
