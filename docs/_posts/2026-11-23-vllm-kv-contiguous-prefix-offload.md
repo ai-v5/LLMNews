@@ -57,4 +57,6 @@ sources:
 3. **读多少：** 分别测试清 GPU 后读 CPU、从磁盘启动后读回 GPU、纯 cold 三条路径；同配置比较 TTFT、读回字节和额外 prefill token。结束过早、后端阻塞和完全驱逐要有单独样本。不同资源配置的结果分列。
 4. **结果有没有变：** 对固定输入比生成、logprob 和完成原因；不期望跨算法逐位相同的场景要预先规定容差，不能用“文件哈希没变”替代推理验收。
 
+如果要验证命中的 KV 能否被后续计算正确使用，可接着看[vLLM-Ascend 的 KV 缓存正确性检查]({{ '/2026/11/26/ascend-kv-hit-correctness-gates/' | relative_url }})。其中分别检查了 AscendStore 的恢复位置、Mooncake 的分段布局和各 PCP rank 的回放计划。
+
 这补上了[此前的 Agent KV 回放分析]({{ '/2026/11/21/agent-trace-sizing-kv-restore/' | relative_url }})中的一个具体环节：缓存有多大、能落盘多少只是资源账；**能够恢复多少连续、有用且通过验证的前缀，才是服务账。**
