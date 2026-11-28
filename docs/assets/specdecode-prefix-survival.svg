@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="557" viewBox="0 0 720 557" role="img" aria-labelledby="t d">
+<title id="t">猜 64 个，能留下多少？</title><desc id="d">横轴为候选位置，纵轴为连续到该位置仍通过的概率。第16、32、64位分别约44.0%、19.4%、3.75%；K64平均接受18.29，不含目标补发。</desc>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="555" rx="20" fill="#f7fafc" stroke="#d4e0e6"/>
+<rect x="26" y="27" width="5" height="25" rx="2" fill="#11766c" stroke="none"/>
+<text x="43" y="49" font-size="21" fill="#11766c" font-weight="700" text-anchor="start">LLMNews  /  投机解码图解 02</text>
+<text x="28" y="99" font-size="37" fill="#102a3b" font-weight="700" text-anchor="start">猜 64 个，能留下多少？</text>
+<text x="29" y="136" font-size="21" fill="#415969" font-weight="400" text-anchor="start">简化推导：每位条件通过率恒为 95%，全验</text>
+<line x1="99" y1="395" x2="656" y2="395" stroke="#d4e0e6" stroke-width="1" stroke-dasharray=""/>
+<text x="86" y="402" font-size="19" fill="#415969" font-weight="400" text-anchor="end">0%</text>
+<line x1="99" y1="346.75" x2="656" y2="346.75" stroke="#d4e0e6" stroke-width="1" stroke-dasharray=""/>
+<text x="86" y="353.75" font-size="19" fill="#415969" font-weight="400" text-anchor="end">25%</text>
+<line x1="99" y1="298.5" x2="656" y2="298.5" stroke="#d4e0e6" stroke-width="1" stroke-dasharray=""/>
+<text x="86" y="305.5" font-size="19" fill="#415969" font-weight="400" text-anchor="end">50%</text>
+<line x1="99" y1="250.25" x2="656" y2="250.25" stroke="#d4e0e6" stroke-width="1" stroke-dasharray=""/>
+<text x="86" y="257.25" font-size="19" fill="#415969" font-weight="400" text-anchor="end">75%</text>
+<line x1="99" y1="202" x2="656" y2="202" stroke="#d4e0e6" stroke-width="1" stroke-dasharray=""/>
+<text x="86" y="209" font-size="19" fill="#415969" font-weight="400" text-anchor="end">100%</text>
+<line x1="99.0" y1="395" x2="99.0" y2="402" stroke="#415969" stroke-width="1" stroke-dasharray=""/>
+<text x="99.0" y="426" font-size="20" fill="#415969" font-weight="400" text-anchor="middle">0</text>
+<line x1="238.25" y1="395" x2="238.25" y2="402" stroke="#415969" stroke-width="1" stroke-dasharray=""/>
+<text x="238.25" y="426" font-size="20" fill="#415969" font-weight="400" text-anchor="middle">16</text>
+<line x1="377.5" y1="395" x2="377.5" y2="402" stroke="#415969" stroke-width="1" stroke-dasharray=""/>
+<text x="377.5" y="426" font-size="20" fill="#415969" font-weight="400" text-anchor="middle">32</text>
+<line x1="516.75" y1="395" x2="516.75" y2="402" stroke="#415969" stroke-width="1" stroke-dasharray=""/>
+<text x="516.75" y="426" font-size="20" fill="#415969" font-weight="400" text-anchor="middle">48</text>
+<line x1="656.0" y1="395" x2="656.0" y2="402" stroke="#415969" stroke-width="1" stroke-dasharray=""/>
+<text x="656.0" y="426" font-size="20" fill="#415969" font-weight="400" text-anchor="middle">64</text>
+<text x="99" y="180" font-size="21" fill="#415969" font-weight="700" text-anchor="start">连续通过概率</text>
+<text x="656" y="454" font-size="21" fill="#415969" font-weight="400" text-anchor="end">候选位置</text>
+<polyline points="99.0,202.0 107.7,211.7 116.4,220.8 125.1,229.5 133.8,237.8 142.5,245.7 151.2,253.1 159.9,260.2 168.6,267.0 177.3,273.4 186.0,279.4 194.7,285.2 203.4,290.7 212.1,295.9 220.8,300.9 229.5,305.6 238.2,310.1 247.0,314.3 255.7,318.3 264.4,322.2 273.1,325.8 281.8,329.3 290.5,332.6 299.2,335.7 307.9,338.6 316.6,341.5 325.3,344.1 334.0,346.7 342.7,349.1 351.4,351.4 360.1,353.6 368.8,355.6 377.5,357.6 386.2,359.5 394.9,361.3 403.6,362.9 412.3,364.5 421.0,366.1 429.7,367.5 438.4,368.9 447.1,370.2 455.8,371.4 464.5,372.6 473.2,373.7 481.9,374.8 490.6,375.8 499.3,376.8 508.0,377.7 516.8,378.5 525.5,379.4 534.2,380.1 542.9,380.9 551.6,381.6 560.3,382.3 569.0,382.9 577.7,383.5 586.4,384.1 595.1,384.6 603.8,385.1 612.5,385.6 621.2,386.1 629.9,386.6 638.6,387.0 647.3,387.4 656.0,387.8" fill="none" stroke="#11766c" stroke-width="4" stroke-linejoin="round" />
+<circle cx="238.25" cy="310.0555529502093" r="5" fill="#11766c"/>
+<text x="233.25" y="294.0555529502093" font-size="23" fill="#11766c" font-weight="700" text-anchor="middle">44.0%</text>
+<circle cx="377.5" cy="357.6136834995093" r="5" fill="#11766c"/>
+<text x="372.5" y="341.6136834995093" font-size="23" fill="#11766c" font-weight="700" text-anchor="middle">19.4%</text>
+<circle cx="656.0" cy="387.7578411322546" r="5" fill="#11766c"/>
+<text x="651.0" y="371.7578411322546" font-size="23" fill="#11766c" font-weight="700" text-anchor="middle">3.75%</text>
+<rect x="28" y="466" width="664" height="43" rx="10" fill="#e3f5ef" stroke="none"/>
+<text x="43" y="495" font-size="22" fill="#11766c" font-weight="700" text-anchor="start">K=64 平均接受 18.29 个，不含目标补发</text>
+<text x="29" y="538" font-size="20" fill="#415969" font-weight="400" text-anchor="start">S(j)=0.95ʲ；不是实测，也不代表 95% 的 top-1 命中率。</text>
+</g>
+</svg>

@@ -66,6 +66,10 @@ MAGI-2 的训练划分比一个峰值数字更值得重视：**把静态激活�
 
 ## 3. 算清外层和内层的字节：HP8×EP128 不是零 EP
 
+![HP8×EP128：跨岛静态交换头切片，动态专家通信留在各自 EP128 岛内；1024 个逻辑位置并非一个动态 EP 域。]({{ '/assets/latentmoe-hp-traffic.svg' | relative_url }})
+
+*图解：按本文的 H×E 逻辑网格绘制，不代表 MAGI-2 已公开的物理组网。* [查看原图]({{ '/assets/latentmoe-hp-traffic.svg' | relative_url }})。
+
 令 N 为 HP 前每 rank 本地 token 数，D 为 model width，Dℓ 为所有 head 的 latent 总宽度，b 为线上字节/元素，H 为 HP 度，E 为每个头片的 EP 度。取一个 **H×E 的二维 rank 网格 (h,e)**：
 
 1. 沿 h 交换：固定 e、跨 H 个 rank 发出各自的 head slice。
@@ -92,6 +96,10 @@ MAGI-2 的训练划分比一个峰值数字更值得重视：**把静态激活�
 物理上可以把八个 EP128 岛分别放在高速域，跨岛沿相同 e 位置做 HP8。此时**1024 张卡属于同一 stage 的 expert ownership 网格，不再是一个 1024 卡动态 EP 域**。代价是两个方向的 collective 都有 launch、重排、同步和延迟；同一时刻八个岛的 EP 端口与跨岛 HP 是否争同一注入口、是否抢 CP 带宽，要看映射和交换结构。这里说的是并行组与互联层级，不假设互相隔离的网络轨道，也不把多个独立并行组等同于多个网络平面。
 
 ## 4. 10T 状态账：能切小专家域，也可能换来很大的权重交换
+
+![10T 参数算例，四种映射均为 256 个分片 rank、每卡 58.59 GB 持久态。EP8/Z4 单次权重 AG 为 2.93 GB/卡，纯 HP8/Z32 为 30.27 GB/卡。]({{ '/assets/latentmoe-hp-state.svg' | relative_url }})
+
+*图解：采用下文 12 B/参数及 BF16 权重假设；AG 为 all-gather，只计单次单方向等效字节，非实测。* [查看原图]({{ '/assets/latentmoe-hp-state.svg' | relative_url }})。
 
 把训练中的域区分开：
 

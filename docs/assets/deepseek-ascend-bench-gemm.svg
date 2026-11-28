@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="516" viewBox="0 0 720 516" role="img" aria-labelledby="t d">
+<title id="t">4-bit 权重，不一定是 4-bit 算力</title><desc id="d">BF16×BF16 431、FP8×FP8与FP8×FP4均861、FP4×FP4 1701 TFLOP/s。项目CANN9.2微基准，不代表decode或11月版本前后对照。</desc>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="514" rx="20" fill="#f7fafc" stroke="#d4e0e6"/>
+<rect x="26" y="27" width="5" height="25" rx="2" fill="#11766c" stroke="none"/>
+<text x="43" y="49" font-size="21" fill="#11766c" font-weight="700" text-anchor="start">LLMNews  /  开源栈图解 01</text>
+<text x="28" y="99" font-size="37" fill="#102a3b" font-weight="700" text-anchor="start">4-bit 权重，不一定是 4-bit 算力</text>
+<text x="29" y="136" font-size="21" fill="#415969" font-weight="400" text-anchor="start">950DT 冷 L2 dense GEMM：各档输入的实测值</text>
+<text x="232" y="178" font-size="20" fill="#415969" font-weight="400" text-anchor="start">TFLOP/s，条形从零起算</text>
+<text x="29" y="223" font-size="22" fill="#102a3b" font-weight="700" text-anchor="start">BF16 × BF16</text>
+<rect x="232" y="205" width="383" height="22" rx="5" fill="#eff4f7" stroke="none"/>
+<rect x="232" y="205" width="95.41791907514451" height="22" rx="5" fill="#24569f" stroke="none"/>
+<text x="681" y="224" font-size="24" fill="#24569f" font-weight="700" text-anchor="end">431</text>
+<text x="29" y="272" font-size="22" fill="#102a3b" font-weight="700" text-anchor="start">FP8 × FP8</text>
+<rect x="232" y="254" width="383" height="22" rx="5" fill="#eff4f7" stroke="none"/>
+<rect x="232" y="254" width="190.61445086705203" height="22" rx="5" fill="#11766c" stroke="none"/>
+<text x="681" y="273" font-size="24" fill="#11766c" font-weight="700" text-anchor="end">861</text>
+<text x="29" y="321" font-size="22" fill="#102a3b" font-weight="700" text-anchor="start">FP8 × FP4</text>
+<rect x="232" y="303" width="383" height="22" rx="5" fill="#eff4f7" stroke="none"/>
+<rect x="232" y="303" width="190.61445086705203" height="22" rx="5" fill="#11766c" stroke="none"/>
+<text x="681" y="322" font-size="24" fill="#11766c" font-weight="700" text-anchor="end">861</text>
+<text x="29" y="370" font-size="22" fill="#102a3b" font-weight="700" text-anchor="start">FP4 × FP4</text>
+<rect x="232" y="352" width="383" height="22" rx="5" fill="#eff4f7" stroke="none"/>
+<rect x="232" y="352" width="376.57976878612715" height="22" rx="5" fill="#a05213" stroke="none"/>
+<text x="681" y="371" font-size="24" fill="#a05213" font-weight="700" text-anchor="end">1,701</text>
+<text x="29" y="410" font-size="20" fill="#415969" font-weight="400" text-anchor="start">M / N / K = 4096 / 7168 / 16384，CANN 9.2</text>
+<rect x="28" y="451" width="664" height="43" rx="10" fill="#e3f5ef" stroke="none"/>
+<text x="43" y="480" font-size="22" fill="#11766c" font-weight="700" text-anchor="start">同一大矩阵下，W4A8 与 W8A8 都是 861 TFLOP/s</text>
+</g>
+</svg>

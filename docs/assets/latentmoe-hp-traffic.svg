@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="504" viewBox="0 0 720 504" role="img" aria-labelledby="t d">
+<title id="t">把静态 HP 和动态 EP 分开</title><desc id="d">八个头片各占一个 EP128 岛。静态头切片跨岛，动态专家路由只在岛内；CP 和状态收拢单独规划。</desc>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="502" rx="20" fill="#f7fafc" stroke="#d4e0e6"/>
+<rect x="26" y="27" width="5" height="25" rx="2" fill="#11766c" stroke="none"/>
+<text x="43" y="49" font-size="21" fill="#11766c" font-weight="700" text-anchor="start">LLMNews  /  超节点图解 01</text>
+<text x="28" y="99" font-size="37" fill="#102a3b" font-weight="700" text-anchor="start">把静态 HP 和动态 EP 分开</text>
+<text x="29" y="136" font-size="21" fill="#415969" font-weight="400" text-anchor="start">HP8 × EP128 的逻辑映射（仅画出 3 个岛）</text>
+<text x="32" y="184" font-size="24" fill="#24569f" font-weight="700" text-anchor="start">跨岛：沿同样的 EP 位置，做固定切片交换</text>
+<rect x="31" y="207" width="658" height="51" rx="10" fill="#eff4f7" stroke="#d4e0e6"/>
+<text x="47" y="241" font-size="23" fill="#102a3b" font-weight="700" text-anchor="start">头片 0</text>
+<text x="154" y="241" font-size="23" fill="#11766c" font-weight="700" text-anchor="start">动态 EP128：岛内 dispatch / combine</text>
+<rect x="642" y="219" width="24" height="25" rx="4" fill="#24569f" stroke="none"/>
+<rect x="31" y="271" width="658" height="51" rx="10" fill="#e9f1ff" stroke="#d4e0e6"/>
+<text x="47" y="305" font-size="23" fill="#102a3b" font-weight="700" text-anchor="start">头片 1</text>
+<text x="154" y="305" font-size="23" fill="#11766c" font-weight="700" text-anchor="start">动态 EP128：岛内 dispatch / combine</text>
+<rect x="642" y="283" width="24" height="25" rx="4" fill="#24569f" stroke="none"/>
+<rect x="31" y="335" width="658" height="51" rx="10" fill="#eff4f7" stroke="#d4e0e6"/>
+<text x="47" y="369" font-size="23" fill="#102a3b" font-weight="700" text-anchor="start">头片 7</text>
+<text x="154" y="369" font-size="23" fill="#11766c" font-weight="700" text-anchor="start">动态 EP128：岛内 dispatch / combine</text>
+<rect x="642" y="347" width="24" height="25" rx="4" fill="#24569f" stroke="none"/>
+<line x1="654" y1="193" x2="654" y2="365" stroke="#24569f" stroke-width="3" stroke-dasharray="6 5"/>
+<text x="31" y="417" font-size="22" fill="#415969" font-weight="400" text-anchor="start">反向和 combine 有对应交换；CP 与权重收拢另计。</text>
+<rect x="28" y="440" width="664" height="43" rx="10" fill="#e3f5ef" stroke="none"/>
+<text x="43" y="469" font-size="22" fill="#11766c" font-weight="700" text-anchor="start">1024 个逻辑位置，不必组成一个动态 EP1024 域</text>
+</g>
+</svg>
