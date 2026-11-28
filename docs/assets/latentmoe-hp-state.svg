@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="518" viewBox="0 0 720 518" role="img" aria-labelledby="t d">
+<title id="t">EP 越小，权重收拢可能越大</title><desc id="d">四种映射均为256个分片rank，每卡持久态58.59 GB。EP256和HP8×EP32不做Z轴AG；EP8配Z4为2.93 GB，纯HP8配Z32为30.27 GB。</desc>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="516" rx="20" fill="#f7fafc" stroke="#d4e0e6"/>
+<rect x="26" y="27" width="5" height="25" rx="2" fill="#11766c" stroke="none"/>
+<text x="43" y="49" font-size="21" fill="#11766c" font-weight="700" text-anchor="start">LLMNews  /  超节点图解 02</text>
+<text x="28" y="99" font-size="37" fill="#102a3b" font-weight="700" text-anchor="start">EP 越小，权重收拢可能越大</text>
+<text x="29" y="136" font-size="21" fill="#415969" font-weight="400" text-anchor="start">10T / 80 等重层 / PP8；仅看理想化 routed 状态</text>
+<text x="32" y="179" font-size="22" fill="#11766c" font-weight="700" text-anchor="start">每种映射：256 个分片 rank，58.59 GB/卡持久态</text>
+<text x="32" y="224" font-size="21" fill="#415969" font-weight="700" text-anchor="start">每 stage 的映射</text>
+<text x="688" y="224" font-size="21" fill="#415969" font-weight="700" text-anchor="end">单次权重 AG / 卡</text>
+<rect x="28" y="238" width="664" height="44" rx="8" fill="#eff4f7" stroke="none"/>
+<text x="43" y="268" font-size="23" fill="#102a3b" font-weight="700" text-anchor="start">普通 EP256，Z1</text>
+<text x="676" y="268" font-size="24" fill="#24569f" font-weight="700" text-anchor="end">无 Z 轴 AG</text>
+<rect x="28" y="291" width="664" height="44" rx="8" fill="#ffffff" stroke="none"/>
+<text x="43" y="321" font-size="23" fill="#102a3b" font-weight="700" text-anchor="start">HP8 × EP32，Z1</text>
+<text x="676" y="321" font-size="24" fill="#24569f" font-weight="700" text-anchor="end">无 Z 轴 AG</text>
+<rect x="28" y="344" width="664" height="44" rx="8" fill="#eff4f7" stroke="none"/>
+<text x="43" y="374" font-size="23" fill="#102a3b" font-weight="700" text-anchor="start">HP8 × EP8，Z4</text>
+<rect x="302" y="360" width="24.1988767756855" height="12" rx="5" fill="#11766c" stroke="none"/>
+<text x="676" y="374" font-size="24" fill="#11766c" font-weight="700" text-anchor="end">2.93 GB</text>
+<rect x="28" y="397" width="664" height="44" rx="8" fill="#ffffff" stroke="none"/>
+<text x="43" y="427" font-size="23" fill="#102a3b" font-weight="700" text-anchor="start">纯 HP8，Z32</text>
+<rect x="302" y="413" width="250.0" height="12" rx="5" fill="#a05213" stroke="none"/>
+<text x="676" y="427" font-size="24" fill="#a05213" font-weight="700" text-anchor="end">30.27 GB</text>
+<rect x="28" y="457" width="664" height="43" rx="10" fill="#e3f5ef" stroke="none"/>
+<text x="43" y="486" font-size="22" fill="#11766c" font-weight="700" text-anchor="start">保持大规模可达，按通信类型决定哪里需要快</text>
+</g>
+</svg>

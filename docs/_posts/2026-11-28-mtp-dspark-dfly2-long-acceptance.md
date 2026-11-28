@@ -41,6 +41,10 @@ DFly2 论文的「128K」是输入上下文长度。它每轮仍只提议 **5 �
 
 ## 2. MTP、DSpark 和 DFly2 的架构，究竟差在哪
 
+![V3 式 MTP 做浅预测；DSpark 块并行、轻量串行修正并控制实际验算量；DFly2 复用目标稀疏索引和 KV。]({{ '/assets/specdecode-draft-paths.svg' | relative_url }})
+
+*图解：按三份公开报告重绘，讲的是草稿侧机制；三者均需目标验算。* [查看原图]({{ '/assets/specdecode-draft-paths.svg' | relative_url }})。
+
 | 方法 | 如何生成候选 | draft 从哪里取上下文 | 最适合解决的问题 |
 |---|---|---|---|
 | DeepSeek V3 式 MTP | 主干 hidden + 前一 token embedding，附加 Transformer 沿因果链预测；V3 常用 1 个额外候选 | 主干当前表征输入附加模块，历史状态依实现 | 简单的一步投机；额外目标也用于改善主干训练 |
@@ -81,6 +85,10 @@ Hy4 flash 长上下文中原版全历史 DFlash 的 1.63 不能代表局部版 D
 - **DSpark 自己的线上对照是另外一组证据。** DeepSeek 在 V4 Preview 的真实流量里用 DSpark-5 对当时 MTP-1：V4 Flash 在 80 tok/s/user 时总吞吐 +51%，V4 Pro 在 35 tok/s/user 时 +52%；更高交互门槛的夸张倍数伴随 MTP 基线接近其容量边界。它验证的是整个系统的线上曲线，不是只给 Markov head 计收益；不能跟 DFly2 的 +62%／+81% 相乘。[DSpark 图 7](https://arxiv.org/html/2607.05147v1)
 
 ## 4. 为什么把 5 改成 64 不行：前缀存活是乘法
+
+![每位条件通过率恒为 95% 时，第 16、32、64 位的前缀存活率约 44.0%、19.4%、3.75%。K=64 平均接受 18.29 个草稿，不含目标补发。]({{ '/assets/specdecode-prefix-survival.svg' | relative_url }})
+
+*图解：按下文的恒定条件通过率模型计算，不是论文实测。* [查看原图]({{ '/assets/specdecode-prefix-survival.svg' | relative_url }})。
 
 设 qⱼ 为**已经通过前 j−1 位**时，第 j 位通过的条件概率，暂不考虑预算剪裁。S(j) = q₁×…×qⱼ，平均接受的 draft 数 E[A] = S(1)+…+S(K)。这个连乘是条件概率链式法则，不需假设各位置独立。下面用每位条件概率都相同的玩具例子，隔离 K 的影响；平均值**不含 target 补发**。
 

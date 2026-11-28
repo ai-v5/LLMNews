@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="521" viewBox="0 0 720 521" role="img" aria-labelledby="t d">
+<title id="t">稀疏注意力：别只看最后一核</title><desc id="d">MQA logits打分、DeepSelect做TopK、FlashMLA根据索引读取稀疏KV；检查引擎锁定版本、运行开关和实跑路径。</desc>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="519" rx="20" fill="#f7fafc" stroke="#d4e0e6"/>
+<rect x="26" y="27" width="5" height="25" rx="2" fill="#11766c" stroke="none"/>
+<text x="43" y="49" font-size="21" fill="#11766c" font-weight="700" text-anchor="start">LLMNews  /  开源栈图解 02</text>
+<text x="28" y="99" font-size="37" fill="#102a3b" font-weight="700" text-anchor="start">稀疏注意力：别只看最后一核</text>
+<text x="29" y="136" font-size="21" fill="#415969" font-weight="400" text-anchor="start">DSA 索引与读缓存路径（按操作示意）</text>
+<rect x="28" y="183" width="204" height="95" rx="12" fill="#e9f1ff" stroke="none"/>
+<text x="130" y="222" font-size="27" fill="#24569f" font-weight="700" text-anchor="middle">打分</text>
+<text x="130" y="255" font-size="23" fill="#102a3b" font-weight="400" text-anchor="middle">MQA logits</text>
+<line x1="235" y1="230" x2="253" y2="230" stroke="#415969" stroke-width="3" stroke-dasharray=""/>
+<path d="M244,224 L253,230 L244,236" fill="none" stroke="#415969" stroke-width="3"/>
+<rect x="258" y="183" width="204" height="95" rx="12" fill="#e3f5ef" stroke="none"/>
+<text x="360" y="222" font-size="27" fill="#11766c" font-weight="700" text-anchor="middle">选位置</text>
+<text x="360" y="255" font-size="23" fill="#102a3b" font-weight="400" text-anchor="middle">TopK</text>
+<line x1="465" y1="230" x2="483" y2="230" stroke="#415969" stroke-width="3" stroke-dasharray=""/>
+<path d="M474,224 L483,230 L474,236" fill="none" stroke="#415969" stroke-width="3"/>
+<rect x="488" y="183" width="204" height="95" rx="12" fill="#fff0de" stroke="none"/>
+<text x="590" y="222" font-size="27" fill="#a05213" font-weight="700" text-anchor="middle">按索引读</text>
+<text x="590" y="255" font-size="23" fill="#102a3b" font-weight="400" text-anchor="middle">稀疏 KV</text>
+<text x="32" y="324" font-size="21" fill="#415969" font-weight="700" text-anchor="start">算子实现</text>
+<text x="32" y="363" font-size="24" fill="#24569f" font-weight="700" text-anchor="start">DeepGEMM</text>
+<text x="260" y="363" font-size="24" fill="#11766c" font-weight="700" text-anchor="start">DeepSelect</text>
+<text x="490" y="363" font-size="24" fill="#a05213" font-weight="700" text-anchor="start">FlashMLA</text>
+<line x1="30" y1="389" x2="690" y2="389" stroke="#d4e0e6" stroke-width="2" stroke-dasharray=""/>
+<text x="31" y="426" font-size="21" fill="#415969" font-weight="400" text-anchor="start">读代码时，再查引擎锁定的版本、运行开关、实际符号。</text>
+<rect x="28" y="452" width="664" height="43" rx="10" fill="#e9f1ff" stroke="none"/>
+<text x="43" y="481" font-size="22" fill="#24569f" font-weight="700" text-anchor="start">上游合入，不等于引擎默认用到</text>
+</g>
+</svg>

@@ -58,6 +58,10 @@ DeepJIT 的 [AICPU bootstrap #48](https://github.com/deepseek-ai/DeepJIT/pull/48
 
 ### DeepGEMM-Ascend：同样的 4-bit 权重，有两条完全不同的上限
 
+![950DT 大形状稠密 GEMM 微基准：BF16 乘 BF16 431，FP8 乘 FP8 和 FP8 乘 FP4 均为 861，FP4 乘 FP4 为 1701 TFLOP/s。]({{ '/assets/deepseek-ascend-bench-gemm.svg' | relative_url }})
+
+*图解：据下文链接的 DeepGEMM-Ascend README 重绘。CANN 9.2 微基准，不是 11 月新版本 A/B，也不是 decode 实测。* [查看原图]({{ '/assets/deepseek-ascend-bench-gemm.svg' | relative_url }})。
+
 [950DT 冷 L2 大矩阵基准](https://github.com/deepseek-ai/DeepGEMM-Ascend/blob/fd5d22d/README.md#dense-gemm)的形状统一为 M=4096、N=7168、K=16384：
 
 | 输入乘法格式 | 实测 | 项目采用的峰值口径 |
@@ -72,6 +76,10 @@ DeepJIT 的 [AICPU bootstrap #48](https://github.com/deepseek-ai/DeepJIT/pull/48
 [11 月实现](https://github.com/deepseek-ai/DeepGEMM-Ascend/pull/35)更有价值的是把数据再读写和串行段缩短：MegaMoE 合并 dispatch、两次 grouped GEMM、SwiGLU 和 combine，可选 combine 后 FP32 RMSNorm，针对偏斜和低延迟 decode 加路径；Shifted mHC 推理可做 NPU 图回放。FP8 随机舍入是部分输出 epilogue 的选项，不代表整个训练图用了 FP8 梯度，更不证明收敛。还有一个移植陷阱：昇腾端按 K 成对把 UE8M0 scale 打包进 int16，并采用 MN-major。**接口兼容不等于权重、scale 和 KV 布局可以原样共享。**
 
 ### FlashMLA 与 DeepSelect：DSA 要测整条链，不能只测 attention
+
+![DSA 的数据路径：MQA 打分、TopK 选位置、按索引读稀疏 KV。核对版本和开关后，再检查实际调用的算子。]({{ '/assets/deepseek-ascend-dsa-stack.svg' | relative_url }})
+
+*图解：按下文公开调用链重绘，模块名为对应实现，不表示所有引擎都使用同一版本或融合路径。* [查看原图]({{ '/assets/deepseek-ascend-dsa-stack.svg' | relative_url }})。
 
 V4.1 的索引器先做 MQA logits 打分、做 TopK，再按索引读取稀疏 KV。[DeepInfer 的索引器实现](https://github.com/deepseek-ai/DeepInfer/blob/a679bb8/deepinfer/model_executor/models/v4_modules/index_attn.py)能看到 paged/sparse MQA 与 DeepSelect 的衔接。DeepSelect 11 月追加昇腾 FP32 TopK，打开采样和 logits 提取的另一段；其 README 的对比是特定形状上的 `torch.topk`，不是全模型的速度比。
 

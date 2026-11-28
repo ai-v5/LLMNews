@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="514" viewBox="0 0 720 514" role="img" aria-labelledby="t d">
+<title id="t">三种草稿，优化三段链路</title><desc id="d">V3式MTP用附加层浅猜；DSpark用块并行、Markov修正及动态验算预算；DFly2复用目标稀疏索引和KV latent。</desc>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="512" rx="20" fill="#f7fafc" stroke="#d4e0e6"/>
+<rect x="26" y="27" width="5" height="25" rx="2" fill="#11766c" stroke="none"/>
+<text x="43" y="49" font-size="21" fill="#11766c" font-weight="700" text-anchor="start">LLMNews  /  投机解码图解 01</text>
+<text x="28" y="99" font-size="37" fill="#102a3b" font-weight="700" text-anchor="start">三种草稿，优化三段链路</text>
+<text x="29" y="136" font-size="21" fill="#415969" font-weight="400" text-anchor="start">以 DeepSeek V3 式 MTP 为对照</text>
+<rect x="28" y="159" width="664" height="79" rx="11" fill="#e9f1ff" stroke="none"/>
+<text x="44" y="205" font-size="28" fill="#24569f" font-weight="700" text-anchor="start">MTP</text>
+<text x="203" y="192" font-size="26" fill="#102a3b" font-weight="700" text-anchor="start">附加模块沿因果链预测</text>
+<text x="203" y="221" font-size="21" fill="#415969" font-weight="400" text-anchor="start">V3 常用 1 个额外候选</text>
+<rect x="28" y="252" width="664" height="79" rx="11" fill="#e3f5ef" stroke="none"/>
+<text x="44" y="298" font-size="28" fill="#11766c" font-weight="700" text-anchor="start">DSpark</text>
+<text x="203" y="285" font-size="26" fill="#102a3b" font-weight="700" text-anchor="start">并行草稿 + 轻量串行修正</text>
+<text x="203" y="314" font-size="21" fill="#415969" font-weight="400" text-anchor="start">按置信度分配目标验算预算</text>
+<rect x="28" y="345" width="664" height="79" rx="11" fill="#fff0de" stroke="none"/>
+<text x="44" y="391" font-size="28" fill="#a05213" font-weight="700" text-anchor="start">DFly2</text>
+<text x="203" y="378" font-size="26" fill="#102a3b" font-weight="700" text-anchor="start">复用目标选好的索引及 KV</text>
+<text x="203" y="407" font-size="21" fill="#415969" font-weight="400" text-anchor="start">仍须用目标模型验算</text>
+<rect x="28" y="455" width="664" height="43" rx="10" fill="#e9f1ff" stroke="none"/>
+<text x="43" y="484" font-size="22" fill="#24569f" font-weight="700" text-anchor="start">128K 是输入上下文；论文这组草稿深度仍是 5</text>
+</g>
+</svg>
