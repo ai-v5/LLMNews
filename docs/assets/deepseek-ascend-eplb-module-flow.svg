@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="845" viewBox="0 0 720 845" role="img" aria-labelledby="title desc">
+<title id="title">冗余专家如何复制权重、回收梯度？</title><desc id="desc">路由统计产生逻辑专家到原体/副本的物理映射；原体的权重预取至副本后才路由计算；反向副本梯度按同一映射用FP32累加回原专家。 </desc>
+<defs><marker id="arr-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#344e61"/></marker><marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#235598"/></marker><marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0e6b59"/></marker><marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#964b10"/></marker><marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5b4098"/></marker></defs>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="843" rx="22" fill="#f7fafc" stroke="#cbd9e2"/>
+<rect x="28" y="31" width="6" height="24" rx="3" fill="#0e6b59" stroke="none"/>
+<text x="46" y="51" fill="#0e6b59" font-size="20" font-weight="700" text-anchor="start">LLMNews  /  开源栈 · 算法原理</text>
+<text x="28" y="101" fill="#122a3a" font-size="37" font-weight="700" text-anchor="start">冗余专家如何复制权重、回收梯度？</text>
+<text x="29" y="139" fill="#344e61" font-size="23" font-weight="400" text-anchor="start">DeepEP‑Ascend V1.1：从逻辑专家到物理 slot</text>
+<rect x="143" y="160" width="434" height="67" rx="11" fill="#eeeafd" stroke="#cbd9e2"/>
+<text x="360.0" y="190" fill="#5b4098" font-size="28" font-weight="700" text-anchor="middle">统计专家的 token 负载</text>
+<text x="360.0" y="217" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">更新逻辑专家 → 物理 slot 映射</text>
+<path d="M360 227 V250 H164 V274" fill="none" stroke="#5b4098" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7" marker-end="url(#arr-p)"/>
+<path d="M360 250 H556 V274" fill="none" stroke="#5b4098" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7" marker-end="url(#arr-p)"/>
+<rect x="28" y="279" width="271" height="74" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="163.5" y="309" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">原专家 E</text>
+<text x="163.5" y="336" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">保留原权重 Wₑ</text>
+<rect x="421" y="279" width="271" height="74" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="556.5" y="309" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">冗余 slot E′</text>
+<text x="556.5" y="336" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">预取 Wₑ 到副本</text>
+<path d="M299 316 H416" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<text x="360" y="300" fill="#235598" font-size="20" font-weight="700" text-anchor="middle">权重</text>
+<path d="M556 353 V376 H360 V410" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M164 353 V376 H360" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  />
+<rect x="88" y="414" width="544" height="68" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="360.0" y="444" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">等待预取完成，再按映射 dispatch</text>
+<text x="360.0" y="471" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">E 和 E′ 分担同一逻辑专家的 token</text>
+<path d="M360 482 V505" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<rect x="88" y="513" width="544" height="67" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="360.0" y="543" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">Grouped GEMM → combine</text>
+<text x="360.0" y="570" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">原体和副本的输出都回到相应 token</text>
+<path d="M360 580 V601" fill="none" stroke="#964b10" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-a)"/>
+<rect x="88" y="609" width="544" height="66" rx="11" fill="#fff0dc" stroke="#cbd9e2"/>
+<text x="360.0" y="639" fill="#964b10" font-size="28" font-weight="700" text-anchor="middle">Backward：分别产生梯度</text>
+<text x="360.0" y="666" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">原专家梯度 Gₑ，副本梯度 Gₑ′</text>
+<path d="M360 675 V699" fill="none" stroke="#964b10" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-a)"/>
+<rect x="88" y="707" width="544" height="66" rx="11" fill="#fff0dc" stroke="#cbd9e2"/>
+<text x="360.0" y="737" fill="#964b10" font-size="25" font-weight="700" text-anchor="middle">按同一映射，把副本梯度累回原专家</text>
+<text x="360.0" y="764" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">FP32 累加；副本不独立更新逻辑权重</text>
+<rect x="28" y="783" width="664" height="48" rx="10" fill="#e8f1ff" stroke="none"/>
+<text x="45" y="815" fill="#235598" font-size="22" font-weight="700" text-anchor="start">代价是额外搬权重和梯度，目标是减少热点长尾</text>
+</g>
+</svg>

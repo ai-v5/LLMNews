@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="827" viewBox="0 0 720 827" role="img" aria-labelledby="title desc">
+<title id="title">DSpark 把大计算做成并行</title><desc id="desc">MTP 将主干 hidden 与已得到的 token embedding 输入附加 Transformer，预测额外 token。DSpark 骨干并行生成基分布，前一个已采样候选只传入低秩 Markov 修正，另由置信调度控制验算量。</desc>
+<defs><marker id="arr-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#344e61"/></marker><marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#235598"/></marker><marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0e6b59"/></marker><marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#964b10"/></marker><marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5b4098"/></marker></defs>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="825" rx="22" fill="#f7fafc" stroke="#cbd9e2"/>
+<rect x="28" y="31" width="6" height="24" rx="3" fill="#0e6b59" stroke="none"/>
+<text x="46" y="51" fill="#0e6b59" font-size="20" font-weight="700" text-anchor="start">LLMNews  /  投机解码 · 草稿模块</text>
+<text x="28" y="101" fill="#122a3a" font-size="37" font-weight="700" text-anchor="start">DSpark 把大计算做成并行</text>
+<text x="29" y="139" fill="#344e61" font-size="23" font-weight="400" text-anchor="start">对照 DeepSeek V3 式 MTP 的单步草稿</text>
+<text x="31" y="182" fill="#235598" font-size="24" font-weight="700" text-anchor="start">V3 式 MTP</text>
+<rect x="28" y="201" width="289" height="76" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="172.5" y="231" fill="#235598" font-size="25" font-weight="700" text-anchor="middle">hidden + token</text>
+<text x="172.5" y="258" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">主干状态 + 已知 token 嵌入</text>
+<path d="M317 239 H377" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<rect x="384" y="201" width="308" height="76" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="538.0" y="231" fill="#235598" font-size="25" font-weight="700" text-anchor="middle">附加 Transformer</text>
+<text x="538.0" y="258" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">常用 1 个额外候选</text>
+<text x="31" y="324" fill="#0e6b59" font-size="24" font-weight="700" text-anchor="start">DSpark</text>
+<rect x="87" y="344" width="546" height="68" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="360.0" y="374" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">Anchor + mask 槽 + 目标多层特征</text>
+<text x="360.0" y="401" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">给草稿骨干准备当前块与上下文</text>
+<path d="M360 412 V437" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<rect x="87" y="443" width="546" height="67" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="360.0" y="473" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">块 Transformer：同时出各槽表示</text>
+<text x="360.0" y="500" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">一次大前向产生 base logits / 特征</text>
+<path d="M153 510 V540" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<path d="M360 510 V540" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<path d="M567 510 V540" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<rect x="58" y="546" width="190" height="76" rx="11" fill="#fff0dc" stroke="#cbd9e2"/>
+<text x="153.0" y="576" fill="#964b10" font-size="28" font-weight="700" text-anchor="middle">槽 1</text>
+<text x="153.0" y="603" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">采样 c₁</text>
+<rect x="265" y="546" width="190" height="76" rx="11" fill="#fff0dc" stroke="#cbd9e2"/>
+<text x="360.0" y="576" fill="#964b10" font-size="28" font-weight="700" text-anchor="middle">槽 2</text>
+<text x="360.0" y="603" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">修正 → c₂</text>
+<rect x="472" y="546" width="190" height="76" rx="11" fill="#fff0dc" stroke="#cbd9e2"/>
+<text x="567.0" y="576" fill="#964b10" font-size="28" font-weight="700" text-anchor="middle">槽 3</text>
+<text x="567.0" y="603" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">修正 → c₃</text>
+<path d="M248 600 H260" fill="none" stroke="#964b10" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-a)"/>
+<path d="M455 600 H467" fill="none" stroke="#964b10" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-a)"/>
+<text x="31" y="653" fill="#964b10" font-size="21" font-weight="700" text-anchor="start">橙箭头：上一个已采样 token 进入下一槽的 Markov 头</text>
+<path d="M632 476 H681 V702 H601" fill="none" stroke="#5b4098" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7" marker-end="url(#arr-p)"/>
+<path d="M662 590 H681" fill="none" stroke="#5b4098" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7" />
+<rect x="25" y="674" width="571" height="65" rx="11" fill="#eeeafd" stroke="#cbd9e2"/>
+<text x="310.5" y="704" fill="#5b4098" font-size="25" font-weight="700" text-anchor="middle">置信度 → 分配目标验算预算 V</text>
+<text x="310.5" y="731" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">各槽置信读取骨干与前槽；全批容量参考历史</text>
+<rect x="28" y="759" width="664" height="48" rx="10" fill="#e8f1ff" stroke="none"/>
+<text x="45" y="791" fill="#235598" font-size="22" font-weight="700" text-anchor="start">并行的是草稿骨干；小修正串行，目标验算仍保因果</text>
+</g>
+</svg>

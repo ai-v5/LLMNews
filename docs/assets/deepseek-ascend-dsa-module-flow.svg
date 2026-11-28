@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="796" viewBox="0 0 720 796" role="img" aria-labelledby="title desc">
+<title id="title">DSA 的索引分数不是注意力权重</title><desc id="desc">索引 query 和 index key cache 在候选轴 L_c 上打分，TopK 只输出位置。独立的 attention query 和稀疏 gather 的 KV 在选定位置上算注意力并返回输出。</desc>
+<defs><marker id="arr-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#344e61"/></marker><marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#235598"/></marker><marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0e6b59"/></marker><marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#964b10"/></marker><marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5b4098"/></marker></defs>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="794" rx="22" fill="#f7fafc" stroke="#cbd9e2"/>
+<rect x="28" y="31" width="6" height="24" rx="3" fill="#0e6b59" stroke="none"/>
+<text x="46" y="51" fill="#0e6b59" font-size="20" font-weight="700" text-anchor="start">LLMNews  /  开源栈 · 算法原理</text>
+<text x="28" y="101" fill="#122a3a" font-size="37" font-weight="700" text-anchor="start">DSA 的索引分数不是注意力权重</text>
+<text x="29" y="139" fill="#344e61" font-size="23" font-weight="400" text-anchor="start">画出两条查询路径与两类缓存；省略量化细节</text>
+<rect x="256" y="158" width="208" height="54" rx="11" fill="#eff4f7" stroke="#cbd9e2"/>
+<text x="360.0" y="193.0" fill="#344e61" font-size="28" font-weight="700" text-anchor="middle">当前 hidden</text>
+<path d="M360 212 V227 H187 V253" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M360 227 H533 V253" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<rect x="28" y="253" width="318" height="76" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="187.0" y="283" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">索引 query</text>
+<text x="187.0" y="310" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">用于筛位置的 Q</text>
+<rect x="374" y="253" width="318" height="76" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="533.0" y="283" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">Attention query</text>
+<text x="533.0" y="310" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">真正计算注意力的 Q</text>
+<path d="M187 329 V354" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<rect x="34" y="333" width="133" height="24" rx="6" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="100" y="351" fill="#235598" font-size="18" font-weight="700" text-anchor="middle">索引 K 缓存</text>
+<path d="M167 345 H182" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<rect x="28" y="362" width="318" height="75" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="187.0" y="392" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">MQA 打分</text>
+<text x="187.0" y="419" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">每 query 对 Lc 个候选打分</text>
+<path d="M187 437 V456" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<rect x="374" y="375" width="318" height="52" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="533.0" y="409.0" fill="#0e6b59" font-size="25" font-weight="700" text-anchor="middle">Attention KV 缓存</text>
+<path d="M533 427 V460" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<rect x="28" y="465" width="318" height="74" rx="11" fill="#eeeafd" stroke="#cbd9e2"/>
+<text x="187.0" y="495" fill="#5b4098" font-size="25" font-weight="700" text-anchor="middle">TopK：选位置</text>
+<text x="187.0" y="522" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">只输出索引 IDs，不输出权重</text>
+<path d="M346 502 H369" fill="none" stroke="#5b4098" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7" marker-end="url(#arr-p)"/>
+<rect x="374" y="465" width="318" height="74" rx="11" fill="#eeeafd" stroke="#cbd9e2"/>
+<text x="533.0" y="495" fill="#5b4098" font-size="25" font-weight="700" text-anchor="middle">Gather：读稀疏 KV</text>
+<text x="533.0" y="522" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">用 IDs 访问 Attention KV</text>
+<path d="M533 329 V357 H703 V562 H569 V579" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<path d="M533 539 V574" fill="none" stroke="#5b4098" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-p)"/>
+<rect x="150" y="586" width="456" height="72" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="378.0" y="616" fill="#0e6b59" font-size="25" font-weight="700" text-anchor="middle">FlashMLA：对选中项重新算注意力</text>
+<text x="378.0" y="643" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">Q·K → softmax → 对 V 加权</text>
+<path d="M378 658 V679" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<rect x="247" y="688" width="262" height="44" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="378.0" y="718.0" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">Attention 输出</text>
+<rect x="28" y="736" width="664" height="48" rx="10" fill="#e8f1ff" stroke="none"/>
+<text x="45" y="768" fill="#235598" font-size="22" font-weight="700" text-anchor="start">紫色横箭头传位置 IDs；Lc 是候选位置数</text>
+</g>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="762" viewBox="0 0 720 762" role="img" aria-labelledby="title desc">
+<title id="title">一次验算，哪些 token 能留下？</title><desc id="desc">草稿提议4个，目标验前四个。如果前两位接受、第三位拒绝，则保留前两位，目标在第三位给修正 token，草稿后缀和对应试算状态不提交。</desc>
+<defs><marker id="arr-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#344e61"/></marker><marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#235598"/></marker><marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0e6b59"/></marker><marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#964b10"/></marker><marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5b4098"/></marker></defs>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="760" rx="22" fill="#f7fafc" stroke="#cbd9e2"/>
+<rect x="28" y="31" width="6" height="24" rx="3" fill="#0e6b59" stroke="none"/>
+<text x="46" y="51" fill="#0e6b59" font-size="20" font-weight="700" text-anchor="start">LLMNews  /  投机解码 · 算法原理</text>
+<text x="28" y="101" fill="#122a3a" font-size="37" font-weight="700" text-anchor="start">一次验算，哪些 token 能留下？</text>
+<text x="29" y="139" fill="#344e61" font-size="23" font-weight="400" text-anchor="start">同一轮内：目标并行前向，按前缀顺序决定提交</text>
+<rect x="170" y="165" width="380" height="66" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="360.0" y="195" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">已提交前缀</text>
+<text x="360.0" y="222" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">作为草稿端与目标端的共同输入</text>
+<path d="M360 231 V258" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<rect x="170" y="263" width="380" height="65" rx="11" fill="#eff4f7" stroke="#cbd9e2"/>
+<text x="360.0" y="293" fill="#344e61" font-size="28" font-weight="700" text-anchor="middle">Draft：提出 c₁ … c₄</text>
+<text x="360.0" y="320" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">K=4，此例全送验算 V=4</text>
+<path d="M360 328 V356" fill="none" stroke="#344e61" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-n)"/>
+<rect x="123" y="361" width="474" height="66" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="360.0" y="391" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">Target：一次因果前向</text>
+<text x="360.0" y="418" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">每个位置只能看见它之前的前缀</text>
+<path d="M360 427 V446 H105" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  />
+<path d="M360 446 H612" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  />
+<path d="M105 446 V460" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M274 446 V460" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M443 446 V460" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M612 446 V460" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<rect x="30" y="465" width="151" height="75" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="105.5" y="495" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">c₁</text>
+<text x="105.5" y="522" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">接受</text>
+<rect x="199" y="465" width="151" height="75" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="274.5" y="495" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">c₂</text>
+<text x="274.5" y="522" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">接受</text>
+<rect x="368" y="465" width="151" height="75" rx="11" fill="#fff0dc" stroke="#cbd9e2"/>
+<text x="443.5" y="495" fill="#964b10" font-size="28" font-weight="700" text-anchor="middle">c₃</text>
+<text x="443.5" y="522" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">首次拒绝</text>
+<rect x="537" y="465" width="151" height="75" rx="11" fill="#eff4f7" stroke="#cbd9e2"/>
+<text x="612.5" y="495" fill="#344e61" font-size="28" font-weight="700" text-anchor="middle">c₄</text>
+<text x="612.5" y="522" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">作废</text>
+<path d="M105 540 V559 H360 V578" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  />
+<path d="M274 540 V559" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  />
+<path d="M443 540 V559 H360 V580" fill="none" stroke="#964b10" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-a)"/>
+<rect x="80" y="586" width="560" height="65" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="360.0" y="616" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">提交 c₁、c₂ 和目标修正 token</text>
+<text x="360.0" y="643" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">A=2，τ=3；拒绝后的草稿状态不提交</text>
+<rect x="28" y="688" width="664" height="48" rx="10" fill="#e8f1ff" stroke="none"/>
+<text x="45" y="720" fill="#235598" font-size="22" font-weight="700" text-anchor="start">若四位都通过，则目标另补一位；EOS 等停点另计</text>
+</g>
+</svg>
