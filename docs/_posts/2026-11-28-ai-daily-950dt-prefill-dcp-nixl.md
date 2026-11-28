@@ -2,6 +2,7 @@
 layout: post
 title: "AI 日报｜950DT 的 64K Prefill、MI355X 的 KV 容量拐点，verl 分片同步权重"
 date: 2026-11-28T05:34:00+08:00
+last_modified_at: "2026-11-28"
 summary: "SGLang 合入两种阶段不同的上下文并行方案；verl 用分片 NIXL 缩短大模型权重同步；昇腾有两处带实测的 decode 改动，以及 Kimi K3.1 的 DFLASH 功能进展。"
 section: daily
 label: "AI 动态"

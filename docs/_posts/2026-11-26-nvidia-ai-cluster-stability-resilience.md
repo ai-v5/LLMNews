@@ -2,6 +2,7 @@
 layout: post
 title: "万卡集群怎样验收、定位慢卡和恢复训练？拆解 NVIDIA 31 分钟韧性演讲"
 date: 2026-11-26T11:42:47+08:00
+last_modified_at: "2026-11-26"
 summary: "用时间轴梳理 NVIDIA China AI Infra Day 的训推集群韧性分享，从 23:29 的交付验收单讲到 kernel、NCCL 和三层重启，再把故障恢复拆成可量化的训练和推理指标。"
 section: explainer
 label: "集群韧性"

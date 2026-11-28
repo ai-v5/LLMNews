@@ -2,6 +2,7 @@
 layout: post
 title: "AI 日报：星辰 4.1 补齐原生权重，TransferQueue 改写控制面，GB200 基准重测 KV 容量"
 date: 2026-11-26T05:31:00+08:00
+last_modified_at: "2026-11-26"
 summary: "Xing4.1-Preview 新增 MindSpore 原生权重；TransferQueue 合入可选 Rust 控制器；InferenceX 排除额外主机 DRAM 后重测 MiniMax；昇腾尝试细粒度 TP；百炼发布决策模型，Claude Code 接入远程 Skills。"
 section: daily
 label: "AI 动态"

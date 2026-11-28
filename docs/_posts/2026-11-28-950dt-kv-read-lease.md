@@ -2,6 +2,7 @@
 layout: post
 title: "950DT 上的百万 token KV 命中，为什么还是超时？"
 date: 2026-11-28T05:29:00+08:00
+last_modified_at: "2026-11-28"
 summary: "拆解 GLM-5.3 HiSparse 的外部缓存恢复：256 MiB 分批把最大单次 GET 从 40.30 秒压到 1.39 秒，而整轮读取仍约 40 秒。三组试验分别回答了租约、传输和请求完成的问题。"
 section: explainer
 label: "推理系统解读"

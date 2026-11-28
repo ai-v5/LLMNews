@@ -2,6 +2,7 @@
 layout: post
 title: "AI 日报 11/27：Nemotron 文档解析提速，MoE 推理按阶段重排路由"
 date: 2026-11-27T05:34:28+08:00
+last_modified_at: "2026-11-27"
 summary: "五条公开进展：NVIDIA 为 Nemotron Parse 开放数据和 DFlash2，昇腾测试 DeepSeek V4.1 的紧凑 KV 布局，两篇论文分别重排 MoE 路由和流水线推理，Libtt 展示四卡 RL 闭环。"
 section: daily
 label: "AI 动态"
