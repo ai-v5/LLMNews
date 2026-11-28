@@ -1,6 +1,7 @@
 ---
 title: "Tesla FSD v15 Reality View：半个 AI4 TRIP，如何跑起 10 亿参数的车载视频生成？"
 date: 2026-11-23T19:23:00+08:00
+last_modified_at: "2026-11-24"
 layout: post
 summary: "核对马斯克关于 UVE、条件 MeanFlow、四周期与 AI4 整数加速器的原话，拆分 36 fps 与感知延迟，再用可复算的算力、访存和热态预算评估车载可行性。"
 section: explainer

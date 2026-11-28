@@ -6,5 +6,10 @@ layout: null
   <url><loc>{{ '/' | absolute_url | xml_escape }}</loc></url>
   <url><loc>{{ '/disclaimer/' | absolute_url | xml_escape }}</loc></url>
   <url><loc>{{ '/privacy/' | absolute_url | xml_escape }}</loc></url>
-  {% for post in site.posts %}<url><loc>{{ post.url | absolute_url | xml_escape }}</loc></url>{% endfor %}
+  {% for post in site.posts %}
+  <url>
+    <loc>{{ post.url | absolute_url | xml_escape }}</loc>
+    {% if post.last_modified_at %}<lastmod>{{ post.last_modified_at | xml_escape }}</lastmod>{% endif %}
+  </url>
+  {% endfor %}
 </urlset>

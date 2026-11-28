@@ -2,6 +2,7 @@
 layout: post
 title: "KV 明明命中了，为什么模型还会答错？vLLM-Ascend 的三道正确性闸门"
 date: 2026-11-26T05:30:00+08:00
+last_modified_at: "2026-11-26"
 summary: "从 AscendStore 的分组前缀恢复、Mooncake 的 PP 分段重排，到 PCP 下的滑窗回放，拆解三个独立修复，给出把有效命中与正确结果一起计入 goodput 的验收表。"
 section: explainer
 label: "推理系统与缓存正确性"

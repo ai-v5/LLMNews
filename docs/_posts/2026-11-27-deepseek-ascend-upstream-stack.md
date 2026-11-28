@@ -2,6 +2,7 @@
 layout: post
 title: "DeepSeek 开源两个月更新：把 950DT 的通信、低精算子和 V4.1 推理链拆开看"
 date: 2026-11-27T18:23:00+08:00
+last_modified_at: "2026-11-27"
 summary: "追踪 DeepEP-Ascend V1.1、DeepGEMM、FlashMLA、DeepSelect、DeepJIT 和 DeepInfer 的公开提交，核对 950DT 的 EP 带宽、低精算子、实际运行时依赖，以及训推下一步该怎么测。"
 section: explainer
 label: "DeepSeek 源码与昇腾系统"

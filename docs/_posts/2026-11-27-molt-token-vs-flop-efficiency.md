@@ -2,6 +2,7 @@
 layout: post
 title: "MoLT 的三本账：少用 42% 训练 token，为什么仍多花 17% 算力？"
 date: 2026-11-27T05:30:46+08:00
+last_modified_at: "2026-11-27"
 summary: "同一验证损失下，U-MoLT 比基线少读 41.8% 的 token，但沿论文报告的训练轨迹仍多用约 17% 的理论 FLOPs。拆开看权重、数据、算力和推理延迟，循环模型才有可比较的成本口径。"
 section: explainer
 label: "循环 Transformer 与训练成本"
