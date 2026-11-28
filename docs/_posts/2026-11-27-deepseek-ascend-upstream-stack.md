@@ -40,6 +40,10 @@ sources:
 
 DeepJIT 的 [AICPU bootstrap #48](https://github.com/deepseek-ai/DeepJIT/pull/48) 把按需编译的 loader 放进应用的 AICPU 调度进程，才能访问该进程的 URMA/UBMEM 资源；并行预编译则把编译与正式运行分开。[#53](https://github.com/deepseek-ai/DeepJIT/pull/53) 在 950/CANN 9.3/PyTorch 2.13 上通过了作者报告的 AICPU、SIMD/SIMT 等功能测试。稳定 ABI 去掉的是相关扩展对 `libtorch_npu.so` 的**直接链接**，不是运行模型无需 torch_npu。另需留意，DeepEP-Ascend V1.1 固定的 DeepJIT 子模块是 `b1221a1`，早于 #53；不能把单独仓的最新构建能力当成 V1.1 的默认依赖。
 
+![DeepEP-Ascend 冗余专家流程：负载统计生成 slot 映射、原权重预取给副本、原体和副本分担同一逻辑专家的 token，然后按映射将副本梯度用 FP32 累加至原专家。]({{ '/assets/deepseek-ascend-eplb-module-flow.svg' | relative_url }})
+
+*算法图解：跟踪同一个逻辑专家 E：路由结果指向物理 slot，权重和梯度走另外的数据路径。图解 V1.1 原语如何串起来，不代表任何框架已经默认启用这一流程。* [查看原图]({{ '/assets/deepseek-ascend-eplb-module-flow.svg' | relative_url }})。
+
 **训练最值得跟的是冗余专家的完整数据闭环。** [三个公开接口](https://github.com/deepseek-ai/DeepEP-Ascend/blob/f5ea304/deep_ep/buffers/ep.py#L642-L728) 分别做统计和物理 slot 重映射、向冗余 slot 预取专家权重、按同一张映射把副本的 FP32 梯度累加回原专家。预取提交与 CQ 完成、退出屏障分开，调用侧需要显式等待正确的 handle。路由重映射减少最慢 rank 的负担，但复制权重消耗显存和带宽，反向还要回收梯度；只有省下的**关键路径**时间大于新增暴露时间，整步才会变快。开源代码提供了原语，没提供百卡训练收敛或端到端 MFU 提升的结果。
 
 **EP、Bucket 的能力范围不能混用。** V1.1 增加 buffer resize、FP32 combine、确定性 FP32 all-reduce、可跨域的 Bucket reduce-scatter/all-gather，以及 CP ring 和 standby buffer 接管。CP ring 与冗余专家的权重/梯度交换仍限于 scale-up 域；Bucket 有混合域能力，不能据此宣称 EP 的 hybrid dispatch/combine 或 EP 图捕获已支持。[README 的限制](https://github.com/deepseek-ai/DeepEP-Ascend/blob/f5ea304/README.md#ongoing)也保留了 PP/Engram 的实验性质。备用 buffer 和可恢复错误提高了上层可控性，但不等于训练进程可无回滚续跑；要跟踪恢复后首个成功 collective 和首次完成的优化器更新。
@@ -80,6 +84,10 @@ DeepJIT 的 [AICPU bootstrap #48](https://github.com/deepseek-ai/DeepJIT/pull/48
 ![DSA 的数据路径：MQA 打分、TopK 选位置、按索引读稀疏 KV。核对版本和开关后，再检查实际调用的算子。]({{ '/assets/deepseek-ascend-dsa-stack.svg' | relative_url }})
 
 *图解：按下文公开调用链重绘，模块名为对应实现，不表示所有引擎都使用同一版本或融合路径。* [查看原图]({{ '/assets/deepseek-ascend-dsa-stack.svg' | relative_url }})。
+
+![DSA：索引 Q 用 index key cache 打分，TopK 只给位置；独立 attention Q 用这些位置取到的 KV 重新计算注意力输出。]({{ '/assets/deepseek-ascend-dsa-module-flow.svg' | relative_url }})
+
+*算法图解：索引器的 TopK 分数不当作 softmax 权重。图中 gather 是逻辑读取阶段，不表示必须先把全部选中 KV 物化到 HBM；实际融合范围取决于后端。* [查看原图]({{ '/assets/deepseek-ascend-dsa-module-flow.svg' | relative_url }})。
 
 V4.1 的索引器先做 MQA logits 打分、做 TopK，再按索引读取稀疏 KV。[DeepInfer 的索引器实现](https://github.com/deepseek-ai/DeepInfer/blob/a679bb8/deepinfer/model_executor/models/v4_modules/index_attn.py)能看到 paged/sparse MQA 与 DeepSelect 的衔接。DeepSelect 11 月追加昇腾 FP32 TopK，打开采样和 logits 提取的另一段；其 README 的对比是特定形状上的 `torch.topk`，不是全模型的速度比。
 

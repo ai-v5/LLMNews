@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="796" viewBox="0 0 720 796" role="img" aria-labelledby="title desc">
+<title id="title">一层多头 MoE，token 怎么走？</title><desc id="desc">输入投影并切成头0和头1；固定交换后各头拿到两张卡的 token；本头做 Top-k 和专家计算；逆交换把两个头的结果送回原卡，拼接并升维。</desc>
+<defs><marker id="arr-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#344e61"/></marker><marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#235598"/></marker><marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0e6b59"/></marker><marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#964b10"/></marker><marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5b4098"/></marker></defs>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="794" rx="22" fill="#f7fafc" stroke="#cbd9e2"/>
+<rect x="28" y="31" width="6" height="24" rx="3" fill="#0e6b59" stroke="none"/>
+<text x="46" y="51" fill="#0e6b59" font-size="20" font-weight="700" text-anchor="start">LLMNews  /  超节点 · 算法原理</text>
+<text x="28" y="101" fill="#122a3a" font-size="37" font-weight="700" text-anchor="start">一层多头 MoE，token 怎么走？</text>
+<text x="29" y="139" fill="#344e61" font-size="23" font-weight="400" text-anchor="start">HP2 玩具例子：两张源卡，各有 N 个 token</text>
+<rect x="199" y="163" width="322" height="69" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="360.0" y="193" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">降维投影 + 切头</text>
+<text x="360.0" y="220" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">每源：N×D → 两片 N×d</text>
+<path d="M360 232 V249 H180 V263" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M360 249 H540 V263" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<rect x="32" y="270" width="296" height="93" rx="11" fill="#eff4f7" stroke="#cbd9e2"/>
+<text x="180.0" y="300" fill="#344e61" font-size="28" font-weight="700" text-anchor="middle">源 A</text>
+<text x="180.0" y="327" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">头 0 片 A₀  ·  头 1 片 A₁</text>
+<rect x="392" y="270" width="296" height="93" rx="11" fill="#eff4f7" stroke="#cbd9e2"/>
+<text x="540.0" y="300" fill="#344e61" font-size="28" font-weight="700" text-anchor="middle">源 B</text>
+<text x="540.0" y="327" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">头 0 片 B₀  ·  头 1 片 B₁</text>
+<path d="M180 363 V421" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M540 363 V421" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M260 363 V377 L476 410 V422" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M460 363 V377 L244 410 V422" fill="none" stroke="#5b4098" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-p)"/>
+<text x="29" y="407" fill="#235598" font-size="22" font-weight="700" text-anchor="start">固定 HP</text>
+<rect x="32" y="427" width="296" height="90" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="180.0" y="457" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">头 0 所在卡</text>
+<text x="180.0" y="484" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">收 A₀ + B₀：2N×d</text>
+<rect x="392" y="427" width="296" height="90" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="540.0" y="457" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">头 1 所在卡</text>
+<text x="540.0" y="484" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">收 A₁ + B₁：2N×d</text>
+<path d="M180 517 V541" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<rect x="32" y="550" width="296" height="77" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="180.0" y="580" fill="#0e6b59" font-size="25" font-weight="700" text-anchor="middle">本头 Top-k → 专家</text>
+<text x="180.0" y="607" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">按路由权重做 combine</text>
+<path d="M180 627 V656" fill="none" stroke="#344e61" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-n)"/>
+<path d="M540 517 V541" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<rect x="392" y="550" width="296" height="77" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="540.0" y="580" fill="#0e6b59" font-size="25" font-weight="700" text-anchor="middle">本头 Top-k → 专家</text>
+<text x="540.0" y="607" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">按路由权重做 combine</text>
+<path d="M540 627 V656" fill="none" stroke="#344e61" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-n)"/>
+<rect x="102" y="665" width="516" height="57" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="360.0" y="701.5" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">逆向 HP → 原卡拼头 → 升维投影</text>
+<rect x="28" y="732" width="664" height="48" rx="10" fill="#e0f4ed" stroke="none"/>
+<text x="45" y="764" fill="#0e6b59" font-size="22" font-weight="700" text-anchor="start">纯 HP 的 Top-k 不跨头；头内分专家才需要动态 EP</text>
+</g>
+</svg>

@@ -30,6 +30,10 @@ sources:
 
 ## 1. 分清三件事：低维专家、独立的 MoE 头、Head Parallel
 
+![HP2 前向示意：源 A/B 先各自降维切头，头 0 收 A₀、B₀，头 1 收 A₁、B₁；本头选专家并合并，逆向交换把头片送回源卡拼接。]({{ '/assets/latentmoe-hp-module-flow.svg' | relative_url }})
+
+*算法图解：先按每个张量应该去哪里读图。设 latent 总宽为 2d；图中只画 routed 分支，并假定该头的专家已完整驻留或收拢。混合 HP×EP 时，头内 Top-k 与 combine 之间还要插入动态 dispatch / 回传。* [查看原图]({{ '/assets/latentmoe-hp-module-flow.svg' | relative_url }})。
+
 | 方法 | 数据流 | Top-k 动态通信在哪里 |
 |---|---|---|
 | 标准 MoE + EP | 对全宽 token 选专家，再给各目的 rank 送 token，最后按权重组合 | EP 域；相同目的地可合并副本 |

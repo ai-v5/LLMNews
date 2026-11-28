@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="814" viewBox="0 0 720 814" role="img" aria-labelledby="title desc">
+<title id="title">DFly2：目标选位置，草稿直接读</title><desc id="desc">上一轮目标验算已缓存 anchor 前一行的 TopK 索引和配对层 KV latent；草稿用索引和近窗选择 KV，与 anchor 和 mask 槽进入并行草稿层，然后轻修正、送目标验算。</desc>
+<defs><marker id="arr-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#344e61"/></marker><marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#235598"/></marker><marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0e6b59"/></marker><marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#964b10"/></marker><marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5b4098"/></marker></defs>
+<g font-family="Noto Sans CJK SC, PingFang SC, Microsoft YaHei, Arial, sans-serif">
+<rect x="1" y="1" width="718" height="812" rx="22" fill="#f7fafc" stroke="#cbd9e2"/>
+<rect x="28" y="31" width="6" height="24" rx="3" fill="#0e6b59" stroke="none"/>
+<text x="46" y="51" fill="#0e6b59" font-size="20" font-weight="700" text-anchor="start">LLMNews  /  投机解码 · 草稿模块</text>
+<text x="28" y="101" fill="#122a3a" font-size="37" font-weight="700" text-anchor="start">DFly2：目标选位置，草稿直接读</text>
+<text x="29" y="139" fill="#344e61" font-size="23" font-weight="400" text-anchor="start">以 DS‑V4.1 Flash 的一个配对稀疏层示意</text>
+<rect x="124" y="163" width="472" height="70" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="360.0" y="193" fill="#235598" font-size="28" font-weight="700" text-anchor="middle">上一轮 Target 验算</text>
+<text x="360.0" y="220" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">由第 A−1 行预测 anchor A</text>
+<path d="M360 233 V251 H192 V273" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M360 251 H528 V273" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<rect x="28" y="275" width="329" height="84" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="192.5" y="305" fill="#235598" font-size="25" font-weight="700" text-anchor="middle">索引：Top‑512</text>
+<text x="192.5" y="332" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">第 A−1 行已选远端位置</text>
+<rect x="363" y="275" width="329" height="84" rx="11" fill="#e8f1ff" stroke="#cbd9e2"/>
+<text x="527.5" y="305" fill="#235598" font-size="25" font-weight="700" text-anchor="middle">数据：Target KV latent</text>
+<text x="527.5" y="332" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">直接读配对层缓存</text>
+<path d="M192 359 V385 H360 V410" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-b)"/>
+<path d="M528 359 V385 H360" fill="none" stroke="#235598" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  />
+<rect x="97" y="414" width="526" height="66" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="360.0" y="444" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">按索引和近窗读历史 KV</text>
+<text x="360.0" y="471" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">512 个远端位置 + 128 个近窗位置</text>
+<path d="M360 480 V509" fill="none" stroke="#0e6b59" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-g)"/>
+<rect x="82" y="518" width="556" height="88" rx="11" fill="#e0f4ed" stroke="#cbd9e2"/>
+<text x="360.0" y="548" fill="#0e6b59" font-size="28" font-weight="700" text-anchor="middle">块并行草稿层</text>
+<text x="360.0" y="575" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">历史 KV + anchor 和 5 个草稿槽</text>
+<text x="360.0" y="599" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">另注入产生 anchor 的末层 hidden</text>
+<path d="M360 606 V631" fill="none" stroke="#964b10" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"  marker-end="url(#arr-a)"/>
+<rect x="82" y="639" width="556" height="68" rx="11" fill="#fff0dc" stroke="#cbd9e2"/>
+<text x="360.0" y="669" fill="#964b10" font-size="28" font-weight="700" text-anchor="middle">槽内顺序修正 → 目标验算</text>
+<text x="360.0" y="696" fill="#344e61" font-size="22" font-weight="400" text-anchor="middle">参考前槽与共享上下文；输出仍由目标确认</text>
+<rect x="28" y="740" width="664" height="48" rx="10" fill="#e8f1ff" stroke="none"/>
+<text x="45" y="772" fill="#235598" font-size="22" font-weight="700" text-anchor="start">一层各槽复用同一组索引；草稿不重新扫描全历史</text>
+</g>
+</svg>

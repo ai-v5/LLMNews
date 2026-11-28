@@ -28,6 +28,10 @@ DFly2 论文的「128K」是输入上下文长度。它每轮仍只提议 **5 �
 
 ## 1. 先统一口径：提议、验算、接受、提交
 
+![候选 c₁ 和 c₂ 通过，c₃ 首次拒绝；提交 c₁、c₂ 和目标在第三位的修正 token，c₄ 与被拒绝部分的试算状态不提交。]({{ '/assets/specdecode-verify-token-flow.svg' | relative_url }})
+
+*算法图解：目标可用一次因果前向算出各位置分布，但是否接受必须沿前缀决定。以首次拒绝为界保留可复用状态，修正 token 的状态按引擎推进；未画 EOS 和长度截断。* [查看原图]({{ '/assets/specdecode-verify-token-flow.svg' | relative_url }})。
+
 一轮 decode 先从已确认前缀出发，draft 提议 K 个 token。引擎可以只把前 V 个交给目标验算。目标用因果 mask 在一次 forward 中打分，但只能提交从头连续通过的 A 个 draft token；第一个失败以后，后面的 logits 是在错误前缀上算的，不能直接保留。通常还提交 1 个目标 token：拒绝点做修正，或全部通过后补出下一 token。不计 EOS、停止串、工具停点及输出截断，提交长度 τ = A + 1。
 
 | 指标 | 测量什么 |
@@ -56,7 +60,15 @@ DFly2 论文的「128K」是输入上下文长度。它每轮仍只提议 **5 �
 
 **DFlash 并行的是重计算，不是让 verifier 跳过因果依赖。** 典型实现从目标多个层取 hidden，投影进 draft 层的 KV，用 anchor 和 mask 跑一次小模型。这样可以把数次小 forward 换成一次块 forward，但各位置基础预测没有消费同轮已采样的前一个候选；若第 1 位选择了变量名、数字或工具参数的不同分支，后面可能继续沿另一分支生成。**DFlash 2 与 DFly2 是不同项目**；DFlash 2 也在处理块内依赖，不能把原版 DFlash 的表现外推给所有后继。[DFlash](https://arxiv.org/abs/2602.06036) · [DFlash 2](https://inco.ai/blog/dflash2/)
 
+![MTP 用主干 hidden 与已知 token 的嵌入驱动附加模块；DSpark 主干并行生成各槽表示，前槽的采样结果只送到下一槽的轻量 Markov 修正，置信分支用于验算预算。]({{ '/assets/specdecode-mtp-dspark-module-flow.svg' | relative_url }})
+
+*算法图解：对照 V3 式 MTP 和 DSpark。DSpark 的置信调度决定算多少，目标 verifier 决定能提交什么；绿色主干不是为每个候选各跑一遍。* [查看原图]({{ '/assets/specdecode-mtp-dspark-module-flow.svg' | relative_url }})。
+
 **DSpark 给块内依赖做低成本建模，再控制目标实际要验多少。** 骨干先为多个候选位置产生 base logits，低秩 Markov 修正根据前一已采样 token 改变当前 logits。这条小串行链不重复跑整个 Transformer。训练冻结主干，通过交叉熵、分布匹配和置信度损失优化 draft；生产路径用条件置信估计各个位置的前缀存活概率。简单成本模型里，把更多候选放进目标批次的收益是多接受几个 token，代价是目标每秒能跑的验算轮数下降；DSpark 按整个 batch 分配位置，而不是人人固定验五个。论文专门证明不能事后偷看候选再决定是否把该候选送验，否则随机采样有选择偏差；论文里的线上实现用前两轮的置信信息确定全批容量，再按当前前缀累计置信度排序分配；这样选全局预算时不回看当前提议结果。真实 kernel 台阶、padding 与长序列不均衡都会改变成本曲线。[DSpark §§3、5 与附录 A](https://arxiv.org/html/2607.05147v1)
+
+![DFly2 的单层数据流：上一轮目标提供 anchor 前一行的索引和目标层 KV latent；草稿按索引和近窗读缓存，和当前草稿槽一起计算，轻量修正后交给目标验算。]({{ '/assets/specdecode-dfly2-kv-module-flow.svg' | relative_url }})
+
+*算法图解：这是 DS‑V4.1 Flash 的单个配对层。不含本块位置时，历史读取预算是 512 个远端位置加 128 个近窗位置；本块 6 个位置为 anchor 加 5 个草稿槽。末层 hidden 是额外输入，不在共享 KV 中。* [查看原图]({{ '/assets/specdecode-dfly2-kv-module-flow.svg' | relative_url }})。
 
 **DFly2 共享两样东西，单共享一样不够。** 只共用目标 KV、却仍扫完整前缀，draft 计算和带宽会随 L 增长；只共享 top-k 索引、仍保有 draft KV，则长上下文容量和 Prefill 投影还在。DFly2 让每个 draft 层与一个目标稀疏 attention 层配对，读取上一轮验算在 **anchor 前一行** 已选出的索引，以及目标已有的 KV latent；同一 draft 层各候选位共用这组索引。不把后面的真实验证结果提前喂给 draft。训练用冻结的目标 indexer 重算；线上读取已算过的结果。目标自身仍需运行 indexer 和 verifier；消失的是 draft 对整个历史的额外索引、持久 context KV 和 Prefill 构建。局部工作区、权重、PD 传输的一份 anchor hidden 仍存在。[DFly2 §§3–4](https://arxiv.org/html/2611.34776v1)
 
